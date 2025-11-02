@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Playtomix Golf</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --secondary: #7cb342;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-badge {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .user-role {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .user-role.admin {
+            background: var(--secondary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #0f3a1f;
+        }
+
+        .btn-logout {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            float: right;
+        }
+
+        .section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table tr:hover {
+            background: #f9fafb;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-input {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .permission-denied {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #991b1b;
+            margin-bottom: 1rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .quick-action-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: #9ca3af;
+            color: #9ca3af;
+        }
+
+        .quick-action-btn.disabled:hover {
+            background: var(--white);
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            ⛳ Playtomix Admin
+        </div>
+        <div class="user-info">
+            <div class="user-badge">
+                <span class="user-name" id="userName">Cargando...</span>
+                <span class="user-role" id="userRole">...</span>
+            </div>
+            <button class="btn btn-logout" onclick="logout()">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Acciones Rápidas -->
+        <div class="quick-actions" id="quickActions">
+            <button class="quick-action-btn" id="btnManageUsers" onclick="goToManageUsers()">
+                👥 Gestionar Usuarios
+            </button>
+            <button class="quick-action-btn" id="btnEditPrices" onclick="goToEditPrices()">
+                💰 Editar Precios
+            </button>
+            <button class="quick-action-btn" onclick="window.location.reload()">
+                🔄 Actualizar Datos
+            </button>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-label">Reservas de Hoy</div>
+                <div class="stat-value" id="todayCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-label">Pendientes</div>
+                <div class="stat-value" id="pendingCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Confirmadas</div>
+                <div class="stat-value" id="confirmedCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-label">Ingresos del Mes</div>
+                <div class="stat-value" id="monthRevenue">$0</div>
+            </div>
+        </div>
+
+        <!-- Reservas -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Reservas</h2>
+                <button class="btn btn-primary btn-sm" onclick="loadReservations()">🔄 Actualizar</button>
+            </div>
+
+            <div class="filters">
+                <input type="date" class="filter-input" id="filterDate" onchange="applyFilters()">
+                <select class="filter-input" id="filterStatus" onchange="applyFilters()">
+                    <option value="">Todos los estados</option>
+                    <option value="pending">Pendientes</option>
+                    <option value="confirmed">Confirmadas</option>
+                    <option value="completed">Completadas</option>
+                    <option value="cancelled">Canceladas</option>
+                </select>
+                <input type="text" class="filter-input" id="filterSearch" placeholder="Buscar..." onkeyup="applyFilters()">
+            </div>
+
+            <div id="reservationsTable">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>Cargando reservas...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+       const SUPABASE_URL = 'https://uukfxhdnnjjfjsilglov.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1a2Z4aGRubmpqZmpzaWxnbG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MDczODQsImV4cCI6MjA3NzQ4MzM4NH0.m_ESoiJsHBE_cZv6ByfGPuEWmCgIiTZOgeI7SLAfB5I';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentUser = null;
+        let allReservations = [];
+
+        // Cargar al inicio
+        window.addEventListener('DOMContentLoaded', async () => {
+            await verifyAuth();
+            await loadDashboard();
+            setInterval(loadReservations, 30000);
+        });
+
+        async function verifyAuth() {
+            try {
+                // Verificar flag de login
+                const isLoggedIn = localStorage.getItem('admin_logged_in');
+                
+                if (!isLoggedIn) {
+                    window.location.replace('admin-login.html');
+                    return;
+                }
+
+                const { data: { session } } = await supabase.auth.getSession();
+                
+                if (!session) {
+                    localStorage.clear();
+                    window.location.replace('admin-login.html');
+                    return;
+                }
+
+                // Obtener usuario admin desde localStorage primero
+                const adminUserData = localStorage.getItem('admin_user');
+                
+                if (adminUserData) {
+                    currentUser = JSON.parse(adminUserData);
+                } else {
+                    // Si no está en localStorage, buscar en BD
+                    const { data: adminUser } = await supabase
+                        .from('admin_users_view')
+                        .select('*')
+                        .eq('auth_user_id', session.user.id)
+                        .single();
+                    
+                    if (!adminUser) {
+                        await supabase.auth.signOut();
+                        localStorage.clear();
+                        window.location.replace('admin-login.html');
+                        return;
+                    }
+                    
+                    currentUser = adminUser;
+                    localStorage.setItem('admin_user', JSON.stringify(adminUser));
+                }
+
+                // Mostrar info del usuario
+                document.getElementById('userName').textContent = currentUser.full_name;
+                document.getElementById('userRole').textContent = currentUser.role_display_name;
+                document.getElementById('userRole').className = 'user-role ' + 
+                    (currentUser.role_name === 'admin' ? 'admin' : '');
+
+                // Configurar permisos visuales
+                setupPermissions();
+
+            } catch (error) {
+                console.error('Error verificando autenticación:', error);
+                localStorage.clear();
+                window.location.replace('admin-login.html');
+            }
+        }
+
+        function setupPermissions() {
+            // Verificar que existan permisos
+            if (!currentUser || !currentUser.permissions) {
+                console.error('Usuario sin permisos definidos:', currentUser);
+                // Deshabilitar todo por seguridad
+                document.getElementById('btnManageUsers').classList.add('disabled');
+                document.getElementById('btnEditPrices').classList.add('disabled');
+                return;
+            }
+
+            const permissions = currentUser.permissions;
+
+            // Gestionar usuarios (solo SuperAdmin)
+            if (!permissions.users || permissions.users.view !== true) {
+                document.getElementById('btnManageUsers').classList.add('disabled');
+                document.getElementById('btnManageUsers').onclick = () => {
+                    alert('❌ No tienes permiso para gestionar usuarios');
+                };
+            }
+
+            // Editar precios (solo SuperAdmin)
+            if (!permissions.prices || permissions.prices.edit !== true) {
+                document.getElementById('btnEditPrices').classList.add('disabled');
+                document.getElementById('btnEditPrices').onclick = () => {
+                    alert('❌ No tienes permiso para editar precios');
+                };
+            }
+        }
+
+        async function loadDashboard() {
+            await loadStats();
+            await loadReservations();
+        }
+
+        async function loadStats() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                
+                const { data: todayData } = await supabase
+                    .from('reservations')
+                    .select('*')
+                    .eq('reservation_date', today);
+
+                document.getElementById('todayCount').textContent = todayData?.length || 0;
+                document.getElementById('pendingCount').textContent = 
+                    todayData?.filter(r => r.status === 'pending').length || 0;
+                document.getElementById('confirmedCount').textContent = 
+                    todayData?.filter(r => r.status === 'confirmed').length || 0;
+
+                const firstDayOfMonth = new Date();
+                firstDayOfMonth.setDate(1);
+                const firstDay = firstDayOfMonth.toISOString().split('T')[0];
+
+                const { data: monthData } = await supabase
+                    .from('reservations')
+                    .select('total_amount')
+                    .gte('reservation_date', firstDay);
+
+                if (monthData) {
+                    const total = monthData.reduce((sum, r) => sum + parseFloat(r.total_amount || 0), 0);
+                    document.getElementById('monthRevenue').textContent = `$${total.toLocaleString('es-MX')}`;
+                }
+            } catch (error) {
+                console.error('Error al cargar estadísticas:', error);
+            }
+        }
+
+        async function loadReservations() {
+            try {
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                const startDate = thirtyDaysAgo.toISOString().split('T')[0];
+
+                const { data, error } = await supabase
+                    .from('reservations')
+                    .select('*, services(*)')
+                    .gte('reservation_date', startDate)
+                    .order('reservation_date', { ascending: false })
+                    .order('reservation_time', { ascending: false });
+
+                if (error) throw error;
+
+                allReservations = data;
+                renderReservations(data);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('reservationsTable').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderReservations(reservations) {
+            const container = document.getElementById('reservationsTable');
+
+            if (!reservations || reservations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No hay reservas para mostrar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Verificar permisos de edición
+            const canEdit = currentUser && 
+                           currentUser.permissions && 
+                           currentUser.permissions.reservations && 
+                           currentUser.permissions.reservations.edit === true;
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cliente</th>
+                            <th>Servicio</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            ${canEdit ? '<th>Acciones</th>' : ''}
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            reservations.forEach(r => {
+                const statusMap = {
+                    'pending': 'Pendiente',
+                    'confirmed': 'Confirmada',
+                    'completed': 'Completada',
+                    'cancelled': 'Cancelada'
+                };
+
+                html += `
+                    <tr>
+                        <td>#${r.id}</td>
+                        <td>${formatDate(r.reservation_date)}</td>
+                        <td>${r.reservation_time}</td>
+                        <td><strong>${r.customer_name || 'N/A'}</strong><br><small>${r.customer_phone || ''}</small></td>
+                        <td>${r.services?.name || 'Servicio #' + r.service_id}</td>
+                        <td><strong>$${parseFloat(r.total_amount).toLocaleString('es-MX')}</strong></td>
+                        <td><span class="status-badge status-${r.status}">${statusMap[r.status]}</span></td>
+                        ${canEdit ? `
+                        <td>
+                            <div class="action-btns">
+                                ${r.status === 'pending' ? `
+                                    <button class="btn btn-success btn-sm" onclick="confirmReservation(${r.id})">✓</button>
+                                ` : ''}
+                                ${r.status !== 'cancelled' ? `
+                                    <button class="btn btn-danger btn-sm" onclick="cancelReservation(${r.id})">✕</button>
+                                ` : ''}
+                            </div>
+                        </td>
+                        ` : ''}
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        function applyFilters() {
+            const dateFilter = document.getElementById('filterDate').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const searchFilter = document.getElementById('filterSearch').value.toLowerCase();
+
+            let filtered = allReservations;
+
+            if (dateFilter) {
+                filtered = filtered.filter(r => r.reservation_date === dateFilter);
+            }
+
+            if (statusFilter) {
+                filtered = filtered.filter(r => r.status === statusFilter);
+            }
+
+            if (searchFilter) {
+                filtered = filtered.filter(r => 
+                    (r.customer_name || '').toLowerCase().includes(searchFilter) ||
+                    (r.customer_phone || '').includes(searchFilter)
+                );
+            }
+
+            renderReservations(filtered);
+        }
+
+        async function confirmReservation(id) {
+            if (!confirm('¿Confirmar esta reserva?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('reservations')
+                    .update({ 
+                        status: 'confirmed',
+                        confirmed_at: new Date().toISOString()
+                    })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                alert('✅ Reserva confirmada');
+                loadDashboard();
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        async function cancelReservation(id) {
+            const reason = prompt('Motivo de cancelación (opcional):');
+            if (reason === null) return;
+
+            try {
+                const { error } = await supabase
+                    .from('reservations')
+                    .update({ 
+                        status: 'cancelled',
+                        cancelled_at: new Date().toISOString(),
+                        admin_notes: reason
+                    })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                alert('✅ Reserva cancelada');
+                loadDashboard();
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        async function logout() {
+            if (!confirm('¿Cerrar sesión?')) return;
+
+            try {
+                await supabase.auth.signOut();
+                localStorage.clear();
+                window.location.replace('admin-login.html');
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                localStorage.clear();
+                window.location.replace('admin-login.html');
+            }
+        }
+
+        function goToManageUsers() {
+            window.location.href = 'manage-users.html';
+        }
+
+        function goToEditPrices() {
+            window.location.href = 'manage-prices.html';
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString + 'T00:00:00').toLocaleDateString('es-MX', options);
+        }
+    </script>
+</body>
+</html>

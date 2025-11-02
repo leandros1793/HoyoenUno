@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playtomix - Simulador de Golf Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --primary-light: #2d6e3e;
+            --secondary: #7cb342;
+            --accent: #ffd700;
+            --dark: #0a1f12;
+            --light: #f5f9f6;
+            --gray: #6b7280;
+            --white: #ffffff;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --gradient-1: linear-gradient(135deg, #1a472a 0%, #2d6e3e 100%);
+            --gradient-2: linear-gradient(135deg, #7cb342 0%, #9ccc65 100%);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            animation: swing 3s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: var(--gradient-1);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .cart-badge {
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            color: var(--white);
+            padding: 6rem 2rem;
+            text-align: center;
+            overflow: hidden;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 71, 42, 0.85) 0%, rgba(45, 110, 62, 0.75) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .hero-feature {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: thin;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-tabs::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .tab {
+            background: var(--white);
+            border: 2px solid #e5e7eb;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tab.active {
+            background: var(--gradient-1);
+            color: var(--white);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .service-header {
+            background: var(--gradient-2);
+            color: var(--white);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .service-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .service-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-price {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .price-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .service-features li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .reservation-section {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+        }
+
+        .reservation-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-wrapper.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .input-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .input-field {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--white);
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+
+        .qty-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .qty-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.1);
+        }
+
+        .qty-display {
+            font-size: 1.25rem;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-1);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .add-to-cart-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Info Section */
+        .info-section {
+            background: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .info-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .info-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .info-card ul {
+            list-style: none;
+            color: var(--gray);
+        }
+
+        .info-card li {
+            padding: 0.25rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        /* Video Showcase Section */
+        .video-showcase {
+            background: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .video-showcase-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .video-showcase-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-md);
+            z-index: 1;
+        }
+
+        /* History Section */
+        .history-section {
+            background: var(--gradient-1);
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .history-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .history-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -450px;
+            top: 0;
+            width: 450px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            background: var(--gradient-1);
+            color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .close-cart {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: var(--white);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close-cart:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            border: 2px solid #e5e7eb;
+            transition: var(--transition);
+        }
+
+        .cart-item:hover {
+            border-color: var(--primary);
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .cart-item-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .cart-item-remove {
+            background: var(--danger);
+            color: var(--white);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .cart-item-remove:hover {
+            transform: scale(1.1);
+            background: #dc2626;
+        }
+
+        .cart-item-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--gray);
+        }
+
+        .cart-empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            background: var(--light);
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .cart-total-label {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .cart-total-amount {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .payment-btn.primary {
+            background: var(--gradient-1);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .payment-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .payment-btn.secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .payment-btn.secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1999;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Warning Alert */
+        .warning-alert {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .warning-icon {
+            color: #f59e0b;
+            font-size: 1.5rem;
+        }
+
+        .warning-text {
+            flex-grow: 1;
+            color: #92400e;
+        }
+
+        .warning-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 48px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 2001;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .success-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+            animation: successPop 0.6s ease;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .success-close {
+            background: var(--gradient-1);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .success-close:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 60vh;
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-features {
+                gap: 0.75rem;
+            }
+
+            .hero-feature {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .category-tabs {
+                gap: 0.5rem;
+            }
+
+            .tab {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .whatsapp-float {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .video-showcase {
+                padding: 2rem 1rem;
+            }
+
+            .video-showcase-title {
+                font-size: 1.5rem;
+            }
+
+            .video-badge {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(500px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+        }
+
+        .notification-text {
+            font-weight: 600;
+        }
+    </style>
+    
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">⛳</span>
+                <span>Hoyo en Uno</span>
+            </a>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 Carrito
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="hoyoenuno4.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>⛳ Simulador de Golf Premium</h1>
+            <p>Entrena, juega y compite en los mejores campos del mundo sin salir de Playtomic</p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    🎓 Academia Profesional
+                </div>
+                <div class="hero-feature">
+                    🏌️ Renta por Hora
+                </div>
+                <div class="hero-feature">
+                    📊 Tecnología 3D
+                </div>
+                <div class="hero-feature">
+                    🌍 Campos Mundiales
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Warning Alert -->
+        <div class="warning-alert">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-text">
+                <div class="warning-title">Política de Puntualidad</div>
+                <p>Si no llegas a tiempo a tu reserva, perderás el tiempo contratado. Por favor, llega 5 minutos antes de tu horario.</p>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab active" onclick="switchCategory('academia')">
+                🎓 Academia
+            </button>
+            <button class="tab" onclick="switchCategory('simulador')">
+                🏌️ Renta Simulador
+            </button>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="services-grid">
+            <!-- Academia - Clase Individual -->
+            <div class="service-card" data-category="academia">
+                <div class="service-header">
+                    <div class="service-badge">Popular</div>
+                    <div class="service-title">Clase Individual</div>
+                    <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$720</span>
+                        <span class="price-label">por clase</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Instructor profesional personalizado</li>
+                        <li>Análisis de swing en tiempo real</li>
+                        <li>Corrección de técnica</li>
+                        <li>Duración: 1 hora</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu clase</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha</label>
+                                <input type="date" class="input-field" id="date-clase-ind">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-clase-ind" min="07:00" max="23:00">
+                            </div>
+                            <div class="input-wrapper full-width">
+                                <label class="input-label">Cantidad de clases</label>
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="updateQty('clase-ind', -1)">-</button>
+                                    <span class="qty-display" id="qty-clase-ind">1</span>
+                                    <button class="qty-btn" onclick="updateQty('clase-ind', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Clase Individual', 720, 'clase-ind')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Academia - Paquete 5 Clases -->
+            <div class="service-card" data-category="academia">
+                <div class="service-header">
+                    <div class="service-badge">Ahorro 25%</div>
+                    <div class="service-title">Paquete 5 Clases</div>
+                    <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$2,700</span>
+                        <span class="price-label">paquete completo</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>5 clases individuales</li>
+                        <li>$540 por clase (ahorro de $180 por clase)</li>
+                        <li>Seguimiento continuo de tu progreso</li>
+                        <li>Plan de entrenamiento personalizado</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Comienza tu paquete</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Primera Fecha</label>
+                                <input type="date" class="input-field" id="date-paq5">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-paq5" min="07:00" max="23:00">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Paquete 5 Clases', 2700, 'paq5', true)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Academia - Paquete 10 Clases -->
+            <div class="service-card" data-category="academia">
+                <div class="service-header">
+                    <div class="service-badge">Mejor Oferta</div>
+                    <div class="service-title">Paquete 10 Clases</div>
+                    <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$5,400</span>
+                        <span class="price-label">paquete completo</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>10 clases individuales</li>
+                        <li>$540 por clase (ahorro de $1,800 total)</li>
+                        <li>Certificado de participación</li>
+                        <li>Análisis de video incluido</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Comienza tu paquete</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Primera Fecha</label>
+                                <input type="date" class="input-field" id="date-paq10">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-paq10" min="07:00" max="23:00">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Paquete 10 Clases', 5400, 'paq10', true)">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador - 1/2 Hora (Lunes a Sábado 1:00-4:00 PM) -->
+            <div class="service-card" data-category="simulador" style="display: none;">
+                <div class="service-header">
+                    <div class="service-title">Media Hora de Golf</div>
+                    <div class="service-subtitle">Lunes a Sábado • 1:00 PM - 4:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$180</span>
+                        <span class="price-label">30 minutos</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Acceso al simulador 3D</li>
+                        <li>30 minutos de juego</li>
+                        <li>Horario: 1:00 PM - 4:00 PM</li>
+                        <li>Ideal para práctica rápida</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu sesión</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha</label>
+                                <input type="date" class="input-field" id="date-sim-half1">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-sim-half1" min="13:00" max="16:00">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('1/2 Hora Simulador (1-4 PM)', 180, 'sim-half1')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador - 1 Hora (Lunes a Sábado 1:00-4:00 PM) -->
+            <div class="service-card" data-category="simulador" style="display: none;">
+                <div class="service-header">
+                    <div class="service-badge">Recomendado</div>
+                    <div class="service-title">1 Hora de Golf</div>
+                    <div class="service-subtitle">Lunes a Sábado • 1:00 PM - 4:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$360</span>
+                        <span class="price-label">60 minutos</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Acceso completo al simulador</li>
+                        <li>60 minutos de juego</li>
+                        <li>Todos los campos disponibles</li>
+                        <li>Estadísticas detalladas</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu sesión</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha</label>
+                                <input type="date" class="input-field" id="date-sim-full1">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-sim-full1" min="13:00" max="16:00">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('1 Hora Simulador (1-4 PM)', 360, 'sim-full1')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador - 1/2 Hora (Lunes a Jueves 4:00-11:00 PM) -->
+            <div class="service-card" data-category="simulador" style="display: none;">
+                <div class="service-header">
+                    <div class="service-title">Media Hora de Golf</div>
+                    <div class="service-subtitle">Lunes a Jueves • 4:00 PM - 11:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$270</span>
+                        <span class="price-label">30 minutos</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Acceso al simulador 3D</li>
+                        <li>30 minutos de juego</li>
+                        <li>Horario nocturno disponible</li>
+                        <li>Ambiente relajado</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu sesión</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha (L-J)</label>
+                                <input type="date" class="input-field" id="date-sim-half2">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-sim-half2" min="16:00" max="23:00">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('1/2 Hora Simulador (4-11 PM L-J)', 270, 'sim-half2')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador - 1 Hora (Lunes a Jueves 4:00-11:00 PM) -->
+            <div class="service-card" data-category="simulador" style="display: none;">
+                <div class="service-header">
+                    <div class="service-badge">Popular</div>
+                    <div class="service-title">1 Hora de Golf</div>
+                    <div class="service-subtitle">Lunes a Jueves • 4:00 PM - 11:00 PM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$540</span>
+                        <span class="price-label">60 minutos</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Simulador completo</li>
+                        <li>Todos los campos mundiales</li>
+                        <li>Modo competencia disponible</li>
+                        <li>Análisis de tus golpes</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu sesión</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha (L-J)</label>
+                                <input type="date" class="input-field" id="date-sim-full2">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-sim-full2" min="16:00" max="23:00">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('1 Hora Simulador (4-11 PM L-J)', 540, 'sim-full2')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador - 1/2 Hora (Viernes y Sábado 4:00 PM-12:00 AM) -->
+            <div class="service-card" data-category="simulador" style="display: none;">
+                <div class="service-header">
+                    <div class="service-badge">Fin de Semana</div>
+                    <div class="service-title">Media Hora de Golf</div>
+                    <div class="service-subtitle">Viernes y Sábado • 4:00 PM - 12:00 AM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$270</span>
+                        <span class="price-label">30 minutos</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Sesión de fin de semana</li>
+                        <li>Ambiente festivo</li>
+                        <li>Ideal para grupos</li>
+                        <li>Hasta medianoche</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu sesión</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha (V-S)</label>
+                                <input type="date" class="input-field" id="date-sim-half3">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-sim-half3" min="16:00" max="23:59">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('1/2 Hora Simulador (4 PM-12 AM V-S)', 270, 'sim-half3')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador - 1 Hora (Viernes y Sábado 4:00 PM-12:00 AM) -->
+            <div class="service-card" data-category="simulador" style="display: none;">
+                <div class="service-header">
+                    <div class="service-badge">Fin de Semana</div>
+                    <div class="service-title">1 Hora de Golf</div>
+                    <div class="service-subtitle">Viernes y Sábado • 4:00 PM - 12:00 AM</div>
+                </div>
+                <div class="service-body">
+                    <div class="service-price">
+                        <span class="price-amount">$540</span>
+                        <span class="price-label">60 minutos</span>
+                    </div>
+                    <ul class="service-features">
+                        <li>Mejor horario del fin de semana</li>
+                        <li>Experiencia premium</li>
+                        <li>Competencia con amigos</li>
+                        <li>Todos los campos disponibles</li>
+                    </ul>
+                    <div class="reservation-section">
+                        <div class="reservation-title">📅 Reserva tu sesión</div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <label class="input-label">Fecha (V-S)</label>
+                                <input type="date" class="input-field" id="date-sim-full3">
+                            </div>
+                            <div class="input-wrapper">
+                                <label class="input-label">Hora</label>
+                                <input type="time" class="input-field" id="time-sim-full3" min="16:00" max="23:59">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('1 Hora Simulador (4 PM-12 AM V-S)', 540, 'sim-full3')">
+                        🛒 Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Showcase Section -->
+        <div class="video-showcase">
+            <h2 class="video-showcase-title">🏆 ¡Hoyo en Uno!</h2>
+            <p class="video-showcase-subtitle">
+                Vive la emoción de conseguir el golpe perfecto en nuestro simulador de última generación
+            </p>
+            <div class="video-container">
+                <div class="video-badge">⛳ Hole in One</div>
+                <video controls playsinline>
+                    <source src="hoyoenuno1.mp4" type="video/mp4">
+                    Tu navegador no soporta videos HTML5.
+                </video>
+            </div>
+        </div>
+
+        <!-- Game Information Section -->
+        <div class="info-section">
+            <h2 class="info-title">🎮 Información del Juego</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Fairway</h3>
+                    <ul>
+                        <li>Sin penalización</li>
+                        <li>Superficie ideal para máxima distancia y control</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Rough</h3>
+                    <ul>
+                        <li>Hasta -10% de distancia</li>
+                        <li>Hasta -15% menos Backspin</li>
+                        <li>Recomendado usar bastones con más loft (ej. Hierro 8 o superior)</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Deep Rough</h3>
+                    <ul>
+                        <li>Penalización variable</li>
+                        <li>Hasta -60% con maderas</li>
+                        <li>Alrededor de -20% con Wedges</li>
+                        <li>Eleva el ángulo de lanzamiento para un mejor tiro</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Bunker</h3>
+                    <ul>
+                        <li>Reducción extrema en spin y velocidad de bola</li>
+                        <li>Sólo se puede salir bien con bastones como Sand Wedge o Low Wedge</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h2 class="history-title">📖 La Historia de los Simuladores de Golf</h2>
+            <div class="history-content">
+                <p>
+                    Los primeros simuladores aparecieron en los años 70 con pantallas básicas y sensores simples. 
+                    En los 90, la tecnología digital trajo cámaras y mediciones más precisas, convirtiéndolos en una 
+                    verdadera herramienta de entrenamiento.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Hoy, con sensores de alta velocidad y software 3D, los simuladores reproducen campos de golf de 
+                    todo el mundo, permitiendo jugar, entrenar y competir en interiores con la misma emoción que en 
+                    un campo real.
+                </p>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3 class="contact-title">📞 Contacto</h3>
+            <p style="color: var(--gray); margin-bottom: 1rem;">
+                ¿Tienes dudas? Contáctanos por WhatsApp
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    📱 <strong>WhatsApp:</strong> 33 223 968 25
+                </div>
+                <div class="contact-item">
+                    🕐 <strong>Horario:</strong> Lunes a Sábado, 7:00 AM - 11:00 PM
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Tu carrito está vacío</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span class="cart-total-label">Total:</span>
+                <span class="cart-total-amount" id="cartTotal">$0</span>
+            </div>
+            <div class="payment-options">
+                <button class="payment-btn primary" onclick="processPayment('online')">
+                    💳 Pagar en Línea
+                </button>
+                <button class="payment-btn secondary" onclick="processPayment('instore')">
+                    🏪 Pagar en Establecimiento
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-icon">✅</div>
+        <h3 class="success-title">¡Reserva Confirmada!</h3>
+        <p class="success-message">Te hemos enviado los detalles por WhatsApp. ¡Nos vemos pronto!</p>
+        <button class="success-close" onclick="closeSuccessModal()">Entendido</button>
+    </div>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/523322396825?text=Hola!%20Tengo%20una%20consulta%20sobre%20el%20simulador%20de%20golf" 
+       class="whatsapp-float" 
+       target="_blank"
+       rel="noopener noreferrer">
+        💬
+    </a>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span class="notification-icon">✅</span>
+        <span class="notification-text" id="notificationText"></span>
+    </div>
+
+    <!-- Supabase Integration -->
+    <script src="supabase-integration.js"></script>
+
+    <script>
+        // Cart state
+        let cart = [];
+        let quantities = {};
+
+        // Initialize quantities
+        const serviceIds = ['clase-ind', 'paq5', 'paq10', 'sim-half1', 'sim-full1', 'sim-half2', 'sim-full2', 'sim-half3', 'sim-full3'];
+        serviceIds.forEach(id => quantities[id] = 1);
+
+        // Mapeo de nombres de servicios a IDs en la base de datos
+        const serviceNameToId = {
+            'Clase Individual': 1,
+            'Paquete 5 Clases': 2,
+            'Paquete 10 Clases': 3,
+            '1/2 Hora Simulador (1-4 PM)': 4,
+            '1 Hora Simulador (1-4 PM)': 5,
+            '1/2 Hora Simulador (4-11 PM L-J)': 6,
+            '1 Hora Simulador (4-11 PM L-J)': 7,
+            '1/2 Hora Simulador (4 PM-12 AM V-S)': 8,
+            '1 Hora Simulador (4 PM-12 AM V-S)': 9
+        };
+        // ============================================
+// PRECIOS DINÁMICOS DESDE SUPABASE
+// ============================================
+
+// Objeto para almacenar precios actuales desde BD
+let currentPrices = {};
+
+// Cargar precios desde Supabase al iniciar
+async function loadPrices() {
+    try {
+        console.log('🔄 Cargando precios desde Supabase...');
+        
+        const { data, error } = await supabase
+            .from('services')
+            .select('id, name, price')
+            .eq('active', true);
+
+        if (error) {
+            console.error('❌ Error al cargar precios:', error);
+            return;
+        }
+
+        // Guardar precios en objeto
+        data.forEach(service => {
+            currentPrices[service.id] = parseFloat(service.price);
+        });
+
+        console.log('✅ Precios cargados desde BD:', currentPrices);
+
+        // Actualizar precios en el HTML
+        updatePricesInHTML();
+    } catch (error) {
+        console.error('❌ Error:', error);
+    }
+}
+
+// Actualizar los precios mostrados en el HTML
+function updatePricesInHTML() {
+    console.log('🔄 Actualizando precios en el HTML...');
+    
+    // Clase Individual (ID: 1)
+    if (currentPrices[1]) {
+        const cards = document.querySelectorAll('.service-card[data-category="academia"]');
+        if (cards[0]) {
+            const priceElement = cards[0].querySelector('.price-amount');
+            if (priceElement) {
+                priceElement.textContent = `$${Math.round(currentPrices[1]).toLocaleString('es-MX')}`;
+            }
+        }
+    }
+
+    // Paquete 5 Clases (ID: 2)
+    if (currentPrices[2]) {
+        const cards = document.querySelectorAll('.service-card[data-category="academia"]');
+        if (cards[1]) {
+            const priceElement = cards[1].querySelector('.price-amount');
+            if (priceElement) {
+                priceElement.textContent = `$${Math.round(currentPrices[2]).toLocaleString('es-MX')}`;
+            }
+        }
+    }
+
+    // Paquete 10 Clases (ID: 3)
+    if (currentPrices[3]) {
+        const cards = document.querySelectorAll('.service-card[data-category="academia"]');
+        if (cards[2]) {
+            const priceElement = cards[2].querySelector('.price-amount');
+            if (priceElement) {
+                priceElement.textContent = `$${Math.round(currentPrices[3]).toLocaleString('es-MX')}`;
+            }
+        }
+    }
+
+    // Simuladores (IDs 4-9)
+    const simulatorCards = document.querySelectorAll('.service-card[data-category="simulador"]');
+    for (let i = 4; i <= 9; i++) {
+        if (currentPrices[i] && simulatorCards[i - 4]) {
+            const priceElement = simulatorCards[i - 4].querySelector('.price-amount');
+            if (priceElement) {
+                priceElement.textContent = `$${Math.round(currentPrices[i]).toLocaleString('es-MX')}`;
+            }
+        }
+    }
+
+    console.log('✅ Todos los precios actualizados en el HTML');
+}
+
+        // Set minimum date to today
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.min = today;
+            });
+
+            // Set default time to 9:00 AM
+            document.querySelectorAll('input[type="time"]').forEach(input => {
+                input.value = '09:00';
+            });
+       // Cargar precios dinámicamente desde BD
+loadPrices(); });
+
+        // Category switching
+        function switchCategory(category) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.service-card').forEach(card => {
+                if (card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Update quantity
+        function updateQty(id, change) {
+            quantities[id] = Math.max(1, quantities[id] + change);
+            document.getElementById(`qty-${id}`).textContent = quantities[id];
+        }
+
+        // Add to cart
+function addToCart(name, defaultPrice, id, isPackage = false) {
+    // Usar precio desde BD si está disponible
+    const serviceId = serviceNameToId[name];
+    const price = currentPrices[serviceId] || defaultPrice;
+            
+            if (!dateInput.value || !timeInput.value) {
+                showNotification('⚠️ Por favor selecciona fecha y hora', 'warning');
+                return;
+            }
+
+            const quantity = isPackage ? 1 : quantities[id];
+            const item = {
+                id: Date.now(),
+                name,
+                price,
+                quantity,
+                date: dateInput.value,
+                time: timeInput.value,
+                total: price * quantity
+            };
+
+            cart.push(item);
+            updateCartDisplay();
+            showNotification('✅ Agregado al carrito exitosamente');
+            
+            // Reset quantity if not a package
+            if (!isPackage) {
+                quantities[id] = 1;
+                document.getElementById(`qty-${id}`).textContent = 1;
+            }
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartFooter = document.getElementById('cartFooter');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛒</div>
+                        <p>Tu carrito está vacío</p>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+                cartBadge.textContent = '0';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-header">
+                            <span class="cart-item-title">${item.name}</span>
+                            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">×</button>
+                        </div>
+                        <div class="cart-item-details">
+                            📅 ${formatDate(item.date)} • 🕐 ${item.time}
+                            ${item.quantity > 1 ? `<br>Cantidad: ${item.quantity}` : ''}
+                        </div>
+                        <div class="cart-item-price">$${item.total.toLocaleString('es-MX')}</div>
+                    </div>
+                `;
+                total += item.total;
+            });
+
+            cartItems.innerHTML = html;
+            cartTotal.textContent = `$${total.toLocaleString('es-MX')}`;
+            cartBadge.textContent = cart.length;
+            cartFooter.style.display = 'block';
+        }
+
+        // Remove from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+            showNotification('🗑️ Artículo eliminado del carrito');
+        }
+
+        // Toggle cart
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('overlay');
+            cartSidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Process payment - VERSIÓN CON SUPABASE
+        async function processPayment(method) {
+            if (cart.length === 0) {
+                showNotification('⚠️ Tu carrito está vacío', 'warning');
+                return;
+            }
+
+            // Capturar datos del cliente
+            const customerName = prompt('Ingresa tu nombre completo:');
+            if (!customerName) return;
+            
+            const customerEmail = prompt('Ingresa tu email:');
+            if (!customerEmail) return;
+            
+            const customerPhone = prompt('Ingresa tu teléfono (10 dígitos):');
+            if (!customerPhone) return;
+
+            // Mostrar mensaje de procesamiento
+            showNotification('⏳ Procesando reservas...', 'info');
+
+            // Guardar cada reserva en Supabase
+            const reservationPromises = cart.map(async (item) => {
+                const serviceId = serviceNameToId[item.name];
+                
+                if (!serviceId) {
+                    console.error('Servicio no encontrado:', item.name);
+                    return { success: false, error: 'Servicio no encontrado' };
+                }
+
+                const reservationData = {
+                    serviceId: serviceId,
+                    date: item.date,
+                    time: item.time,
+                    quantity: item.quantity,
+                    customerName: customerName,
+                    customerEmail: customerEmail,
+                    customerPhone: customerPhone,
+                    unitPrice: item.price,
+                    totalAmount: item.total,
+                    paymentMethod: method,
+                    notes: ''
+                };
+
+                // Llamar a la función de Supabase
+                return await createReservation(reservationData);
+            });
+
+            try {
+                // Esperar a que todas las reservas se creen
+                const results = await Promise.all(reservationPromises);
+                
+                // Verificar si todas fueron exitosas
+                const allSuccess = results.every(r => r && r.success);
+
+                if (allSuccess) {
+                    // Generate WhatsApp message
+                    let message = '🏌️ *Nueva Reserva - Playtomix Golf*\n\n';
+                    let total = 0;
+
+                    cart.forEach((item, index) => {
+                        message += `${index + 1}. *${item.name}*\n`;
+                        message += `   📅 ${formatDate(item.date)} - 🕐 ${item.time}\n`;
+                        if (item.quantity > 1) {
+                            message += `   Cantidad: ${item.quantity}\n`;
+                        }
+                        message += `   💰 $${item.total.toLocaleString('es-MX')}\n\n`;
+                        total += item.total;
+                    });
+
+                    message += `*Total: $${total.toLocaleString('es-MX')}*\n\n`;
+                    message += `*Cliente:* ${customerName}\n`;
+                    message += `📧 ${customerEmail}\n`;
+                    message += `📱 ${customerPhone}\n\n`;
+                    
+                    if (method === 'online') {
+                        message += '💳 *Método de pago:* En línea\n';
+                        message += 'Por favor envíame los detalles para completar el pago.';
+                    } else {
+                        message += '🏪 *Método de pago:* En establecimiento\n';
+                        message += '⚠️ Recuerda llegar 5 minutos antes de tu horario.';
+                    }
+
+                    // Open WhatsApp
+                    const phone = '523322396825';
+                    const encodedMessage = encodeURIComponent(message);
+                    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+
+                    // Show success and clear cart
+                    setTimeout(() => {
+                        showSuccessModal();
+                        cart = [];
+                        updateCartDisplay();
+                        toggleCart();
+                    }, 1000);
+                } else {
+                    const errors = results.filter(r => !r.success).map(r => r.error);
+                    console.error('Errores al crear reservas:', errors);
+                    showNotification('⚠️ Error al procesar algunas reservas. Por favor contacta al establecimiento.', 'warning');
+                }
+            } catch (error) {
+                console.error('Error al procesar pago:', error);
+                showNotification('❌ Error al procesar las reservas. Intenta nuevamente.', 'error');
+            }
+        }
+
+        // Show success modal
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const overlay = document.getElementById('overlay');
+            modal.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        // Close success modal
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const overlay = document.getElementById('overlay');
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        // Show notification
+        function showNotification(text, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const notificationIcon = notification.querySelector('.notification-icon');
+            
+            notificationText.textContent = text;
+            
+            if (type === 'success') {
+                notificationIcon.textContent = '✅';
+            } else if (type === 'warning') {
+                notificationIcon.textContent = '⚠️';
+            } else if (type === 'error') {
+                notificationIcon.textContent = '❌';
+            } else if (type === 'info') {
+                notificationIcon.textContent = '⏳';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString + 'T00:00:00').toLocaleDateString('es-MX', options);
+        }
+    </script>
+</body>
+</html>

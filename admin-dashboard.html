@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Playtomix Golf</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --secondary: #7cb342;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            float: right;
+        }
+
+        .section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #0f3a1f;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table tr:hover {
+            background: #f9fafb;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-input {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table {
+                font-size: 0.9rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">⛳ Playtomix Admin</div>
+        <button class="btn btn-primary" onclick="signOut()">Cerrar Sesión</button>
+    </header>
+
+    <div class="container">
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-label">Reservas de Hoy</div>
+                <div class="stat-value" id="todayCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-label">Pendientes</div>
+                <div class="stat-value" id="pendingCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Confirmadas</div>
+                <div class="stat-value" id="confirmedCount">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-label">Ingresos del Mes</div>
+                <div class="stat-value" id="monthRevenue">$0</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Reservas</h2>
+                <button class="btn btn-primary" onclick="loadReservations()">🔄 Actualizar</button>
+            </div>
+
+            <div class="filters">
+                <input type="date" class="filter-input" id="filterDate" onchange="applyFilters()">
+                <select class="filter-input" id="filterStatus" onchange="applyFilters()">
+                    <option value="">Todos los estados</option>
+                    <option value="pending">Pendientes</option>
+                    <option value="confirmed">Confirmadas</option>
+                    <option value="completed">Completadas</option>
+                    <option value="cancelled">Canceladas</option>
+                </select>
+                <input type="text" class="filter-input" id="filterSearch" placeholder="Buscar por nombre..." onkeyup="applyFilters()">
+            </div>
+
+            <div id="reservationsTable">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>Cargando reservas...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-integration.js"></script>
+    <script>
+        let allReservations = [];
+
+        // Cargar datos al inicio
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboard();
+            // Auto-actualizar cada 30 segundos
+            setInterval(loadReservations, 30000);
+        });
+
+        async function loadDashboard() {
+            await loadStats();
+            await loadReservations();
+        }
+
+        async function loadStats() {
+            try {
+                // Reservas de hoy
+                const today = await getTodaysReservations();
+                document.getElementById('todayCount').textContent = today.length;
+
+                // Contar por estado
+                const pending = today.filter(r => r.status === 'pending').length;
+                const confirmed = today.filter(r => r.status === 'confirmed').length;
+                
+                document.getElementById('pendingCount').textContent = pending;
+                document.getElementById('confirmedCount').textContent = confirmed;
+
+                // Ingresos del mes
+                const stats = await getMonthlyStats();
+                if (stats) {
+                    document.getElementById('monthRevenue').textContent = 
+                        `$${parseFloat(stats.total_revenue || 0).toLocaleString('es-MX')}`;
+                }
+            } catch (error) {
+                console.error('Error al cargar estadísticas:', error);
+            }
+        }
+
+       async function loadReservations() {
+    try {
+        // Mostrar últimos 30 días + futuras
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        const startDate = thirtyDaysAgo.toISOString().split('T')[0];
+
+        const { data, error } = await supabase
+            .from('reservations')
+            .select('*, services(*)')
+            .gte('reservation_date', startDate)
+            .order('reservation_date', { ascending: false })
+            .order('reservation_time', { ascending: false });
+
+                if (error) throw error;
+
+                allReservations = data;
+                renderReservations(data);
+            } catch (error) {
+                console.error('Error al cargar reservas:', error);
+                document.getElementById('reservationsTable').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <p>Error al cargar las reservas</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderReservations(reservations) {
+            const container = document.getElementById('reservationsTable');
+
+            if (reservations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No hay reservas para mostrar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cliente</th>
+                            <th>Servicio</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            reservations.forEach(r => {
+                const statusClass = `status-${r.status}`;
+                const statusText = {
+                    'pending': 'Pendiente',
+                    'confirmed': 'Confirmada',
+                    'completed': 'Completada',
+                    'cancelled': 'Cancelada',
+                    'no_show': 'No asistió'
+                }[r.status] || r.status;
+
+                html += `
+                    <tr>
+                        <td>#${r.id}</td>
+                        <td>${formatDate(r.reservation_date)}</td>
+                        <td>${formatTime(r.reservation_time)}</td>
+                        <td>
+                            <strong>${r.customer_name || 'N/A'}</strong><br>
+                            <small>${r.customer_phone || ''}</small>
+                        </td>
+                        <td>${r.services.name}</td>
+                        <td><strong>$${parseFloat(r.total_amount).toLocaleString('es-MX')}</strong></td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-btns">
+                                ${r.status === 'pending' ? `
+                                    <button class="btn btn-success btn-sm" onclick="confirmReservation(${r.id})">
+                                        ✓ Confirmar
+                                    </button>
+                                ` : ''}
+                                ${r.status !== 'cancelled' ? `
+                                    <button class="btn btn-danger btn-sm" onclick="cancelReservation(${r.id})">
+                                        ✕ Cancelar
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function applyFilters() {
+            const dateFilter = document.getElementById('filterDate').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const searchFilter = document.getElementById('filterSearch').value.toLowerCase();
+
+            let filtered = allReservations;
+
+            if (dateFilter) {
+                filtered = filtered.filter(r => r.reservation_date === dateFilter);
+            }
+
+            if (statusFilter) {
+                filtered = filtered.filter(r => r.status === statusFilter);
+            }
+
+            if (searchFilter) {
+                filtered = filtered.filter(r => 
+                    (r.customer_name || '').toLowerCase().includes(searchFilter) ||
+                    (r.customer_phone || '').includes(searchFilter)
+                );
+            }
+
+            renderReservations(filtered);
+        }
+
+        async function confirmReservation(id) {
+            if (!confirm('¿Confirmar esta reserva?')) return;
+
+            const result = await updateReservationStatus(id, 'confirmed');
+            if (result.success) {
+                alert('✅ Reserva confirmada');
+                loadDashboard();
+            } else {
+                alert('❌ Error al confirmar: ' + result.error);
+            }
+        }
+
+        async function cancelReservation(id) {
+            const reason = prompt('Motivo de cancelación (opcional):');
+            if (reason === null) return;
+
+            const result = await updateReservationStatus(id, 'cancelled');
+            if (result.success) {
+                alert('✅ Reserva cancelada');
+                loadDashboard();
+            } else {
+                alert('❌ Error al cancelar: ' + result.error);
+            }
+        }
+    </script>
+</body>
+</html>

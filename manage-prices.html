@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edición de Precios - Playtomix Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --secondary: #7cb342;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .service-card.updated {
+            animation: pulseGreen 1s ease;
+            border-color: var(--success);
+        }
+
+        @keyframes pulseGreen {
+            0%, 100% { 
+                background: var(--light);
+                transform: scale(1);
+            }
+            50% { 
+                background: #d1fae5;
+                transform: scale(1.02);
+            }
+        }
+
+        .service-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .service-description {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .price-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .price-input {
+            width: 150px;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .service-duration {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid var(--warning);
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .warning-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+
+        .history-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .history-item {
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">💰 Edición de Precios</div>
+        <button class="btn btn-secondary" onclick="goBack()">← Volver al Dashboard</button>
+    </header>
+
+    <div class="container">
+        <div class="warning-box">
+            <div class="warning-title">⚠️ Importante</div>
+            <p>Los cambios de precios afectan inmediatamente a las nuevas reservas. Las reservas existentes mantienen su precio original.</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Precios de Servicios</h2>
+            </div>
+
+            <div class="category-tabs">
+                <button class="tab active" onclick="filterCategory('all')">Todos</button>
+                <button class="tab" onclick="filterCategory(1)">🎓 Academia</button>
+                <button class="tab" onclick="filterCategory(2)">🏌️ Simulador</button>
+            </div>
+
+            <div id="servicesContainer">
+                <div class="loading">Cargando servicios...</div>
+            </div>
+        </div>
+
+        <div class="section history-section" id="historySection" style="display: none;">
+            <h3 class="section-title" style="font-size: 1.2rem; margin-bottom: 1rem;">📊 Historial de Cambios Recientes</h3>
+            <div id="historyContainer"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+ const SUPABASE_URL = 'https://uukfxhdnnjjfjsilglov.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1a2Z4aGRubmpqZmpzaWxnbG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MDczODQsImV4cCI6MjA3NzQ4MzM4NH0.m_ESoiJsHBE_cZv6ByfGPuEWmCgIiTZOgeI7SLAfB5I';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentUser = null;
+        let allServices = [];
+        let currentCategory = 'all';
+        let priceHistory = [];
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            await verifyAuth();
+            await loadServices();
+            await loadPriceHistory();
+        });
+
+        async function verifyAuth() {
+            const adminUserData = localStorage.getItem('admin_user');
+            if (!adminUserData) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            currentUser = JSON.parse(adminUserData);
+
+            // Verificar permiso
+            if (!currentUser.permissions?.prices?.edit) {
+                showAlert('No tienes permiso para acceder a esta página', 'error');
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard-with-roles.html';
+                }, 2000);
+            }
+        }
+
+        async function loadServices() {
+            try {
+                console.log('📥 Cargando servicios desde BD...');
+                
+                // Agregar timestamp para evitar caché
+                const { data, error } = await supabase
+                    .from('services')
+                    .select('*, service_categories(*)')
+                    .eq('active', true)
+                    .order('category_id')
+                    .order('price');
+
+                if (error) throw error;
+
+                console.log('✅ Servicios cargados:', data.length);
+                console.log('Primer servicio:', data[0]);
+
+                allServices = data;
+                
+                // Renderizar según categoría actual
+                let filtered = allServices;
+                if (currentCategory !== 'all') {
+                    filtered = allServices.filter(s => s.category_id === currentCategory);
+                }
+                
+                renderServices(filtered);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error al cargar servicios: ' + error.message, 'error');
+            }
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+
+            // Actualizar tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filtrar servicios
+            let filtered = allServices;
+            if (category !== 'all') {
+                filtered = allServices.filter(s => s.category_id === category);
+            }
+
+            renderServices(filtered);
+        }
+
+        function renderServices(services) {
+            const container = document.getElementById('servicesContainer');
+
+            if (!services || services.length === 0) {
+                container.innerHTML = '<div class="loading">No hay servicios en esta categoría</div>';
+                return;
+            }
+
+            let html = '<div class="services-grid">';
+
+            services.forEach(service => {
+                const isUpdated = service.just_updated;
+                
+                html += `
+                    <div class="service-card ${isUpdated ? 'updated' : ''}" id="service-card-${service.id}">
+                        <div class="service-name">${service.name}</div>
+                        <div class="service-description">${service.description || ''}</div>
+                        
+                        <div class="price-section">
+                            <div class="current-price">$${parseFloat(service.price).toLocaleString('es-MX')}</div>
+                        </div>
+
+                        <div class="price-input-group">
+                            <input 
+                                type="number" 
+                                class="price-input" 
+                                id="price-${service.id}" 
+                                value="${service.price}" 
+                                min="0" 
+                                step="10"
+                                placeholder="Nuevo precio"
+                            >
+                            <button 
+                                class="btn btn-success btn-sm" 
+                                onclick="updatePrice(${service.id}, '${service.name}')"
+                            >
+                                Actualizar
+                            </button>
+                        </div>
+
+                        <div class="service-meta">
+                            <span class="service-duration">
+                                ⏱️ ${service.duration_minutes} min
+                                ${service.is_package ? ' | 📦 Paquete' : ''}
+                            </span>
+                            <span style="color: #6b7280; font-size: 0.85rem;">
+                                ${service.service_categories?.name || 'Sin categoría'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        async function updatePrice(serviceId, serviceName) {
+            console.log('🔧 Intentando actualizar precio...');
+            console.log('Service ID:', serviceId);
+            console.log('Service Name:', serviceName);
+
+            const newPriceInput = document.getElementById(`price-${serviceId}`);
+            
+            if (!newPriceInput) {
+                console.error('❌ No se encontró el input de precio');
+                showAlert('❌ Error: No se encontró el campo de precio', 'error');
+                return;
+            }
+
+            const newPrice = parseFloat(newPriceInput.value);
+            console.log('Nuevo precio ingresado:', newPrice);
+
+            if (!newPrice || newPrice <= 0 || isNaN(newPrice)) {
+                showAlert('❌ Precio inválido. Debe ser un número mayor a 0.', 'error');
+                return;
+            }
+
+            const service = allServices.find(s => s.id === serviceId);
+            
+            if (!service) {
+                console.error('❌ Servicio no encontrado en allServices');
+                showAlert('❌ Error: Servicio no encontrado', 'error');
+                return;
+            }
+
+            const oldPrice = parseFloat(service.price);
+            console.log('Precio anterior:', oldPrice);
+
+            if (newPrice === oldPrice) {
+                showAlert('⚠️ El precio es el mismo que el actual', 'warning');
+                return;
+            }
+
+            const confirmed = confirm(`¿Cambiar precio de "${serviceName}"?\n\nPrecio actual: $${oldPrice.toLocaleString('es-MX')}\nNuevo precio: $${newPrice.toLocaleString('es-MX')}`);
+            
+            if (!confirmed) {
+                console.log('❌ Usuario canceló la operación');
+                return;
+            }
+
+            console.log('✅ Usuario confirmó, procediendo a actualizar...');
+
+            try {
+                // Intentar actualizar en Supabase
+                console.log('📡 Enviando actualización a Supabase...');
+                
+                const { data, error } = await supabase
+                    .from('services')
+                    .update({ price: newPrice })
+                    .eq('id', serviceId)
+                    .select();
+
+                console.log('Respuesta de Supabase:', { data, error });
+
+                if (error) {
+                    console.error('❌ Error de Supabase:', error);
+                    throw error;
+                }
+
+                console.log('✅ Precio actualizado en BD');
+
+                // Actualizar el objeto local inmediatamente y marcar como actualizado
+                const serviceIndex = allServices.findIndex(s => s.id === serviceId);
+                if (serviceIndex !== -1) {
+                    allServices[serviceIndex].price = newPrice;
+                    allServices[serviceIndex].just_updated = true;
+                }
+
+                // Registrar en el log
+                console.log('📝 Registrando en el log...');
+                const { error: logError } = await supabase
+                    .from('admin_activity_log')
+                    .insert([{
+                        admin_user_id: currentUser.id,
+                        action: 'update_price',
+                        resource_type: 'services',
+                        resource_id: serviceId,
+                        details: {
+                            service_name: serviceName,
+                            old_price: oldPrice,
+                            new_price: newPrice,
+                            admin_name: currentUser.full_name
+                        }
+                    }]);
+
+                if (logError) {
+                    console.warn('⚠️ Error al registrar en log (no crítico):', logError);
+                }
+
+                showAlert(`✅ Precio actualizado: "${serviceName}" ahora cuesta $${newPrice.toLocaleString('es-MX')}`, 'success');
+                
+                console.log('🔄 Recargando servicios...');
+                
+                // Recargar inmediatamente para reflejar cambios
+                await loadServices();
+                await loadPriceHistory();
+                
+                // Quitar la clase 'updated' después de la animación
+                setTimeout(() => {
+                    const card = document.getElementById(`service-card-${serviceId}`);
+                    if (card) {
+                        card.classList.remove('updated');
+                    }
+                    // Limpiar flag
+                    if (serviceIndex !== -1) {
+                        allServices[serviceIndex].just_updated = false;
+                    }
+                }, 1500);
+
+            } catch (error) {
+                console.error('❌ Error completo:', error);
+                showAlert('❌ Error al actualizar precio: ' + error.message, 'error');
+            }
+        }
+
+        async function loadPriceHistory() {
+            try {
+                const { data, error } = await supabase
+                    .from('admin_activity_log')
+                    .select('*')
+                    .eq('action', 'update_price')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    priceHistory = data;
+                    renderHistory(data);
+                    document.getElementById('historySection').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error cargando historial:', error);
+            }
+        }
+
+        function renderHistory(history) {
+            const container = document.getElementById('historyContainer');
+            
+            let html = '';
+            history.forEach(item => {
+                const date = new Date(item.created_at).toLocaleString('es-MX');
+                const details = item.details;
+                
+                html += `
+                    <div class="history-item">
+                        <strong>${details.service_name}</strong> - 
+                        $${details.old_price.toLocaleString('es-MX')} → 
+                        $${details.new_price.toLocaleString('es-MX')}
+                        <br>
+                        <small style="color: #6b7280;">
+                            ${details.admin_name} • ${date}
+                        </small>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function goBack() {
+            window.location.href = 'admin-dashboard-with-roles.html';
+        }
+    </script>
+</body>
+</html>

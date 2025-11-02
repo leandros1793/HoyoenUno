@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Playtomix Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a472a;
+            --secondary: #7cb342;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table tr:hover {
+            background: #f9fafb;
+        }
+
+        .role-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .role-superadmin {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .role-admin {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">👥 Gestión de Usuarios</div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="goBack()">← Volver al Dashboard</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Usuarios Administradores</h2>
+                <button class="btn btn-primary" onclick="openCreateModal()">+ Crear Usuario</button>
+            </div>
+
+            <div class="alert alert-warning" style="margin-bottom: 1rem;">
+                <strong>📧 Nota:</strong> Los nuevos usuarios recibirán un email de confirmación. 
+                Para evitarlo, desactiva "Confirm email" en Supabase → Authentication → Email Provider.
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <div id="usersTable">
+                <div class="loading">Cargando usuarios...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear/Editar Usuario -->
+    <div class="modal" id="userModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Crear Usuario</h3>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+
+            <form id="userForm" onsubmit="saveUser(event)">
+                <div class="form-group">
+                    <label class="form-label">Nombre Completo *</label>
+                    <input type="text" class="form-input" id="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-input" id="email" required>
+                </div>
+
+                <div class="form-group" id="passwordGroup">
+                    <label class="form-label">Contraseña *</label>
+                    <input type="password" class="form-input" id="password" minlength="6">
+                    <small style="color: #6b7280;">Mínimo 6 caracteres</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Rol *</label>
+                    <select class="form-select" id="roleId" required>
+                        <option value="">Seleccionar rol...</option>
+                        <option value="1">Super Administrador (acceso total)</option>
+                        <option value="2">Administrador (solo reservas)</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Crear Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+const SUPABASE_URL = 'https://uukfxhdnnjjfjsilglov.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1a2Z4aGRubmpqZmpzaWxnbG92Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MDczODQsImV4cCI6MjA3NzQ4MzM4NH0.m_ESoiJsHBE_cZv6ByfGPuEWmCgIiTZOgeI7SLAfB5I';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentUser = null;
+        let allUsers = [];
+        let editingUserId = null;
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            await verifyAuth();
+            await loadUsers();
+        });
+
+        async function verifyAuth() {
+            const adminUserData = localStorage.getItem('admin_user');
+            if (!adminUserData) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            currentUser = JSON.parse(adminUserData);
+
+            // Verificar permiso
+            if (!currentUser.permissions?.users?.view) {
+                showAlert('No tienes permiso para acceder a esta página', 'error');
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard-with-roles.html';
+                }, 2000);
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const { data, error } = await supabase
+                    .from('admin_users_view')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allUsers = data;
+                renderUsers(data);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error al cargar usuarios: ' + error.message, 'error');
+            }
+        }
+
+        function renderUsers(users) {
+            const container = document.getElementById('usersTable');
+
+            if (!users || users.length === 0) {
+                container.innerHTML = '<div class="empty-state">No hay usuarios registrados</div>';
+                return;
+            }
+
+            const canEdit = currentUser.permissions?.users?.edit || false;
+            const canDelete = currentUser.permissions?.users?.delete || false;
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Último acceso</th>
+                            ${(canEdit || canDelete) ? '<th>Acciones</th>' : ''}
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            users.forEach(user => {
+                const roleClass = user.role_name === 'superadmin' ? 'role-superadmin' : 'role-admin';
+                const statusClass = user.is_active ? 'status-active' : 'status-inactive';
+                const lastLogin = user.last_login ? new Date(user.last_login).toLocaleString('es-MX') : 'Nunca';
+
+                html += `
+                    <tr>
+                        <td>#${user.id}</td>
+                        <td><strong>${user.full_name}</strong></td>
+                        <td>${user.email}</td>
+                        <td><span class="role-badge ${roleClass}">${user.role_display_name}</span></td>
+                        <td><span class="status-badge ${statusClass}">${user.is_active ? 'Activo' : 'Inactivo'}</span></td>
+                        <td>${lastLogin}</td>
+                        ${(canEdit || canDelete) ? `
+                        <td>
+                            <div class="action-btns">
+                                ${canEdit ? `
+                                    <button class="btn btn-primary btn-sm" onclick="openEditModal(${user.id})">✏️ Editar</button>
+                                ` : ''}
+                                ${canDelete && user.id !== currentUser.id ? `
+                                    ${user.is_active ? `
+                                        <button class="btn btn-danger btn-sm" onclick="deactivateUser(${user.id})">🚫 Desactivar</button>
+                                    ` : `
+                                        <button class="btn btn-success btn-sm" onclick="activateUser(${user.id})">✅ Activar</button>
+                                    `}
+                                ` : ''}
+                            </div>
+                        </td>
+                        ` : ''}
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        function openCreateModal() {
+            if (!currentUser.permissions?.users?.create) {
+                showAlert('No tienes permiso para crear usuarios', 'error');
+                return;
+            }
+
+            editingUserId = null;
+            document.getElementById('modalTitle').textContent = 'Crear Usuario';
+            document.getElementById('saveBtn').textContent = 'Crear Usuario';
+            document.getElementById('userForm').reset();
+            document.getElementById('passwordGroup').style.display = 'block';
+            document.getElementById('password').required = true;
+            document.getElementById('userModal').classList.add('active');
+        }
+
+        function openEditModal(userId) {
+            if (!currentUser.permissions?.users?.edit) {
+                showAlert('No tienes permiso para editar usuarios', 'error');
+                return;
+            }
+
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            editingUserId = userId;
+            document.getElementById('modalTitle').textContent = 'Editar Usuario';
+            document.getElementById('saveBtn').textContent = 'Guardar Cambios';
+            document.getElementById('fullName').value = user.full_name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('roleId').value = user.role_id;
+            document.getElementById('passwordGroup').style.display = 'none';
+            document.getElementById('password').required = false;
+            document.getElementById('userModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('userModal').classList.remove('active');
+            document.getElementById('userForm').reset();
+            editingUserId = null;
+        }
+
+        async function saveUser(event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const roleId = parseInt(document.getElementById('roleId').value);
+
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Guardando...';
+
+            try {
+                if (editingUserId) {
+                    // Editar usuario existente
+                    const { error } = await supabase
+                        .from('admin_users')
+                        .update({
+                            full_name: fullName,
+                            email: email,
+                            role_id: roleId
+                        })
+                        .eq('id', editingUserId);
+
+                    if (error) throw error;
+
+                    showAlert('✅ Usuario actualizado correctamente', 'success');
+                } else {
+                    // Crear nuevo usuario usando signUp
+                    // Nota: El usuario recibirá un email de confirmación
+                    const { data: authData, error: authError } = await supabase.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            data: {
+                                full_name: fullName
+                            }
+                        }
+                    });
+
+                    if (authError) throw authError;
+
+                    if (!authData.user) {
+                        throw new Error('No se pudo crear el usuario en Authentication');
+                    }
+
+                    // Luego crear en admin_users
+                    const { error: dbError } = await supabase
+                        .from('admin_users')
+                        .insert([{
+                            auth_user_id: authData.user.id,
+                            email: email,
+                            full_name: fullName,
+                            role_id: roleId,
+                            is_active: true,
+                            created_by: currentUser.id
+                        }]);
+
+                    if (dbError) {
+                        console.error('Error al crear en admin_users:', dbError);
+                        throw dbError;
+                    }
+
+                    showAlert('✅ Usuario creado. Se ha enviado un email de confirmación a ' + email, 'success');
+                }
+
+                closeModal();
+                await loadUsers();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('❌ Error: ' + error.message, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = editingUserId ? 'Guardar Cambios' : 'Crear Usuario';
+            }
+        }
+
+        async function deactivateUser(userId) {
+            if (!confirm('¿Desactivar este usuario? No podrá iniciar sesión.')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('admin_users')
+                    .update({ is_active: false })
+                    .eq('id', userId);
+
+                if (error) throw error;
+
+                showAlert('✅ Usuario desactivado', 'success');
+                await loadUsers();
+            } catch (error) {
+                showAlert('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function activateUser(userId) {
+            try {
+                const { error } = await supabase
+                    .from('admin_users')
+                    .update({ is_active: true })
+                    .eq('id', userId);
+
+                if (error) throw error;
+
+                showAlert('✅ Usuario activado', 'success');
+                await loadUsers();
+            } catch (error) {
+                showAlert('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function goBack() {
+            window.location.href = 'admin-dashboard-with-roles.html';
+        }
+    </script>
+</body>
+</html>
