@@ -126,81 +126,91 @@
             50% { transform: scale(1.1); }
         }
 
-        /* Hero Section */
-        .hero {
-            position: relative;
-            color: var(--white);
-            padding: 6rem 2rem;
-            text-align: center;
-            overflow: hidden;
-            min-height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+       /* Hero Section */
+.hero {
+    position: relative;
+    color: var(--white);
+    padding: 6rem 2rem 3rem; /* Más espacio arriba */
+    text-align: center;
+    overflow: hidden;
+    min-height: 70vh;
+    display: flex;
+    align-items: flex-end; /* Cambiado a flex-end */
+    justify-content: center;
+    padding-bottom: 4rem;
+}
 
-        .hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            z-index: 0;
-        }
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 0;
+}
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(26, 71, 42, 0.85) 0%, rgba(45, 110, 62, 0.75) 100%);
-            z-index: 1;
-        }
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26, 71, 42, 0.4) 0%, rgba(45, 110, 62, 0.3) 100%); /* Reducido de 0.85 y 0.75 */
+    z-index: 1;
+}
 
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+.hero-content {
+    max-width: 700px; /* Más angosto */
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    background: rgba(26, 71, 42, 0.7);
+    backdrop-filter: blur(12px);
+    padding: 1.25rem 1.75rem; /* Más compacto */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 900;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+.hero h1 {
+    font-size: 2rem; /* Más pequeño */
+    margin-bottom: 0.5rem;
+    font-weight: 900;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
 
-        .hero p {
-            font-size: 1.25rem;
-            opacity: 0.95;
-            margin-bottom: 2rem;
-        }
+.hero p {
+    font-size: 1rem;
+    opacity: 0.95;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
 
-        .hero-features {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
+.hero-features {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+}
 
-        .hero-feature {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
+.hero-feature {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem; /* Más pequeño */
+    border-radius: 50px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
         /* Container */
         .container {
             max-width: 1400px;
@@ -978,73 +988,30 @@
             font-weight: 600;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero {
-                min-height: 60vh;
-                padding: 4rem 1rem;
-            }
+@media (max-width: 768px) {
+    .hero {
+        min-height: 65vh;
+        padding: 2rem 1rem 4rem;
+        padding-top: 4rem;
+    }
 
-            .hero h1 {
-                font-size: 2rem;
-            }
+    .hero-content {
+        padding: 1rem 1.25rem;
+    }
 
-            .hero p {
-                font-size: 1rem;
-            }
+    .hero h1 {
+        font-size: 1.5rem;
+    }
 
-            .hero-features {
-                gap: 0.75rem;
-            }
+    .hero p {
+        font-size: 0.9rem;
+    }
 
-            .hero-feature {
-                padding: 0.75rem 1rem;
-                font-size: 0.85rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
-            }
-
-            .category-tabs {
-                gap: 0.5rem;
-            }
-
-            .tab {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9rem;
-            }
-
-            .input-group {
-                grid-template-columns: 1fr;
-            }
-
-            .whatsapp-float {
-                bottom: 1rem;
-                right: 1rem;
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-
-            .video-showcase {
-                padding: 2rem 1rem;
-            }
-
-            .video-showcase-title {
-                font-size: 1.5rem;
-            }
-
-            .video-badge {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.8rem;
-            }
-        }
+    .hero-feature {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
 
         /* Loading Animation */
         .loading {
@@ -1626,13 +1593,7 @@
         <button class="success-close" onclick="closeSuccessModal()">Entendido</button>
     </div>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/523322396825?text=Hola!%20Tengo%20una%20consulta%20sobre%20el%20simulador%20de%20golf" 
-       class="whatsapp-float" 
-       target="_blank"
-       rel="noopener noreferrer">
-        💬
-    </a>
+
 
     <!-- Notification -->
     <div class="notification" id="notification">
@@ -2032,5 +1993,455 @@ function addToCart(name, defaultPrice, id, isPackage = false) {
             return new Date(dateString + 'T00:00:00').toLocaleDateString('es-MX', options);
         }
     </script>
+    <!-- ============================================ -->
+<!-- WIDGET DE CHAT TIPO WHATSAPP WEB -->
+<!-- Estilo Chaty con mensaje emergente -->
+<!-- Agregar este código ANTES del cierre de </body> -->
+<!-- ============================================ -->
+
+<style>
+/* Chat Widget Container */
+.whatsapp-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Chat Bubble (Mensaje emergente) */
+.whatsapp-chat-bubble {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 320px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8) translateY(20px);
+    transform-origin: bottom right;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.whatsapp-chat-bubble.show {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+/* Header del chat */
+.whatsapp-chat-header {
+    background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+}
+
+.whatsapp-chat-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.whatsapp-chat-info {
+    flex: 1;
+}
+
+.whatsapp-chat-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+.whatsapp-chat-status {
+    font-size: 12px;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.whatsapp-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #25d366;
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.whatsapp-close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.whatsapp-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Body del chat */
+.whatsapp-chat-body {
+    padding: 20px;
+    background: #e5ddd5;
+    min-height: 140px;
+    background-image: url('data:image/svg+xml;utf8,<svg width="260" height="260" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h260v260H0z" fill="%23e5ddd5"/></svg>');
+}
+
+.whatsapp-message {
+    background: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 85%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    animation: slideInMessage 0.3s ease;
+}
+
+@keyframes slideInMessage {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.whatsapp-message::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-right: 8px solid white;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+
+.whatsapp-message-text {
+    font-size: 14px;
+    color: #303030;
+    line-height: 1.5;
+    margin-bottom: 4px;
+}
+
+.whatsapp-message-time {
+    font-size: 11px;
+    color: #667781;
+    text-align: right;
+}
+
+/* Footer del chat */
+.whatsapp-chat-footer {
+    padding: 12px 16px;
+    background: #f0f0f0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.whatsapp-cta-btn {
+    width: 100%;
+    padding: 12px;
+    background: #25d366;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.whatsapp-cta-btn:hover {
+    background: #20ba5a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+/* Botón flotante principal */
+.whatsapp-float-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #25d366;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    animation: float-pulse 2s infinite;
+    position: relative;
+}
+
+@keyframes float-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6);
+        transform: scale(1.05);
+    }
+}
+
+.whatsapp-float-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-float-btn.active {
+    transform: rotate(90deg);
+}
+
+/* Badge de notificación */
+.whatsapp-notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 22px;
+    height: 22px;
+    background: #ff3b30;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    border: 2px solid white;
+    animation: bounce-badge 2s infinite;
+}
+
+@keyframes bounce-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .whatsapp-widget {
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .whatsapp-chat-bubble {
+        width: calc(100vw - 40px);
+        right: -8px;
+    }
+
+    .whatsapp-float-btn {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+/* Overlay para cerrar al hacer clic fuera */
+.whatsapp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.whatsapp-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Animación de entrada inicial */
+@keyframes slideInWidget {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.whatsapp-widget {
+    animation: slideInWidget 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s backwards;
+}
+</style>
+
+<!-- Overlay -->
+<div class="whatsapp-overlay" id="whatsappOverlay"></div>
+
+<!-- Widget de WhatsApp -->
+<div class="whatsapp-widget">
+    <!-- Burbuja de chat -->
+    <div class="whatsapp-chat-bubble" id="whatsappChatBubble">
+        <!-- Header -->
+        <div class="whatsapp-chat-header">
+            <div class="whatsapp-chat-avatar">
+                ⛳
+            </div>
+            <div class="whatsapp-chat-info">
+                <div class="whatsapp-chat-name">Hoyo en Uno</div>
+                <div class="whatsapp-chat-status">
+                    <span class="whatsapp-status-dot"></span>
+                    En línea
+                </div>
+            </div>
+            <button class="whatsapp-close-btn" onclick="closeWhatsAppChat()" aria-label="Cerrar chat">
+                ×
+            </button>
+        </div>
+
+        <!-- Body con mensaje -->
+        <div class="whatsapp-chat-body">
+            <div class="whatsapp-message">
+                <div class="whatsapp-message-text">
+                    ¡Hola! 👋 ¿Necesitas ayuda?<br>
+                    ¿Te gustaría reservar una clase de golf?
+                </div>
+                <div class="whatsapp-message-time">Justo ahora</div>
+            </div>
+        </div>
+
+        <!-- Footer con botón CTA -->
+        <div class="whatsapp-chat-footer">
+            <a href="https://wa.me/523322396825?text=Hola!%20Quiero%20información%20sobre%20el%20simulador%20de%20golf%20⛳" 
+               class="whatsapp-cta-btn"
+               target="_blank"
+               rel="noopener noreferrer"
+               onclick="trackWhatsAppClick()">
+
+                Iniciar conversación
+            </a>
+        </div>
+    </div>
+
+    <!-- Botón flotante -->
+    <button class="whatsapp-float-btn" id="whatsappFloatBtn" onclick="toggleWhatsAppChat()" aria-label="Abrir chat de WhatsApp">
+        <!-- Logo de WhatsApp -->
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 0C7.164 0 0 7.164 0 16c0 2.826.735 5.484 2.013 7.806L0 32l8.428-2.013A15.896 15.896 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0z" fill="white"/>
+            <path d="M25.123 22.748c-.353 1.004-1.756 1.839-2.874 2.081-.767.161-1.768.29-5.139-.887-4.319-1.508-7.101-5.889-7.315-6.159-.21-.27-1.72-2.289-1.72-4.367 0-2.078 1.089-3.1 1.475-3.524.387-.423.844-.53 1.125-.53.282 0 .563.003.81.015.259.012.606-.098.948.723.353.848 1.201 2.926 1.306 3.137.105.211.175.458.035.729-.14.27-.21.44-.422.678-.211.238-.444.531-.635.713-.21.211-.43.44-.184.862.246.423 1.096 1.805 2.351 2.923 1.617 1.439 2.979 1.886 3.401 2.097.423.211.669.176.915-.105.246-.282 1.054-1.23 1.335-1.653.282-.423.563-.352.95-.211.387.14 2.457 1.158 2.879 1.369.423.211.704.317.81.493.105.176.105 1.018-.247 2.022z" fill="#25D366"/>
+        </svg>
+
+        <!-- Badge de notificación -->
+        <span class="whatsapp-notification-badge" id="whatsappBadge">1</span>
+    </button>
+</div>
+
+<script>
+// WhatsApp Widget Functionality
+(function() {
+    const floatBtn = document.getElementById('whatsappFloatBtn');
+    const chatBubble = document.getElementById('whatsappChatBubble');
+    const overlay = document.getElementById('whatsappOverlay');
+    const badge = document.getElementById('whatsappBadge');
+    let isOpen = false;
+
+    // Toggle chat
+    window.toggleWhatsAppChat = function() {
+        isOpen = !isOpen;
+        
+        if (isOpen) {
+            chatBubble.classList.add('show');
+            overlay.classList.add('active');
+            floatBtn.classList.add('active');
+            
+            // Ocultar badge al abrir
+            if (badge) {
+                badge.style.display = 'none';
+                localStorage.setItem('whatsapp_badge_seen', 'true');
+            }
+        } else {
+            chatBubble.classList.remove('show');
+            overlay.classList.remove('active');
+            floatBtn.classList.remove('active');
+        }
+    };
+
+    // Cerrar chat
+    window.closeWhatsAppChat = function() {
+        isOpen = false;
+        chatBubble.classList.remove('show');
+        overlay.classList.remove('active');
+        floatBtn.classList.remove('active');
+    };
+
+    // Cerrar al hacer clic en overlay
+    overlay.addEventListener('click', closeWhatsAppChat);
+
+    // Track WhatsApp click (opcional para analytics)
+    window.trackWhatsAppClick = function() {
+        console.log('WhatsApp link clicked');
+        // Aquí puedes agregar Google Analytics o Facebook Pixel tracking
+        // gtag('event', 'click', { 'event_category': 'WhatsApp', 'event_label': 'Chat' });
+        closeWhatsAppChat();
+    };
+
+    // Auto-abrir después de 5 segundos (solo primera visita)
+    setTimeout(function() {
+        if (!localStorage.getItem('whatsapp_auto_opened')) {
+            toggleWhatsAppChat();
+            localStorage.setItem('whatsapp_auto_opened', 'true');
+            
+            // Auto-cerrar después de 10 segundos si no hay interacción
+            setTimeout(function() {
+                if (isOpen) {
+                    closeWhatsAppChat();
+                }
+            }, 10000);
+        }
+    }, 5000);
+
+    // Ocultar badge si ya se vio antes
+    if (localStorage.getItem('whatsapp_badge_seen') && badge) {
+        badge.style.display = 'none';
+    }
+
+    // Cerrar con tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isOpen) {
+            closeWhatsAppChat();
+        }
+    });
+})();
+</script>
 </body>
 </html>
