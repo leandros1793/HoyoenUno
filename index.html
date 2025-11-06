@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playtomix - Simulador de Golf Premium</title>
+    <title>Hoyo en Uno - Golfin-Academy-Bar</title>
     <style>
         * {
             margin: 0;
@@ -1063,21 +1063,370 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">
-                <span class="logo-icon">⛳</span>
-                <span>Hoyo en Uno</span>
-            </a>
-            <div class="header-actions">
-                <button class="cart-btn" onclick="toggleCart()">
-                    🛒 Carrito
-                    <span class="cart-badge" id="cartBadge">0</span>
-                </button>
+    <!-- ============================================ -->
+<!-- REEMPLAZO COMPLETO DEL HEADER -->
+<!-- Borrar el <header> actual y pegar esto -->
+<!-- ============================================ -->
+
+<style>
+/* Eliminar estilos viejos del header (opcional, pero recomendado) */
+.header {
+    all: unset;
+}
+
+/* Navbar verde elegante */
+.navbar-elegant {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #1a472a;
+    padding: 1rem 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.navbar-elegant.scrolled {
+    padding: 0.7rem 0;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo lado izquierdo */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+.navbar-logo img {
+    height: 70px;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+}
+
+.navbar-elegant.scrolled .navbar-logo img {
+    height: 55px;
+}
+
+.navbar-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.navbar-logo-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #c9b55a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.navbar-logo-subtitle {
+    font-size: 10px;
+    color: rgba(201, 181, 90, 0.8);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 3px;
+}
+
+/* Menú central */
+.navbar-menu {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.navbar-menu a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.navbar-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #c9b55a;
+    transition: width 0.3s ease;
+}
+
+.navbar-menu a:hover {
+    color: #c9b55a;
+}
+
+.navbar-menu a:hover::after {
+    width: 100%;
+}
+
+/* Botón del carrito */
+.navbar-cart-btn {
+    background: #2d6e3e;
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-cart-btn:hover {
+    background: #3a8a4f;
+    border-color: #c9b55a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-cart-icon {
+    font-size: 18px;
+}
+
+.navbar-cart-badge {
+    background: #c9b55a;
+    color: #1a472a;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 2px 8px rgba(201, 181, 90, 0.4);
+}
+
+/* Menú móvil toggle */
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.navbar-toggle span {
+    width: 28px;
+    height: 3px;
+    background: #c9b55a;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggle:hover span {
+    background: #d4c26a;
+}
+
+.navbar-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.navbar-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .navbar-menu {
+        position: fixed;
+        top: 85px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 85px);
+        background: #1a472a;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 2rem;
+        gap: 1.5rem;
+        transition: left 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .navbar-menu.active {
+        left: 0;
+    }
+    
+    .navbar-menu a {
+        font-size: 18px;
+        width: 100%;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar-toggle {
+        display: flex;
+    }
+    
+    .navbar-cart-btn {
+        padding: 0.7rem 1.4rem;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-logo img {
+        height: 55px;
+    }
+    
+    .navbar-elegant.scrolled .navbar-logo img {
+        height: 50px;
+    }
+    
+    .navbar-logo-text {
+        display: none;
+    }
+    
+    .navbar-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo img {
+        height: 50px;
+    }
+    
+    .navbar-cart-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 12px;
+    }
+    
+    .navbar-cart-icon {
+        font-size: 16px;
+    }
+    
+    .navbar-cart-badge {
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+    }
+}
+
+/* Padding para el body (para que no quede debajo del navbar fijo) */
+body {
+    padding-top: 95px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 85px;
+    }
+}
+</style>
+
+<!-- Navbar HTML -->
+<nav class="navbar-elegant" id="navbarElegant">
+    <div class="navbar-container">
+        <!-- Logo izquierdo -->
+        <div class="navbar-logo" onclick="window.location.href='#home'">
+            <img src="logo.png" alt="Hoyo en Uno">
+            <div class="navbar-logo-text">
+                <div class="navbar-logo-title">HOYO EN UNO</div>
+                <div class="navbar-logo-subtitle">Golfin-Academy-Bar</div>
             </div>
         </div>
-    </header>
 
+        <!-- Menú central -->
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="#precios">Precios</a>
+            <a href="#about">Nosotros</a>
+            <a href="#ubicacion">Ubicación</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+
+        <!-- Botón del carrito derecho -->
+        <button class="navbar-cart-btn" onclick="toggleCart()">
+            <span class="navbar-cart-icon">🛒</span>
+            <span>Carrito</span>
+            <span class="navbar-cart-badge" id="cartBadge">0</span>
+        </button>
+
+        <!-- Toggle para móvil -->
+        <button class="navbar-toggle" id="navbarToggle" onclick="toggleNavbarMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('navbarElegant');
+    if (navbar) {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    }
+});
+
+// Toggle menú móvil
+function toggleNavbarMenu() {
+    const menu = document.getElementById('navbarMenu');
+    const toggle = document.getElementById('navbarToggle');
+    if (menu && toggle) {
+        menu.classList.toggle('active');
+        toggle.classList.toggle('active');
+    }
+}
+
+// Cerrar menú al hacer click en un link (móvil)
+document.querySelectorAll('.navbar-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 968) {
+            const menu = document.getElementById('navbarMenu');
+            const toggle = document.getElementById('navbarToggle');
+            if (menu && toggle) {
+                menu.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        }
+    });
+});
+
+// La función toggleCart() ya debe existir en tu código
+// Si no existe, agrégala aquí o verifica que esté en otro lugar
+</script>
     <!-- Hero Section -->
     <section class="hero">
         <video autoplay muted loop playsinline class="hero-video">
@@ -1085,15 +1434,10 @@
         </video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>⛳ Simulador de Golf Premium</h1>
+            <h1>Simulador de Golf Premium</h1>
             <p>Entrena, juega y compite en los mejores campos del mundo sin salir de Playtomic</p>
             <div class="hero-features">
-                <div class="hero-feature">
-                    🎓 Academia Profesional
-                </div>
-                <div class="hero-feature">
-                    🏌️ Renta por Hora
-                </div>
+
                 <div class="hero-feature">
                     📊 Tecnología 3D
                 </div>
@@ -2314,9 +2658,9 @@ function addToCart(name, defaultPrice, id, isPackage = false) {
     <div class="whatsapp-chat-bubble" id="whatsappChatBubble">
         <!-- Header -->
         <div class="whatsapp-chat-header">
-            <div class="whatsapp-chat-avatar">
-                ⛳
-            </div>
+<div class="logo">
+    <img src="logo.png" alt="Hoyo en Uno" style="height: 60px;">
+</div>
             <div class="whatsapp-chat-info">
                 <div class="whatsapp-chat-name">Hoyo en Uno</div>
                 <div class="whatsapp-chat-status">
