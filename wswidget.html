@@ -1,7 +1,6 @@
 <!-- ============================================ -->
-<!-- WIDGET DE CHAT TIPO WHATSAPP WEB -->
-<!-- Estilo Chaty con mensaje emergente -->
-<!-- Agregar este código ANTES del cierre de </body> -->
+<!-- WIDGET DE WHATSAPP CON INPUT DE MENSAJE -->
+<!-- Archivo: wswidget.html -->
 <!-- ============================================ -->
 
 <style>
@@ -14,7 +13,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Chat Bubble (Mensaje emergente) */
+/* Chat Bubble */
 .whatsapp-chat-bubble {
     position: absolute;
     bottom: 80px;
@@ -37,7 +36,7 @@
     transform: scale(1) translateY(0);
 }
 
-/* Header del chat */
+/* Header */
 .whatsapp-chat-header {
     background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
     padding: 16px;
@@ -110,12 +109,11 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Body del chat */
+/* Body */
 .whatsapp-chat-body {
     padding: 20px;
     background: #e5ddd5;
     min-height: 140px;
-    background-image: url('data:image/svg+xml;utf8,<svg width="260" height="260" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h260v260H0z" fill="%23e5ddd5"/></svg>');
 }
 
 .whatsapp-message {
@@ -129,14 +127,8 @@
 }
 
 @keyframes slideInMessage {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .whatsapp-message::before {
@@ -164,27 +156,73 @@
     text-align: right;
 }
 
-/* Footer del chat */
+/* Footer con INPUT */
 .whatsapp-chat-footer {
     padding: 12px 16px;
     background: #f0f0f0;
     border-top: 1px solid #e0e0e0;
 }
 
+.whatsapp-input-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    background: white;
+    border-radius: 24px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.3s;
+}
+
+.whatsapp-input-container:focus-within {
+    border-color: #25d366;
+}
+
+.whatsapp-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    max-height: 100px;
+    min-height: 20px;
+}
+
+.whatsapp-input::placeholder {
+    color: #9ca3af;
+}
+
+.whatsapp-send-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #25d366;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-size: 20px;
+}
+
+.whatsapp-send-icon:hover {
+    transform: scale(1.1);
+}
+
 .whatsapp-cta-btn {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     background: #25d366;
     color: white;
     border: none;
     border-radius: 24px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.3s;
     text-decoration: none;
 }
@@ -195,7 +233,7 @@
     box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
 }
 
-/* Botón flotante principal */
+/* Botón flotante */
 .whatsapp-float-btn {
     width: 60px;
     height: 60px;
@@ -232,7 +270,13 @@
     transform: rotate(90deg);
 }
 
-/* Badge de notificación */
+.whatsapp-logo-svg {
+    width: 36px;
+    height: 36px;
+    pointer-events: none;
+}
+
+/* Badge */
 .whatsapp-notification-badge {
     position: absolute;
     top: -4px;
@@ -262,19 +306,17 @@
         bottom: 16px;
         right: 16px;
     }
-
     .whatsapp-chat-bubble {
         width: calc(100vw - 40px);
         right: -8px;
     }
-
     .whatsapp-float-btn {
         width: 56px;
         height: 56px;
     }
 }
 
-/* Overlay para cerrar al hacer clic fuera */
+/* Overlay */
 .whatsapp-overlay {
     position: fixed;
     top: 0;
@@ -293,16 +335,10 @@
     visibility: visible;
 }
 
-/* Animación de entrada inicial */
+/* Animación de entrada */
 @keyframes slideInWidget {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .whatsapp-widget {
@@ -313,14 +349,14 @@
 <!-- Overlay -->
 <div class="whatsapp-overlay" id="whatsappOverlay"></div>
 
-<!-- Widget de WhatsApp -->
+<!-- Widget -->
 <div class="whatsapp-widget">
     <!-- Burbuja de chat -->
     <div class="whatsapp-chat-bubble" id="whatsappChatBubble">
         <!-- Header -->
         <div class="whatsapp-chat-header">
-            <div class="whatsapp-chat-avatar">
-                ⛳
+            <div class="whatsapp-chat-avatar" style="background: transparent; padding: 4px;">
+                <img src="/assets/logo.png" alt="Hoyo en Uno" style="width: 40px; height: 40px; object-fit: contain;">
             </div>
             <div class="whatsapp-chat-info">
                 <div class="whatsapp-chat-name">Hoyo en Uno</div>
@@ -329,9 +365,7 @@
                     En línea
                 </div>
             </div>
-            <button class="whatsapp-close-btn" onclick="closeWhatsAppChat()" aria-label="Cerrar chat">
-                ×
-            </button>
+            <button class="whatsapp-close-btn" onclick="closeWhatsAppChat()">×</button>
         </div>
 
         <!-- Body con mensaje -->
@@ -345,54 +379,69 @@
             </div>
         </div>
 
-        <!-- Footer con botón CTA -->
+        <!-- Footer con INPUT -->
         <div class="whatsapp-chat-footer">
-            <a href="https://wa.me/523322396825?text=Hola!%20Quiero%20información%20sobre%20el%20simulador%20de%20golf%20⛳" 
-               class="whatsapp-cta-btn"
-               target="_blank"
-               rel="noopener noreferrer"
-               onclick="trackWhatsAppClick()">
-                <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+            <!-- Input para escribir mensaje -->
+            <div class="whatsapp-input-container">
+                <textarea 
+                    id="whatsappMessageInput" 
+                    class="whatsapp-input" 
+                    placeholder="Escribe tu mensaje aquí..."
+                    rows="1"
+                    onkeydown="handleTextareaKeydown(event)"
+                    oninput="autoResizeTextarea(this)"></textarea>
+                <div class="whatsapp-send-icon" onclick="sendWhatsAppMessage()">
+                    ➤
+                </div>
+            </div>
+            
+            <!-- Botón alternativo -->
+            <button class="whatsapp-cta-btn" onclick="sendWhatsAppMessage()">
+                <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
                     <path d="M16 0C7.164 0 0 7.164 0 16c0 2.826.735 5.484 2.013 7.806L0 32l8.428-2.013A15.896 15.896 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0z" fill="white"/>
                     <path d="M25.123 22.748c-.353 1.004-1.756 1.839-2.874 2.081-.767.161-1.768.29-5.139-.887-4.319-1.508-7.101-5.889-7.315-6.159-.21-.27-1.72-2.289-1.72-4.367 0-2.078 1.089-3.1 1.475-3.524.387-.423.844-.53 1.125-.53.282 0 .563.003.81.015.259.012.606-.098.948.723.353.848 1.201 2.926 1.306 3.137.105.211.175.458.035.729-.14.27-.21.44-.422.678-.211.238-.444.531-.635.713-.21.211-.43.44-.184.862.246.423 1.096 1.805 2.351 2.923 1.617 1.439 2.979 1.886 3.401 2.097.423.211.669.176.915-.105.246-.282 1.054-1.23 1.335-1.653.282-.423.563-.352.95-.211.387.14 2.457 1.158 2.879 1.369.423.211.704.317.81.493.105.176.105 1.018-.247 2.022z" fill="white"/>
                 </svg>
-                Iniciar conversación
-            </a>
+                Enviar mensaje
+            </button>
         </div>
     </div>
 
-    <!-- Botón flotante -->
-    <button class="whatsapp-float-btn" id="whatsappFloatBtn" onclick="toggleWhatsAppChat()" aria-label="Abrir chat de WhatsApp">
-        <!-- Logo de WhatsApp -->
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path d="M16 0C7.164 0 0 7.164 0 16c0 2.826.735 5.484 2.013 7.806L0 32l8.428-2.013A15.896 15.896 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0z" fill="white"/>
-            <path d="M25.123 22.748c-.353 1.004-1.756 1.839-2.874 2.081-.767.161-1.768.29-5.139-.887-4.319-1.508-7.101-5.889-7.315-6.159-.21-.27-1.72-2.289-1.72-4.367 0-2.078 1.089-3.1 1.475-3.524.387-.423.844-.53 1.125-.53.282 0 .563.003.81.015.259.012.606-.098.948.723.353.848 1.201 2.926 1.306 3.137.105.211.175.458.035.729-.14.27-.21.44-.422.678-.211.238-.444.531-.635.713-.21.211-.43.44-.184.862.246.423 1.096 1.805 2.351 2.923 1.617 1.439 2.979 1.886 3.401 2.097.423.211.669.176.915-.105.246-.282 1.054-1.23 1.335-1.653.282-.423.563-.352.95-.211.387.14 2.457 1.158 2.879 1.369.423.211.704.317.81.493.105.176.105 1.018-.247 2.022z" fill="#25D366"/>
-        </svg>
-
-        <!-- Badge de notificación -->
-        <span class="whatsapp-notification-badge" id="whatsappBadge">1</span>
-    </button>
+<button class="whatsapp-float-btn" id="whatsappFloatBtn" onclick="toggleWhatsAppChat()">
+    <!-- Logo oficial de WhatsApp -->
+    <svg class="whatsapp-logo-svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 0C7.164 0 0 7.164 0 16c0 2.826.735 5.484 2.013 7.806L0 32l8.428-2.013A15.896 15.896 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0z" fill="white"/>
+        <path d="M25.123 22.748c-.353 1.004-1.756 1.839-2.874 2.081-.767.161-1.768.29-5.139-.887-4.319-1.508-7.101-5.889-7.315-6.159-.21-.27-1.72-2.289-1.72-4.367 0-2.078 1.089-3.1 1.475-3.524.387-.423.844-.53 1.125-.53.282 0 .563.003.81.015.259.012.606-.098.948.723.353.848 1.201 2.926 1.306 3.137.105.211.175.458.035.729-.14.27-.21.44-.422.678-.211.238-.444.531-.635.713-.21.211-.43.44-.184.862.246.423 1.096 1.805 2.351 2.923 1.617 1.439 2.979 1.886 3.401 2.097.423.211.669.176.915-.105.246-.282 1.054-1.23 1.335-1.653.282-.423.563-.352.95-.211.387.14 2.457 1.158 2.879 1.369.423.211.704.317.81.493.105.176.105 1.018-.247 2.022z" fill="#25D366"/>
+    </svg>
+    
+    <span class="whatsapp-notification-badge" id="whatsappBadge">1</span>
+</button>
 </div>
 
 <script>
-// WhatsApp Widget Functionality
 (function() {
     const floatBtn = document.getElementById('whatsappFloatBtn');
     const chatBubble = document.getElementById('whatsappChatBubble');
     const overlay = document.getElementById('whatsappOverlay');
     const badge = document.getElementById('whatsappBadge');
+    const messageInput = document.getElementById('whatsappMessageInput');
     let isOpen = false;
+
+    // Número de WhatsApp
+    const WHATSAPP_NUMBER = '523322396825';
 
     // Toggle chat
     window.toggleWhatsAppChat = function() {
         isOpen = !isOpen;
-        
         if (isOpen) {
             chatBubble.classList.add('show');
             overlay.classList.add('active');
             floatBtn.classList.add('active');
             
-            // Ocultar badge al abrir
+            // Focus en el input
+            setTimeout(() => {
+                if (messageInput) messageInput.focus();
+            }, 300);
+            
             if (badge) {
                 badge.style.display = 'none';
                 localStorage.setItem('whatsapp_badge_seen', 'true');
@@ -412,24 +461,59 @@
         floatBtn.classList.remove('active');
     };
 
+    // Enviar mensaje a WhatsApp
+    window.sendWhatsAppMessage = function() {
+        let message = messageInput ? messageInput.value.trim() : '';
+        
+        // Si no hay mensaje, usar mensaje por defecto
+        if (!message) {
+            message = 'Hola! Quiero información sobre el simulador de golf ⛳';
+        }
+        
+        // Codificar el mensaje para URL
+        const encodedMessage = encodeURIComponent(message);
+        
+        // Construir URL de WhatsApp
+        const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+        
+        // Abrir WhatsApp
+        window.open(whatsappURL, '_blank');
+        
+        // Limpiar input
+        if (messageInput) {
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+        }
+        
+        // Cerrar chat
+        closeWhatsAppChat();
+        
+        console.log('WhatsApp message sent:', message);
+    };
+
+    // Auto-resize textarea
+    window.autoResizeTextarea = function(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    };
+
+    // Enviar con Enter
+    window.handleTextareaKeydown = function(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            sendWhatsAppMessage();
+        }
+    };
+
     // Cerrar al hacer clic en overlay
     overlay.addEventListener('click', closeWhatsAppChat);
 
-    // Track WhatsApp click (opcional para analytics)
-    window.trackWhatsAppClick = function() {
-        console.log('WhatsApp link clicked');
-        // Aquí puedes agregar Google Analytics o Facebook Pixel tracking
-        // gtag('event', 'click', { 'event_category': 'WhatsApp', 'event_label': 'Chat' });
-        closeWhatsAppChat();
-    };
-
-    // Auto-abrir después de 5 segundos (solo primera visita)
+    // Auto-abrir después de 5 segundos
     setTimeout(function() {
         if (!localStorage.getItem('whatsapp_auto_opened')) {
             toggleWhatsAppChat();
             localStorage.setItem('whatsapp_auto_opened', 'true');
             
-            // Auto-cerrar después de 10 segundos si no hay interacción
             setTimeout(function() {
                 if (isOpen) {
                     closeWhatsAppChat();
