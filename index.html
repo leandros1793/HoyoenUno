@@ -7,23 +7,22 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
     <link rel="stylesheet" href="styles.css">
     <style>
-    @media (max-width: 768px) {
-        .container > div:first-child {
-            flex-direction: column !important;
-            text-align: center !important;
-            align-items: center !important;
-            padding: 1.25rem 1.5rem !important;
+        @media (max-width: 768px) {
+            .container > div:first-child {
+                flex-direction: column !important;
+                text-align: center !important;
+                align-items: center !important;
+                padding: 1.25rem 1.5rem !important;
+            }
+            
+            .container > div:first-child > div:first-child {
+                font-size: 2.5rem !important;
+            }
         }
-        
-        .container > div:first-child > div:first-child {
-            font-size: 2.5rem !important;
-        }
-    }
-</style>
+    </style>
+</head>
 
-    <body>
-        
-   
+<body>
 <!-- Navbar HTML -->
 <nav class="navbar-elegant" id="navbarElegant">
     <div class="navbar-container">
@@ -62,12 +61,6 @@
 
 <script>
 // Navbar scroll effect
-// ============================================
-// JAVASCRIPT MEJORADO PARA TU NAVBAR
-// Reemplazar el script en index.html
-// ============================================
-
-// Navbar scroll effect
 window.addEventListener('scroll', function() {
     const navbar = document.getElementById('navbarElegant');
     if (navbar) {
@@ -79,145 +72,53 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Toggle menú móvil - MEJORADO
+// Toggle menú móvil
 function toggleNavbarMenu() {
     const menu = document.getElementById('navbarMenu');
     const toggle = document.getElementById('navbarToggle');
-    const body = document.body;
-    
     if (menu && toggle) {
-        const isActive = menu.classList.toggle('active');
+        menu.classList.toggle('active');
         toggle.classList.toggle('active');
-        
-        // ✅ Prevenir scroll del body cuando menú abierto
-        if (isActive) {
-            body.classList.add('menu-open');
-            body.style.overflow = 'hidden';
-        } else {
-            body.classList.remove('menu-open');
-            body.style.overflow = '';
-        }
     }
 }
 
 // Cerrar menú al hacer click en un link (móvil)
-document.addEventListener('DOMContentLoaded', () => {
-    const menuLinks = document.querySelectorAll('.navbar-menu a');
-    
-    menuLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 968) {
-                const menu = document.getElementById('navbarMenu');
-                const toggle = document.getElementById('navbarToggle');
-                
-                if (menu && toggle && menu.classList.contains('active')) {
-                    menu.classList.remove('active');
-                    toggle.classList.remove('active');
-                    document.body.classList.remove('menu-open');
-                    document.body.style.overflow = '';
-                }
-            }
-        });
-    });
-    
-    // ✅ Cerrar menú al hacer click fuera del navbar
-    document.addEventListener('click', (e) => {
-        const navbar = document.getElementById('navbarElegant');
-        const menu = document.getElementById('navbarMenu');
-        const toggle = document.getElementById('navbarToggle');
-        
-        if (menu && 
-            menu.classList.contains('active') && 
-            !navbar.contains(e.target)) {
-            menu.classList.remove('active');
-            toggle.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            document.body.style.overflow = '';
-        }
-    });
-    
-    // ✅ Cerrar menú al cambiar tamaño de ventana a desktop
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 968) {
+document.querySelectorAll('.navbar-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 968) {
             const menu = document.getElementById('navbarMenu');
             const toggle = document.getElementById('navbarToggle');
-            
-            if (menu && menu.classList.contains('active')) {
+            if (menu && toggle) {
                 menu.classList.remove('active');
                 toggle.classList.remove('active');
-                document.body.classList.remove('menu-open');
-                document.body.style.overflow = '';
             }
         }
     });
-    
-    // ✅ Actualizar contador del carrito si existe
-    updateCartBadge();
 });
-
-// Función para actualizar el badge del carrito
-function updateCartBadge() {
-    const badge = document.getElementById('cartBadge');
-    const cartCount = document.getElementById('cartCount');
-    
-    if (badge && cartCount) {
-        // Sincronizar con el contador del carrito
-        badge.textContent = cartCount.textContent || '0';
-    }
-}
-
-// ✅ Smooth scroll para los links del menú
-document.querySelectorAll('.navbar-menu a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            // Offset para el navbar sticky
-            const navbarHeight = document.getElementById('navbarElegant')?.offsetHeight || 70;
-            const targetPosition = target.offsetTop - navbarHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// ✅ Prevenir zoom en iOS cuando se hace click en inputs
-if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-    const viewport = document.querySelector('meta[name=viewport]');
-    if (viewport) {
-        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-    }
-}
-
-
 </script>
-    <!-- Hero Section -->
-    <section class="hero">
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="assets/hoyoenuno4.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Simulador de Golf Premium</h1>
-            <p>Entrena, juega y compite en los mejores campos del mundo sin salir de Playtomic</p>
-            <div class="hero-features">
 
-                <div class="hero-feature">
-                    📊 Tecnología 3D
-                </div>
-                <div class="hero-feature">
-                    🌍 Campos Mundiales
-                </div>
+<!-- Hero Section -->
+<section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="assets/hoyoenuno4.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Simulador de Golf Premium</h1>
+        <p>Entrena, juega y compite en los mejores campos del mundo sin salir de Playtomic</p>
+        <div class="hero-features">
+            <div class="hero-feature">
+                📊 Tecnología 3D
+            </div>
+            <div class="hero-feature">
+                🌍 Campos Mundiales
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Main Container -->
-   <div class="container">
+<!-- Main Container -->
+<div class="container">
     <!-- Warning Alert con estilos inline -->
     <div style="
         background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
@@ -254,394 +155,360 @@ if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
         </button>
     </div>
 
-       <!-- ============================================ -->
-<!-- SECCIÓN DE SERVICIOS - HTML COMPLETO -->
-<!-- Reemplazar toda la sección .services-grid -->
-<!-- ============================================ -->
-
-<!-- ============================================ -->
-<!-- TARJETAS ACTUALIZADAS CON SELECTOR DE DURACIÓN -->
-<!-- Reemplazar en tu index.html -->
-<!-- ============================================ -->
-
-<div class="services-grid">
-    
-    <!-- ========================================== -->
-    <!-- ACADEMIA - CLASE INDIVIDUAL -->
-    <!-- ========================================== -->
-    <div class="service-card" data-category="academia" data-service-id="1">
-        <div class="service-header">
-            <div class="service-badge">Popular</div>
-            <div class="service-title">Clase Individual</div>
-            <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
-        </div>
-        <div class="service-body">
-            <div class="service-price">
-                <span class="price-amount">$800</span>
-                <span class="price-label">por clase</span>
+    <!-- SERVICES GRID -->
+    <div class="services-grid">
+        
+        <!-- ACADEMIA - CLASE INDIVIDUAL -->
+        <div class="service-card" data-category="academia" data-service-id="1">
+            <div class="service-header">
+                <div class="service-badge">Popular</div>
+                <div class="service-title">Clase Individual</div>
+                <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
             </div>
-            <ul class="service-features">
-                <li>Instructor profesional personalizado</li>
-                <li>Análisis de swing en tiempo real</li>
-                <li>Corrección de técnica</li>
-                <li>Duración: 1 hora</li>
-            </ul>
-            
-            <div class="reservation-section">
-                <div class="reservation-title">📅 Reserva tu clase</div>
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <label class="input-label">Fecha</label>
-                        <input type="date" class="input-field reservation-date" id="date-academia-1" required>
-                    </div>
-                    
-                    <div class="input-wrapper">
-                        <label class="input-label">Hora</label>
-                        <select class="input-field reservation-time" id="time-academia-1" required disabled>
-                            <option value="">Selecciona fecha primero</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-wrapper full-width">
-                        <label class="input-label">Cantidad de clases</label>
-                        <div class="quantity-control">
-                            <button type="button" class="qty-btn" onclick="updateQty(this, -1)">-</button>
-                            <span class="qty-display">1</span>
-                            <button type="button" class="qty-btn" onclick="updateQty(this, 1)">+</button>
+            <div class="service-body">
+                <div class="service-price">
+                    <span class="price-amount">$800</span>
+                    <span class="price-label">por clase</span>
+                </div>
+                <ul class="service-features">
+                    <li>Instructor profesional personalizado</li>
+                    <li>Análisis de swing en tiempo real</li>
+                    <li>Corrección de técnica</li>
+                    <li>Duración: 1 hora</li>
+                </ul>
+                
+                <div class="reservation-section">
+                    <div class="reservation-title">📅 Reserva tu clase</div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label class="input-label">Fecha</label>
+                            <input type="date" class="input-field reservation-date" id="date-academia-1" required>
+                        </div>
+                        
+                        <div class="input-wrapper">
+                            <label class="input-label">Hora</label>
+                            <select class="input-field reservation-time" id="time-academia-1" required disabled>
+                                <option value="">Selecciona fecha primero</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-wrapper full-width">
+                            <label class="input-label">Cantidad de clases</label>
+                            <div class="quantity-control">
+                                <button type="button" class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                                <span class="qty-display">1</span>
+                                <button type="button" class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
+                <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Clase Individual', 800)">
+                    ✅ Reservar Ahora
+                </button>
             </div>
-            
-            <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Clase Individual', 800)">
-                ✅ Reservar Ahora
-            </button>
         </div>
-    </div>
 
-    <!-- ========================================== -->
-    <!-- ACADEMIA - PAQUETE 5 CLASES -->
-    <!-- ========================================== -->
-    <div class="service-card" data-category="academia" data-service-id="2">
-        <div class="service-header">
-            <div class="service-badge">Ahorro $500</div>
-            <div class="service-title">Paquete 5 Clases</div>
-            <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
-        </div>
-        <div class="service-body">
-            <div class="service-price">
-                <span class="price-amount">$3,500</span>
-                <span class="price-label">paquete completo</span>
+        <!-- ACADEMIA - PAQUETE 5 CLASES -->
+        <div class="service-card" data-category="academia" data-service-id="2">
+            <div class="service-header">
+                <div class="service-badge">Ahorro $500</div>
+                <div class="service-title">Paquete 5 Clases</div>
+                <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
             </div>
-            <ul class="service-features">
-                <li>5 clases individuales</li>
-                <li>$700 por clase (ahorro de $100)</li>
-                <li>Seguimiento continuo</li>
-                <li>Plan personalizado</li>
-            </ul>
-            
-            <div class="reservation-section">
-                <div class="reservation-title">📅 Primera clase</div>
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <label class="input-label">Fecha</label>
-                        <input type="date" class="input-field reservation-date" id="date-academia-2" required>
-                    </div>
-                    
-                    <div class="input-wrapper">
-                        <label class="input-label">Hora</label>
-                        <select class="input-field reservation-time" id="time-academia-2" required disabled>
-                            <option value="">Selecciona fecha primero</option>
-                        </select>
+            <div class="service-body">
+                <div class="service-price">
+                    <span class="price-amount">$3,500</span>
+                    <span class="price-label">paquete completo</span>
+                </div>
+                <ul class="service-features">
+                    <li>5 clases individuales</li>
+                    <li>$700 por clase (ahorro de $100)</li>
+                    <li>Seguimiento continuo</li>
+                    <li>Plan personalizado</li>
+                </ul>
+                
+                <div class="reservation-section">
+                    <div class="reservation-title">📅 Primera clase</div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label class="input-label">Fecha</label>
+                            <input type="date" class="input-field reservation-date" id="date-academia-2" required>
+                        </div>
+                        
+                        <div class="input-wrapper">
+                            <label class="input-label">Hora</label>
+                            <select class="input-field reservation-time" id="time-academia-2" required disabled>
+                                <option value="">Selecciona fecha primero</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                
+                <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Paquete 5 Clases', 3500)">
+                    ✅ Reservar Paquete
+                </button>
             </div>
-            
-            <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Paquete 5 Clases', 3500)">
-                ✅ Reservar Paquete
-            </button>
         </div>
-    </div>
 
-    <!-- ========================================== -->
-    <!-- ACADEMIA - PAQUETE 10 CLASES -->
-    <!-- ========================================== -->
-    <div class="service-card" data-category="academia" data-service-id="3">
-        <div class="service-header">
-            <div class="service-badge">Mejor Oferta</div>
-            <div class="service-title">Paquete 10 Clases</div>
-            <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
-        </div>
-        <div class="service-body">
-            <div class="service-price">
-                <span class="price-amount">$6,250</span>
-                <span class="price-label">paquete completo</span>
+        <!-- ACADEMIA - PAQUETE 10 CLASES -->
+        <div class="service-card" data-category="academia" data-service-id="3">
+            <div class="service-header">
+                <div class="service-badge">Mejor Oferta</div>
+                <div class="service-title">Paquete 10 Clases</div>
+                <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
             </div>
-            <ul class="service-features">
-                <li>10 clases individuales</li>
-                <li>$625 por clase (ahorro de $175)</li>
-                <li>Certificado de participación</li>
-                <li>Análisis de video incluido</li>
-            </ul>
-            
-            <div class="reservation-section">
-                <div class="reservation-title">📅 Primera clase</div>
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <label class="input-label">Fecha</label>
-                        <input type="date" class="input-field reservation-date" id="date-academia-3" required>
-                    </div>
-                    
-                    <div class="input-wrapper">
-                        <label class="input-label">Hora</label>
-                        <select class="input-field reservation-time" id="time-academia-3" required disabled>
-                            <option value="">Selecciona fecha primero</option>
-                        </select>
+            <div class="service-body">
+                <div class="service-price">
+                    <span class="price-amount">$6,250</span>
+                    <span class="price-label">paquete completo</span>
+                </div>
+                <ul class="service-features">
+                    <li>10 clases individuales</li>
+                    <li>$625 por clase (ahorro de $175)</li>
+                    <li>Certificado de participación</li>
+                    <li>Análisis de video incluido</li>
+                </ul>
+                
+                <div class="reservation-section">
+                    <div class="reservation-title">📅 Primera clase</div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label class="input-label">Fecha</label>
+                            <input type="date" class="input-field reservation-date" id="date-academia-3" required>
+                        </div>
+                        
+                        <div class="input-wrapper">
+                            <label class="input-label">Hora</label>
+                            <select class="input-field reservation-time" id="time-academia-3" required disabled>
+                                <option value="">Selecciona fecha primero</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                
+                <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Paquete 10 Clases', 6250)">
+                    ✅ Reservar Paquete
+                </button>
             </div>
-            
-            <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Paquete 10 Clases', 6250)">
-                ✅ Reservar Paquete
-            </button>
         </div>
-    </div>
 
-    <!-- ========================================== -->
-    <!-- SIMULADOR - TARJETA ÚNICA CON SELECTOR -->
-    <!-- ========================================== -->
-    <div class="service-card" data-category="simulador" data-service-id="simulador">
-        <div class="service-header">
-            <div class="service-badge">Flexible</div>
-            <div class="service-title">Renta de Simulador</div>
-            <div class="service-subtitle">Elige tu horario y duración</div>
-        </div>
-        <div class="service-body">
-            <div class="service-price">
-                <span class="price-amount" id="price-simulador">$200 - $600</span>
-                <span class="price-label">según horario</span>
+        <!-- SIMULADOR - TARJETA ÚNICA CON SELECTOR -->
+        <div class="service-card" data-category="simulador" data-service-id="simulador">
+            <div class="service-header">
+                <div class="service-badge">Flexible</div>
+                <div class="service-title">Renta de Simulador</div>
+                <div class="service-subtitle">Elige tu horario y duración</div>
             </div>
-            <ul class="service-features">
-                <li>Acceso completo al simulador 3D</li>
-                <li>Más de 100 campos disponibles</li>
-                <li>Estadísticas en tiempo real</li>
-                <li>Precio varía según día y hora</li>
-            </ul>
-            
-            <div class="reservation-section">
-                <div class="reservation-title">📅 Reserva tu sesión</div>
-                <div class="input-group">
-                    <!-- FECHA -->
-                    <div class="input-wrapper">
-                        <label class="input-label">Fecha</label>
-                        <input 
-                            type="date" 
-                            class="input-field reservation-date" 
-                            id="date-simulador"
-                            required
-                        >
-                    </div>
-                    
-                    <!-- DURACIÓN -->
-                    <div class="input-wrapper">
-                        <label class="input-label">Duración</label>
-                        <select 
-                            class="input-field" 
-                            id="duration-simulador"
-                            required
-                        >
-                            <option value="">Selecciona</option>
-                            <option value="30">30 minutos</option>
-                            <option value="60">1 hora</option>
-                        </select>
-                    </div>
-                    
-                    <!-- HORA -->
-                    <div class="input-wrapper full-width">
-                        <label class="input-label">Horario disponible</label>
-                        <select 
-                            class="input-field reservation-time" 
-                            id="time-simulador"
-                            required 
-                            disabled
-                        >
-                            <option value="">Primero selecciona fecha y duración</option>
-                        </select>
+            <div class="service-body">
+                <div class="service-price">
+                    <span class="price-amount" id="price-simulador">$200 - $600</span>
+                    <span class="price-label">según horario</span>
+                </div>
+                <ul class="service-features">
+                    <li>Acceso completo al simulador 3D</li>
+                    <li>Más de 100 campos disponibles</li>
+                    <li>Estadísticas en tiempo real</li>
+                    <li>Precio varía según día y hora</li>
+                </ul>
+                
+                <div class="reservation-section">
+                    <div class="reservation-title">📅 Reserva tu sesión</div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label class="input-label">Fecha</label>
+                            <input 
+                                type="date" 
+                                class="input-field reservation-date" 
+                                id="date-simulador"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="input-wrapper">
+                            <label class="input-label">Duración</label>
+                            <select 
+                                class="input-field" 
+                                id="duration-simulador"
+                                required
+                            >
+                                <option value="">Selecciona</option>
+                                <option value="30">30 minutos</option>
+                                <option value="60">1 hora</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-wrapper full-width">
+                            <label class="input-label">Horario disponible</label>
+                            <select 
+                                class="input-field reservation-time" 
+                                id="time-simulador"
+                                required 
+                                disabled
+                            >
+                                <option value="">Primero selecciona fecha y duración</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                
+                <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Renta de Simulador', 0)">
+                    ✅ Reservar Ahora
+                </button>
             </div>
-            
-<button class="add-to-cart-btn" onclick="realizarReserva(this, 'Renta de Simulador', 0)">
-    ✅ Reservar Ahora
-</button>
+        </div>
 
+    </div>
+    <!-- FIN DE SERVICES GRID -->
+
+    <!-- Video Showcase Section -->
+    <div class="video-showcase">
+        <h2 class="video-showcase-title">🏆 ¡Hoyo en Uno!</h2>
+        <p class="video-showcase-subtitle">
+            Vive la emoción de conseguir el golpe perfecto en nuestro simulador de última generación
+        </p>
+        <div class="video-container">
+            <div class="video-badge">⛳ Hole in One</div>
+            <video controls playsinline>
+                <source src="assets/hoyoenuno1.mp4" type="video/mp4">
+                Tu navegador no soporta videos HTML5.
+            </video>
         </div>
     </div>
 
+    <!-- Game Information Section -->
+    <div class="info-section">
+        <h2 class="info-title">🎮 Información del Juego</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Fairway</h3>
+                <ul>
+                    <li>Sin penalización</li>
+                    <li>Superficie ideal para máxima distancia y control</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Rough</h3>
+                <ul>
+                    <li>Hasta -10% de distancia</li>
+                    <li>Hasta -15% menos Backspin</li>
+                    <li>Recomendado usar bastones con más loft (ej. Hierro 8 o superior)</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Deep Rough</h3>
+                <ul>
+                    <li>Penalización variable</li>
+                    <li>Hasta -60% con maderas</li>
+                    <li>Alrededor de -20% con Wedges</li>
+                    <li>Eleva el ángulo de lanzamiento para un mejor tiro</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>Bunker</h3>
+                <ul>
+                    <li>Reducción extrema en spin y velocidad de bola</li>
+                    <li>Sólo se puede salir bien con bastones como Sand Wedge o Low Wedge</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-section">
+        <h2 class="history-title">📖 La Historia de los Simuladores de Golf</h2>
+        <div class="history-content">
+            <p>
+                Los primeros simuladores aparecieron en los años 70 con pantallas básicas y sensores simples. 
+                En los 90, la tecnología digital trajo cámaras y mediciones más precisas, convirtiéndolos en una 
+                verdadera herramienta de entrenamiento.
+            </p>
+            <p style="margin-top: 1rem;">
+                Hoy, con sensores de alta velocidad y software 3D, los simuladores reproducen campos de golf de 
+                todo el mundo, permitiendo jugar, entrenar y competir en interiores con la misma emoción que en 
+                un campo real.
+            </p>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+        <h3 class="contact-title">📞 Contacto</h3>
+        <p style="color: var(--gray); margin-bottom: 1rem;">
+            ¿Tienes dudas? Contáctanos por WhatsApp
+        </p>
+        <div class="contact-info">
+            <div class="contact-item">
+                📱 <strong>WhatsApp:</strong> 33 223 968 25
+            </div>
+            <div class="contact-item">
+                🕐 <strong>Horario:</strong> Lunes a Sábado, 7:00 AM - 11:00 PM
+            </div>
+        </div>
+    </div>
 </div>
-<!-- FIN DE SERVICES GRID -->
 
-        <!-- Video Showcase Section -->
-        <div class="video-showcase">
-            <h2 class="video-showcase-title">🏆 ¡Hoyo en Uno!</h2>
-            <p class="video-showcase-subtitle">
-                Vive la emoción de conseguir el golpe perfecto en nuestro simulador de última generación
-            </p>
-            <div class="video-container">
-                <div class="video-badge">⛳ Hole in One</div>
-                <video controls playsinline>
-                    <source src="assets/hoyoenuno1.mp4" type="video/mp4">
-                    Tu navegador no soporta videos HTML5.
-                </video>
-            </div>
-        </div>
-
-        <!-- Game Information Section -->
-        <div class="info-section">
-            <h2 class="info-title">🎮 Información del Juego</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Fairway</h3>
-                    <ul>
-                        <li>Sin penalización</li>
-                        <li>Superficie ideal para máxima distancia y control</li>
-                    </ul>
-                </div>
-                <div class="info-card">
-                    <h3>Rough</h3>
-                    <ul>
-                        <li>Hasta -10% de distancia</li>
-                        <li>Hasta -15% menos Backspin</li>
-                        <li>Recomendado usar bastones con más loft (ej. Hierro 8 o superior)</li>
-                    </ul>
-                </div>
-                <div class="info-card">
-                    <h3>Deep Rough</h3>
-                    <ul>
-                        <li>Penalización variable</li>
-                        <li>Hasta -60% con maderas</li>
-                        <li>Alrededor de -20% con Wedges</li>
-                        <li>Eleva el ángulo de lanzamiento para un mejor tiro</li>
-                    </ul>
-                </div>
-                <div class="info-card">
-                    <h3>Bunker</h3>
-                    <ul>
-                        <li>Reducción extrema en spin y velocidad de bola</li>
-                        <li>Sólo se puede salir bien con bastones como Sand Wedge o Low Wedge</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- History Section -->
-        <div class="history-section">
-            <h2 class="history-title">📖 La Historia de los Simuladores de Golf</h2>
-            <div class="history-content">
-                <p>
-                    Los primeros simuladores aparecieron en los años 70 con pantallas básicas y sensores simples. 
-                    En los 90, la tecnología digital trajo cámaras y mediciones más precisas, convirtiéndolos en una 
-                    verdadera herramienta de entrenamiento.
-                </p>
-                <p style="margin-top: 1rem;">
-                    Hoy, con sensores de alta velocidad y software 3D, los simuladores reproducen campos de golf de 
-                    todo el mundo, permitiendo jugar, entrenar y competir en interiores con la misma emoción que en 
-                    un campo real.
-                </p>
-            </div>
-        </div>
-
-        <!-- Contact Section -->
-        <div class="contact-section">
-            <h3 class="contact-title">📞 Contacto</h3>
-            <p style="color: var(--gray); margin-bottom: 1rem;">
-                ¿Tienes dudas? Contáctanos por WhatsApp
-            </p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    📱 <strong>WhatsApp:</strong> 33 223 968 25
-                </div>
-                <div class="contact-item">
-                    🕐 <strong>Horario:</strong> Lunes a Sábado, 7:00 AM - 11:00 PM
-                </div>
-            </div>
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h2>🛒 Tu Carrito</h2>
+        <button class="close-cart" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+        <div class="cart-empty">
+            <div class="cart-empty-icon">🛒</div>
+            <p>Tu carrito está vacío</p>
         </div>
     </div>
-
-    <!-- Cart Sidebar -->
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h2>🛒 Tu Carrito</h2>
-            <button class="close-cart" onclick="toggleCart()">×</button>
+    <div class="cart-footer" id="cartFooter" style="display: none;">
+        <div class="cart-total">
+            <span class="cart-total-label">Total:</span>
+            <span class="cart-total-amount" id="cartTotal">$0</span>
         </div>
-        <div class="cart-items" id="cartItems">
-            <div class="cart-empty">
-                <div class="cart-empty-icon">🛒</div>
-                <p>Tu carrito está vacío</p>
-            </div>
-        </div>
-        <div class="cart-footer" id="cartFooter" style="display: none;">
-            <div class="cart-total">
-                <span class="cart-total-label">Total:</span>
-                <span class="cart-total-amount" id="cartTotal">$0</span>
-            </div>
-            <div class="payment-options">
-                <button class="payment-btn primary" onclick="processPayment('online')">
-                    💳 Pagar en Línea
-                </button>
-                <button class="payment-btn secondary" onclick="processPayment('instore')">
-                    🏪 Pagar en Establecimiento
-                </button>
-            </div>
+        <div class="payment-options">
+            <button class="payment-btn primary" onclick="processPayment('online')">
+                💳 Pagar en Línea
+            </button>
+            <button class="payment-btn secondary" onclick="processPayment('instore')">
+                🏪 Pagar en Establecimiento
+            </button>
         </div>
     </div>
+</div>
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
-    <!-- Success Modal -->
-    <div class="success-modal" id="successModal">
-        <div class="success-icon">✅</div>
-        <h3 class="success-title">¡Reserva Confirmada!</h3>
-        <p class="success-message">Te hemos enviado los detalles por WhatsApp. ¡Nos vemos pronto!</p>
-        <button class="success-close" onclick="closeSuccessModal()">Entendido</button>
-    </div>
+<!-- Notification -->
+<div class="notification" id="notification">
+    <span class="notification-icon">✅</span>
+    <span class="notification-text" id="notificationText"></span>
+</div>
 
-
-
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        <span class="notification-icon">✅</span>
-        <span class="notification-text" id="notificationText"></span>
-    </div>
-<!-- ⚠️ PRIMERO: Cargar librería de Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="categorias.js" ></script>
-    <!-- Supabase Integration -->
-    <script src="supabase-integration.js"></script>
-
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="categorias.js"></script>
+<script src="supabase-integration.js"></script>
 
 <!-- IMPORTAR WIDGET DE WHATSAPP -->
-    <div id="whatsapp-widget-container"></div>
-    
-    <script>
-        fetch('wswidget.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('whatsapp-widget-container').innerHTML = html;
-                
-                // Ejecutar scripts del widget
-                const container = document.getElementById('whatsapp-widget-container');
-                const scripts = container.getElementsByTagName('script');
-                for (let script of scripts) {
-                    const newScript = document.createElement('script');
-                    newScript.textContent = script.textContent;
-                    document.body.appendChild(newScript);
-                }
-            })
-            .catch(error => console.error('Error cargando widget:', error));
-    </script>
+<div id="whatsapp-widget-container"></div>
 
+<script>
+    fetch('wswidget.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('whatsapp-widget-container').innerHTML = html;
+            
+            const container = document.getElementById('whatsapp-widget-container');
+            const scripts = container.getElementsByTagName('script');
+            for (let script of scripts) {
+                const newScript = document.createElement('script');
+                newScript.textContent = script.textContent;
+                document.body.appendChild(newScript);
+            }
+        })
+        .catch(error => console.error('Error cargando widget:', error));
+</script>
 
 </body>
 </html>
