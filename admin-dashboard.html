@@ -201,7 +201,7 @@
             box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
         }
 
-        /* TABLA */
+        /* TABLA - DESKTOP */
         .table-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -291,317 +291,183 @@
             opacity: 0.5;
         }
 
-       @media (max-width: 768px) {
-    .header {
-        padding: 0.875rem 1rem;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-    
-    .logo {
-        font-size: 1.25rem;
-    }
-    
-    .container {
-        margin: 1rem auto;
-        padding: 0 0.5rem;
-    }
-    
-    /* Stats en 2 columnas */
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-    }
-    
-    .stat-card {
-        padding: 0.875rem;
-    }
-    
-    .stat-value {
-        font-size: 1.5rem;
-    }
-    
-    .stat-icon {
-        font-size: 1.5rem;
-    }
-    
-    /* Section */
-    .section {
-        padding: 0.75rem;
-        border-radius: 12px;
-        margin: 0 -0.5rem;
-    }
-    
-    .section-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-    }
-    
-    .section-title {
-        font-size: 1.1rem;
-        text-align: center;
-    }
-    
-    /* Filtros en columna */
-    .filters {
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .filter-input {
-        width: 100%;
-        min-width: auto;
-        font-size: 16px;
-        padding: 0.65rem;
-    }
-    
-    /* TABLA RESPONSIVE - SCROLL HORIZONTAL */
-    .table-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-radius: 8px;
-        border: 1px solid #e5e7eb;
-        margin: 0 -0.75rem;
-    }
-    
-    /* Tabla con ancho mínimo */
-    table {
-        min-width: 900px;
-        font-size: 0.75rem;
-    }
-    
-    table th,
-    table td {
-        padding: 0.5rem 0.35rem;
-        white-space: nowrap;
-    }
-    
-    /* ID más compacto */
-    table td:first-child {
-        font-size: 0.7rem;
-    }
-    
-    /* Nombres de cliente más pequeños */
-    table td strong {
-        font-size: 0.8rem;
-        display: block;
-    }
-    
-    table td small {
-        font-size: 0.65rem;
-    }
-    
-    /* Status badges más pequeños */
-    .status-badge {
-        font-size: 0.65rem;
-        padding: 0.25rem 0.6rem;
-    }
-    
-    /* Botones de acción */
-    .action-btns {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-    }
-    
-    .btn-sm {
-        font-size: 0.7rem;
-        padding: 0.35rem 0.65rem;
-        white-space: nowrap;
-    }
-    
-    /* Botones principales */
-    .btn {
-        font-size: 0.85rem;
-        padding: 0.65rem 1rem;
-        white-space: nowrap;
-    }
-    
-    /* Indicador de scroll */
-    .table-wrapper::after {
-        content: '← Desliza para ver más →';
-        position: sticky;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
-        text-align: center;
-        padding: 0.5rem;
-        font-size: 0.7rem;
-        color: #6b7280;
-        pointer-events: none;
-        border-top: 1px solid #e5e7eb;
-        display: block;
-    }
-}
+        /* ============================================ */
+        /* CARDS PARA MÓVIL */
+        /* ============================================ */
 
-/* ============================================ */
-/* MOBILE PEQUEÑO - 480px y menos */
-/* ============================================ */
+        .reservation-cards {
+            display: none;
+        }
 
-@media (max-width: 480px) {
-    .header {
-        padding: 0.75rem 0.75rem;
-    }
-    
-    .logo {
-        font-size: 1.1rem;
-    }
-    
-    .container {
-        padding: 0 0.25rem;
-    }
-    
-    /* Stats en 1 columna */
-    .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 0.65rem;
-    }
-    
-    .stat-card {
-        padding: 0.75rem;
-    }
-    
-    .stat-label {
-        font-size: 0.8rem;
-    }
-    
-    .stat-value {
-        font-size: 1.5rem;
-    }
-    
-    .stat-icon {
-        font-size: 1.35rem;
-    }
-    
-    /* Section */
-    .section {
-        padding: 0.65rem;
-        margin: 0 -0.25rem;
-    }
-    
-    .section-title {
-        font-size: 1rem;
-    }
-    
-    /* Filtros */
-    .filters {
-        gap: 0.5rem;
-    }
-    
-    .filter-input {
-        padding: 0.6rem;
-        font-size: 14px;
-    }
-    
-    /* Tabla aún más compacta */
-    table {
-        min-width: 850px;
-        font-size: 0.7rem;
-    }
-    
-    table th,
-    table td {
-        padding: 0.45rem 0.3rem;
-    }
-    
-    .status-badge {
-        font-size: 0.6rem;
-        padding: 0.2rem 0.5rem;
-    }
-    
-    .btn-sm {
-        font-size: 0.65rem;
-        padding: 0.3rem 0.55rem;
-    }
-    
-    /* Botones principales */
-    .btn {
-        font-size: 0.8rem;
-        padding: 0.6rem 0.875rem;
-    }
-}
+        .reservation-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
 
-/* ============================================ */
-/* LANDSCAPE EN MÓVIL */
-/* ============================================ */
+        .reservation-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
 
-@media (max-width: 768px) and (orientation: landscape) {
-    .stats-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
-    }
-    
-    .stat-card {
-        padding: 0.65rem;
-    }
-    
-    .stat-value {
-        font-size: 1.35rem;
-    }
-    
-    .section {
-        padding: 0.75rem;
-    }
-}
+        .reservation-id {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
 
-/* ============================================ */
-/* MEJORAS DE ACCESIBILIDAD */
-/* ============================================ */
+        .reservation-card-body {
+            display: grid;
+            gap: 0.5rem;
+        }
 
-@media (max-width: 768px) {
-    /* Área de toque mínima */
-    .btn,
-    .filter-input {
-        min-height: 44px;
-    }
-    
-    /* Feedback táctil */
-    .btn:active {
-        opacity: 0.8;
-        transform: scale(0.98);
-    }
-}
+        .reservation-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
 
-/* ============================================ */
-/* FIX PARA iOS */
-/* ============================================ */
+        .reservation-info-icon {
+            font-size: 1.1rem;
+            width: 24px;
+        }
 
-input,
-select,
-button {
-    font-size: 16px !important;
-    -webkit-appearance: none;
-    appearance: none;
-}
+        .reservation-info strong {
+            color: var(--dark);
+            margin-right: 0.25rem;
+        }
 
-/* ============================================ */
-/* NOMBRES MÁS LEGIBLES EN MÓVIL */
-/* ============================================ */
+        .reservation-card-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 2px solid #e5e7eb;
+            display: flex;
+            gap: 0.5rem;
+        }
 
-@media (max-width: 768px) {
-    /* Permitir wrap en nombres largos */
-    table td:nth-child(4) {
-        white-space: normal;
-        min-width: 100px;
-        max-width: 120px;
-        line-height: 1.3;
-    }
-    
-    /* ID más visible */
-    table td:first-child strong {
-        color: var(--primary);
-    }
-}
+        .reservation-card-footer .btn {
+            flex: 1;
+        }
 
+        /* ============================================ */
+        /* RESPONSIVE - MÓVIL */
+        /* ============================================ */
 
+        @media (max-width: 768px) {
+            /* Header */
+            .header {
+                padding: 0.875rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+            
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .btn-primary {
+                font-size: 0.85rem;
+                padding: 0.65rem 1rem;
+            }
+            
+            /* Container */
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+            
+            /* Stats en 2 columnas */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-icon {
+                font-size: 1.5rem;
+            }
+            
+            /* Section */
+            .section {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+                text-align: center;
+            }
+            
+            /* Filtros */
+            .filters {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .filter-input {
+                width: 100%;
+                min-width: auto;
+                font-size: 16px;
+                padding: 0.75rem;
+            }
+            
+            /* OCULTAR TABLA, MOSTRAR CARDS */
+            .table-wrapper {
+                display: none !important;
+            }
+
+            .reservation-cards {
+                display: block !important;
+            }
+
+            /* Botones en cards */
+            .btn-sm {
+                font-size: 0.85rem;
+                padding: 0.6rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Stats en 1 columna */
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .section {
+                padding: 0.875rem;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="logo">⛳ Hoyo en Uno</div>
+        <div class="logo">⛳ Hoyo en Uno Admin</div>
         <button class="btn btn-primary" onclick="signOut()">Cerrar Sesión</button>
     </header>
 
@@ -649,7 +515,16 @@ button {
                 <input type="text" class="filter-input" id="filterSearch" placeholder="Buscar por nombre..." onkeyup="applyFilters()">
             </div>
 
+            <!-- Tabla (Desktop) -->
             <div id="reservationsTable">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>Cargando reservas...</p>
+                </div>
+            </div>
+
+            <!-- Cards (Móvil) -->
+            <div id="reservationsCards" class="reservation-cards">
                 <div class="empty-state">
                     <div class="empty-state-icon">📋</div>
                     <p>Cargando reservas...</p>
@@ -720,22 +595,39 @@ button {
                         <p>Error al cargar las reservas</p>
                     </div>
                 `;
+                document.getElementById('reservationsCards').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <p>Error al cargar las reservas</p>
+                    </div>
+                `;
             }
         }
 
         function renderReservations(reservations) {
-            const container = document.getElementById('reservationsTable');
+            const tableContainer = document.getElementById('reservationsTable');
+            const cardsContainer = document.getElementById('reservationsCards');
 
             if (!reservations || reservations.length === 0) {
-                container.innerHTML = `
+                const emptyHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📋</div>
                         <p>No hay reservas para mostrar</p>
                     </div>
                 `;
+                tableContainer.innerHTML = emptyHTML;
+                cardsContainer.innerHTML = emptyHTML;
                 return;
             }
 
+            // RENDERIZAR TABLA (Desktop)
+            renderTable(reservations, tableContainer);
+
+            // RENDERIZAR CARDS (Móvil)
+            renderCards(reservations, cardsContainer);
+        }
+
+        function renderTable(reservations, container) {
             let html = `
                 <div class="table-wrapper">
                     <table class="table">
@@ -801,6 +693,82 @@ button {
             `;
 
             container.innerHTML = html;
+        }
+
+        function renderCards(reservations, container) {
+            let html = '';
+
+            reservations.forEach(r => {
+                const statusClass = `status-${r.status}`;
+                const statusText = {
+                    'pending': 'Pendiente',
+                    'confirmed': 'Confirmada',
+                    'completed': 'Completada',
+                    'cancelled': 'Cancelada',
+                    'no_show': 'No asistió'
+                }[r.status] || r.status;
+
+                html += `
+                    <div class="reservation-card">
+                        <div class="reservation-card-header">
+                            <span class="reservation-id">#${r.id}</span>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        
+                        <div class="reservation-card-body">
+                            <div class="reservation-info">
+                                <span class="reservation-info-icon">📅</span>
+                                <span><strong>Fecha:</strong> ${formatDate(r.reservation_date)}</span>
+                            </div>
+                            
+                            <div class="reservation-info">
+                                <span class="reservation-info-icon">🕐</span>
+                                <span><strong>Hora:</strong> ${formatTime(r.reservation_time)}</span>
+                            </div>
+                            
+                            <div class="reservation-info">
+                                <span class="reservation-info-icon">👤</span>
+                                <span><strong>Cliente:</strong> ${r.customer_name || 'N/A'}</span>
+                            </div>
+                            
+                            <div class="reservation-info">
+                                <span class="reservation-info-icon">📱</span>
+                                <span>${r.customer_phone || 'Sin teléfono'}</span>
+                            </div>
+                            
+                            <div class="reservation-info">
+                                <span class="reservation-info-icon">🏌️</span>
+                                <span><strong>Servicio:</strong> ${r.services?.name || 'Servicio #' + r.service_id}</span>
+                            </div>
+                            
+                            <div class="reservation-info">
+                                <span class="reservation-info-icon">💰</span>
+                                <span><strong>Total:</strong> $${parseFloat(r.total_amount).toLocaleString('es-MX')}</span>
+                            </div>
+                        </div>
+
+                        <div class="reservation-card-footer">
+                            ${r.status === 'pending' ? `
+                                <button class="btn btn-success btn-sm" onclick="confirmReservation(${r.id})">
+                                    ✓ Confirmar
+                                </button>
+                            ` : ''}
+                            ${r.status !== 'cancelled' ? `
+                                <button class="btn btn-danger btn-sm" onclick="cancelReservation(${r.id})">
+                                    ✕ Cancelar
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html || `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>No hay reservas para mostrar</p>
+                </div>
+            `;
         }
 
         function applyFilters() {
