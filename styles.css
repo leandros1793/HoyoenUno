@@ -190,6 +190,7 @@ body {
     font-size: 18px;
 }
 
+/* ✅ PONER ESTO: */
 .navbar-cart-badge {
     background: #c9b55a;
     color: #1a472a;
@@ -202,6 +203,7 @@ body {
     font-size: 12px;
     font-weight: 800;
     box-shadow: 0 2px 8px rgba(201, 181, 90, 0.4);
+    position: relative; /* ✅ AGREGAR ESTO */
 }
 
 /* Toggle hamburguesa */
@@ -1447,4 +1449,24 @@ select.input-field {
 *:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+}
+/* FIX: Badge del carrito en móvil */
+@media (max-width: 640px) {
+    .navbar-cart-btn {
+        position: relative;
+        padding: 0.8rem 1.2rem;
+        gap: 8px;
+    }
+    
+    .navbar-cart-badge {
+        position: relative;
+        top: auto;
+        right: auto;
+        border: none;
+        flex-shrink: 0;
+    }
+    
+    .navbar-cart-btn > span:not(.navbar-cart-icon):not(.navbar-cart-badge) {
+        display: none;
+    }
 }
