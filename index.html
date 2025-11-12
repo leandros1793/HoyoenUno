@@ -4,1353 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoyo en Uno - Golfin-Academy-Bar</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    @media (max-width: 768px) {
+        .container > div:first-child {
+            flex-direction: column !important;
+            text-align: center !important;
+            align-items: center !important;
+            padding: 1.25rem 1.5rem !important;
+        }
+        
+        .container > div:first-child > div:first-child {
+            font-size: 2.5rem !important;
         }
-
-        :root {
-            --primary: #1a472a;
-            --primary-light: #2d6e3e;
-            --secondary: #7cb342;
-            --accent: #ffd700;
-            --dark: #0a1f12;
-            --light: #f5f9f6;
-            --gray: #6b7280;
-            --white: #ffffff;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --gradient-1: linear-gradient(135deg, #1a472a 0%, #2d6e3e 100%);
-            --gradient-2: linear-gradient(135deg, #7cb342 0%, #9ccc65 100%);
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
-            --radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Header Styles */
-        .header {
-            background: var(--white);
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            font-size: 2rem;
-            animation: swing 3s ease-in-out infinite;
-        }
-
-        @keyframes swing {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .cart-btn {
-            position: relative;
-            background: var(--gradient-1);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .cart-badge {
-            background: var(--accent);
-            color: var(--dark);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-       /* Hero Section */
-.hero {
-    position: relative;
-    color: var(--white);
-    padding: 6rem 2rem 3rem; /* Más espacio arriba */
-    text-align: center;
-    overflow: hidden;
-    min-height: 70vh;
-    display: flex;
-    align-items: flex-end; /* Cambiado a flex-end */
-    justify-content: center;
-    padding-bottom: 4rem;
-}
-
-.hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    z-index: 0;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(26, 71, 42, 0.4) 0%, rgba(45, 110, 62, 0.3) 100%); /* Reducido de 0.85 y 0.75 */
-    z-index: 1;
-}
-
-.hero-content {
-    max-width: 700px; /* Más angosto */
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-    background: rgba(26, 71, 42, 0.7);
-    backdrop-filter: blur(12px);
-    padding: 1.25rem 1.75rem; /* Más compacto */
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.hero h1 {
-    font-size: 2rem; /* Más pequeño */
-    margin-bottom: 0.5rem;
-    font-weight: 900;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-}
-
-.hero p {
-    font-size: 1rem;
-    opacity: 0.95;
-    margin-bottom: 1rem;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
-}
-
-.hero-features {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-top: 0.75rem;
-}
-
-.hero-feature {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    padding: 0.5rem 1rem; /* Más pequeño */
-    border-radius: 50px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Category Tabs */
-        .category-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-            scrollbar-width: thin;
-        }
-
-        .category-tabs::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .category-tabs::-webkit-scrollbar-track {
-            background: #e5e7eb;
-            border-radius: 10px;
-        }
-
-        .category-tabs::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .tab {
-            background: var(--white);
-            border: 2px solid #e5e7eb;
-            padding: 1rem 2rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .tab:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .tab.active {
-            background: var(--gradient-1);
-            color: var(--white);
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Service Cards */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .service-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            border: 1px solid #e5e7eb;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-light);
-        }
-
-        .service-header {
-            background: var(--gradient-2);
-            color: var(--white);
-            padding: 1.5rem;
-            position: relative;
-        }
-
-        .service-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--accent);
-            color: var(--dark);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .service-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-
-        .service-subtitle {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-
-        .service-body {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .service-price {
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .price-amount {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--primary);
-        }
-
-        .price-label {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .service-features {
-            list-style: none;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-
-        .service-features li {
-            padding: 0.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--gray);
-        }
-
-        .service-features li::before {
-            content: "✓";
-            color: var(--success);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .reservation-section {
-            background: var(--light);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            margin-bottom: 1.5rem;
-        }
-
-        .reservation-title {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .input-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .input-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .input-wrapper.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .input-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--gray);
-        }
-
-        .input-field {
-            padding: 0.75rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: var(--white);
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
-        }
-
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--white);
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.5rem;
-        }
-
-        .qty-btn {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: var(--transition);
-        }
-
-        .qty-btn:hover {
-            background: var(--primary-light);
-            transform: scale(1.1);
-        }
-
-        .qty-display {
-            font-size: 1.25rem;
-            font-weight: 700;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .add-to-cart-btn {
-            width: 100%;
-            padding: 1rem;
-            background: var(--gradient-1);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .add-to-cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .add-to-cart-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Info Section */
-        .info-section {
-            background: var(--white);
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-        }
-
-        .info-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: var(--primary);
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .info-card {
-            background: var(--light);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            border-left: 4px solid var(--secondary);
-        }
-
-        .info-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary);
-        }
-
-        .info-card ul {
-            list-style: none;
-            color: var(--gray);
-        }
-
-        .info-card li {
-            padding: 0.25rem 0;
-            padding-left: 1.25rem;
-            position: relative;
-        }
-
-        .info-card li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: 700;
-        }
-
-        /* Video Showcase Section */
-        .video-showcase {
-            background: var(--white);
-            padding: 3rem 2rem;
-            margin-top: 3rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-        }
-
-        .video-showcase-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: var(--primary);
-        }
-
-        .video-showcase-subtitle {
-            text-align: center;
-            color: var(--gray);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .video-container {
-            max-width: 900px;
-            margin: 0 auto;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-        }
-
-        .video-container video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .video-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--accent);
-            color: var(--dark);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: var(--shadow-md);
-            z-index: 1;
-        }
-
-        /* History Section */
-        .history-section {
-            background: var(--gradient-1);
-            color: var(--white);
-            padding: 3rem 2rem;
-            margin-top: 3rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .history-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .history-content {
-            max-width: 900px;
-            margin: 0 auto;
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        /* Cart Sidebar */
-        .cart-sidebar {
-            position: fixed;
-            right: -450px;
-            top: 0;
-            width: 450px;
-            height: 100vh;
-            background: var(--white);
-            box-shadow: -4px 0 20px rgba(0,0,0,0.15);
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-sidebar.active {
-            right: 0;
-        }
-
-        .cart-header {
-            background: var(--gradient-1);
-            color: var(--white);
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-header h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
-
-        .close-cart {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: var(--white);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .close-cart:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
-        }
-
-        .cart-items {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-        }
-
-        .cart-item {
-            background: var(--light);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            border: 2px solid #e5e7eb;
-            transition: var(--transition);
-        }
-
-        .cart-item:hover {
-            border-color: var(--primary);
-        }
-
-        .cart-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 0.75rem;
-        }
-
-        .cart-item-title {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-
-        .cart-item-remove {
-            background: var(--danger);
-            color: var(--white);
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .cart-item-remove:hover {
-            transform: scale(1.1);
-            background: #dc2626;
-        }
-
-        .cart-item-details {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .cart-item-price {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 3rem 1.5rem;
-            color: var(--gray);
-        }
-
-        .cart-empty-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        .cart-footer {
-            padding: 1.5rem;
-            background: var(--light);
-            border-top: 2px solid #e5e7eb;
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        .cart-total-label {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .cart-total-amount {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--primary);
-        }
-
-        .payment-options {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .payment-btn {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .payment-btn.primary {
-            background: var(--gradient-1);
-            color: var(--white);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .payment-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .payment-btn.secondary {
-            background: var(--white);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .payment-btn.secondary:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 1999;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Warning Alert */
-        .warning-alert {
-            background: #fef3c7;
-            border: 2px solid #fbbf24;
-            border-radius: var(--radius);
-            padding: 1rem;
-            margin: 1rem 0;
-            display: flex;
-            align-items: start;
-            gap: 1rem;
-        }
-
-        .warning-icon {
-            color: #f59e0b;
-            font-size: 1.5rem;
-        }
-
-        .warning-text {
-            flex-grow: 1;
-            color: #92400e;
-        }
-
-        .warning-title {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        /* WhatsApp Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: #25d366;
-            color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-            z-index: 1000;
-            text-decoration: none;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 48px rgba(37, 211, 102, 0.4);
-        }
-
-        /* Success Modal */
-        .success-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: var(--white);
-            padding: 3rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            z-index: 2001;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .success-modal.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .success-icon {
-            font-size: 5rem;
-            color: var(--success);
-            margin-bottom: 1rem;
-            animation: successPop 0.6s ease;
-        }
-
-        @keyframes successPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .success-title {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .success-message {
-            color: var(--gray);
-            margin-bottom: 2rem;
-        }
-
-        .success-close {
-            background: var(--gradient-1);
-            color: var(--white);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .success-close:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Contact Section */
-        .contact-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-            margin-top: 3rem;
-            text-align: center;
-        }
-
-        .contact-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--gray);
-            font-weight: 600;
-        }
-
-@media (max-width: 768px) {
-    .hero {
-        min-height: 65vh;
-        padding: 2rem 1rem 4rem;
-        padding-top: 4rem;
     }
-
-    .hero-content {
-        padding: 1rem 1.25rem;
-    }
-
-    .hero h1 {
-        font-size: 1.5rem;
-    }
-
-    .hero p {
-        font-size: 0.9rem;
-    }
-
-    .hero-feature {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.75rem;
-    }
-}
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: var(--white);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 2rem;
-            background: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transform: translateX(500px);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification-icon {
-            font-size: 1.5rem;
-        }
-
-        .notification-text {
-            font-weight: 600;
-        }
-    </style>
-    
-    <!-- Supabase Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body>
-    <!-- Header -->
-    <!-- ============================================ -->
-<!-- REEMPLAZO COMPLETO DEL HEADER -->
-<!-- Borrar el <header> actual y pegar esto -->
-<!-- ============================================ -->
-
-<style>
-/* Eliminar estilos viejos del header (opcional, pero recomendado) */
-.header {
-    all: unset;
-}
-
-/* Navbar verde elegante */
-.navbar-elegant {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #1a472a;
-    padding: 1rem 0;
-    z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-
-.navbar-elegant.scrolled {
-    padding: 0.7rem 0;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-}
-
-.navbar-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Logo lado izquierdo */
-.navbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.navbar-logo:hover {
-    transform: scale(1.05);
-}
-
-.navbar-logo img {
-    height: 70px;
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
-    transition: all 0.3s ease;
-}
-
-.navbar-elegant.scrolled .navbar-logo img {
-    height: 55px;
-}
-
-.navbar-logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-}
-
-.navbar-logo-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #c9b55a;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.navbar-logo-subtitle {
-    font-size: 10px;
-    color: rgba(201, 181, 90, 0.8);
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 3px;
-}
-
-/* Menú central */
-.navbar-menu {
-    display: flex;
-    gap: 2.5rem;
-    align-items: center;
-}
-
-.navbar-menu a {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 0.5rem 0;
-}
-
-.navbar-menu a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #c9b55a;
-    transition: width 0.3s ease;
-}
-
-.navbar-menu a:hover {
-    color: #c9b55a;
-}
-
-.navbar-menu a:hover::after {
-    width: 100%;
-}
-
-/* Botón del carrito */
-.navbar-cart-btn {
-    background: #2d6e3e;
-    color: white;
-    padding: 0.8rem 1.8rem;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.navbar-cart-btn:hover {
-    background: #3a8a4f;
-    border-color: #c9b55a;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.navbar-cart-icon {
-    font-size: 18px;
-}
-
-.navbar-cart-badge {
-    background: #c9b55a;
-    color: #1a472a;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 800;
-    box-shadow: 0 2px 8px rgba(201, 181, 90, 0.4);
-}
-
-/* Menú móvil toggle */
-.navbar-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-}
-
-.navbar-toggle span {
-    width: 28px;
-    height: 3px;
-    background: #c9b55a;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
-
-.navbar-toggle:hover span {
-    background: #d4c26a;
-}
-
-.navbar-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
-}
-
-.navbar-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.navbar-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
-}
-
-/* Responsive */
-@media (max-width: 968px) {
-    .navbar-menu {
-        position: fixed;
-        top: 85px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 85px);
-        background: #1a472a;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 2rem;
-        gap: 1.5rem;
-        transition: left 0.3s ease;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-    
-    .navbar-menu.active {
-        left: 0;
-    }
-    
-    .navbar-menu a {
-        font-size: 18px;
-        width: 100%;
-        padding: 1rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .navbar-toggle {
-        display: flex;
-    }
-    
-    .navbar-cart-btn {
-        padding: 0.7rem 1.4rem;
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar-logo img {
-        height: 55px;
-    }
-    
-    .navbar-elegant.scrolled .navbar-logo img {
-        height: 50px;
-    }
-    
-    .navbar-logo-text {
-        display: none;
-    }
-    
-    .navbar-container {
-        padding: 0 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar-logo img {
-        height: 50px;
-    }
-    
-    .navbar-cart-btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 12px;
-    }
-    
-    .navbar-cart-icon {
-        font-size: 16px;
-    }
-    
-    .navbar-cart-badge {
-        width: 20px;
-        height: 20px;
-        font-size: 11px;
-    }
-}
-
-/* Padding para el body (para que no quede debajo del navbar fijo) */
-body {
-    padding-top: 95px;
-}
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 85px;
-    }
-}
 </style>
 
+    <body>
+        
+   
 <!-- Navbar HTML -->
 <nav class="navbar-elegant" id="navbarElegant">
     <div class="navbar-container">
@@ -1449,367 +122,269 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
     </section>
 
     <!-- Main Container -->
-    <div class="container">
-        <!-- Warning Alert -->
-        <div class="warning-alert">
-            <div class="warning-icon">⚠️</div>
-            <div class="warning-text">
-                <div class="warning-title">Política de Puntualidad</div>
-                <p>Si no llegas a tiempo a tu reserva, perderás el tiempo contratado. Por favor, llega 5 minutos antes de tu horario.</p>
-            </div>
+   <div class="container">
+    <!-- Warning Alert con estilos inline -->
+    <div style="
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        border: 2px solid #fbbf24;
+        border-left: 5px solid #f59e0b;
+        border-radius: 16px;
+        padding: 1.75rem 2rem;
+        margin-bottom: 3rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
+    ">
+        <div style="color: #f59e0b; font-size: 2rem; line-height: 1; flex-shrink: 0;">
+            ⚠️
         </div>
+        <div style="flex: 1;">
+            <div style="font-weight: 700; font-size: 1.15rem; color: #92400e; margin-bottom: 0.5rem;">
+                Política de Puntualidad
+            </div>
+            <p style="margin: 0; color: #78350f; line-height: 1.6; font-size: 0.95rem;">
+                Los retrasos no se compensan. <strong style="color: #92400e;">Llega 5 minutos antes</strong> de tu horario reservado.
+            </p>
+        </div>
+    </div>
 
-        <!-- Category Tabs -->
-        <div class="category-tabs">
-            <button class="tab active" onclick="switchCategory('academia')">
-                🎓 Academia
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+        <button class="tab active" onclick="switchCategory('academia')">
+            🎓 Academia
+        </button>
+        <button class="tab" onclick="switchCategory('simulador')">
+            🏌️ Renta Simulador
+        </button>
+    </div>
+
+       <!-- ============================================ -->
+<!-- SECCIÓN DE SERVICIOS - HTML COMPLETO -->
+<!-- Reemplazar toda la sección .services-grid -->
+<!-- ============================================ -->
+
+<!-- ============================================ -->
+<!-- TARJETAS ACTUALIZADAS CON SELECTOR DE DURACIÓN -->
+<!-- Reemplazar en tu index.html -->
+<!-- ============================================ -->
+
+<div class="services-grid">
+    
+    <!-- ========================================== -->
+    <!-- ACADEMIA - CLASE INDIVIDUAL -->
+    <!-- ========================================== -->
+    <div class="service-card" data-category="academia" data-service-id="1">
+        <div class="service-header">
+            <div class="service-badge">Popular</div>
+            <div class="service-title">Clase Individual</div>
+            <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
+        </div>
+        <div class="service-body">
+            <div class="service-price">
+                <span class="price-amount">$800</span>
+                <span class="price-label">por clase</span>
+            </div>
+            <ul class="service-features">
+                <li>Instructor profesional personalizado</li>
+                <li>Análisis de swing en tiempo real</li>
+                <li>Corrección de técnica</li>
+                <li>Duración: 1 hora</li>
+            </ul>
+            
+            <div class="reservation-section">
+                <div class="reservation-title">📅 Reserva tu clase</div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <label class="input-label">Fecha</label>
+                        <input type="date" class="input-field reservation-date" id="date-academia-1" required>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label class="input-label">Hora</label>
+                        <select class="input-field reservation-time" id="time-academia-1" required disabled>
+                            <option value="">Selecciona fecha primero</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-wrapper full-width">
+                        <label class="input-label">Cantidad de clases</label>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                            <span class="qty-display">1</span>
+                            <button type="button" class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Clase Individual', 800)">
+                ✅ Reservar Ahora
             </button>
-            <button class="tab" onclick="switchCategory('simulador')">
-                🏌️ Renta Simulador
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ACADEMIA - PAQUETE 5 CLASES -->
+    <!-- ========================================== -->
+    <div class="service-card" data-category="academia" data-service-id="2">
+        <div class="service-header">
+            <div class="service-badge">Ahorro $500</div>
+            <div class="service-title">Paquete 5 Clases</div>
+            <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
+        </div>
+        <div class="service-body">
+            <div class="service-price">
+                <span class="price-amount">$3,500</span>
+                <span class="price-label">paquete completo</span>
+            </div>
+            <ul class="service-features">
+                <li>5 clases individuales</li>
+                <li>$700 por clase (ahorro de $100)</li>
+                <li>Seguimiento continuo</li>
+                <li>Plan personalizado</li>
+            </ul>
+            
+            <div class="reservation-section">
+                <div class="reservation-title">📅 Primera clase</div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <label class="input-label">Fecha</label>
+                        <input type="date" class="input-field reservation-date" id="date-academia-2" required>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label class="input-label">Hora</label>
+                        <select class="input-field reservation-time" id="time-academia-2" required disabled>
+                            <option value="">Selecciona fecha primero</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Paquete 5 Clases', 3500)">
+                ✅ Reservar Paquete
             </button>
         </div>
+    </div>
 
-        <!-- Services Grid -->
-        <div class="services-grid">
-            <!-- Academia - Clase Individual -->
-            <div class="service-card" data-category="academia">
-                <div class="service-header">
-                    <div class="service-badge">Popular</div>
-                    <div class="service-title">Clase Individual</div>
-                    <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$720</span>
-                        <span class="price-label">por clase</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Instructor profesional personalizado</li>
-                        <li>Análisis de swing en tiempo real</li>
-                        <li>Corrección de técnica</li>
-                        <li>Duración: 1 hora</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu clase</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha</label>
-                                <input type="date" class="input-field" id="date-clase-ind">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-clase-ind" min="07:00" max="23:00">
-                            </div>
-                            <div class="input-wrapper full-width">
-                                <label class="input-label">Cantidad de clases</label>
-                                <div class="quantity-control">
-                                    <button class="qty-btn" onclick="updateQty('clase-ind', -1)">-</button>
-                                    <span class="qty-display" id="qty-clase-ind">1</span>
-                                    <button class="qty-btn" onclick="updateQty('clase-ind', 1)">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Clase Individual', 720, 'clase-ind')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Academia - Paquete 5 Clases -->
-            <div class="service-card" data-category="academia">
-                <div class="service-header">
-                    <div class="service-badge">Ahorro 25%</div>
-                    <div class="service-title">Paquete 5 Clases</div>
-                    <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$2,700</span>
-                        <span class="price-label">paquete completo</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>5 clases individuales</li>
-                        <li>$540 por clase (ahorro de $180 por clase)</li>
-                        <li>Seguimiento continuo de tu progreso</li>
-                        <li>Plan de entrenamiento personalizado</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Comienza tu paquete</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Primera Fecha</label>
-                                <input type="date" class="input-field" id="date-paq5">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-paq5" min="07:00" max="23:00">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Paquete 5 Clases', 2700, 'paq5', true)">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Academia - Paquete 10 Clases -->
-            <div class="service-card" data-category="academia">
-                <div class="service-header">
-                    <div class="service-badge">Mejor Oferta</div>
-                    <div class="service-title">Paquete 10 Clases</div>
-                    <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$5,400</span>
-                        <span class="price-label">paquete completo</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>10 clases individuales</li>
-                        <li>$540 por clase (ahorro de $1,800 total)</li>
-                        <li>Certificado de participación</li>
-                        <li>Análisis de video incluido</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Comienza tu paquete</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Primera Fecha</label>
-                                <input type="date" class="input-field" id="date-paq10">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-paq10" min="07:00" max="23:00">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Paquete 10 Clases', 5400, 'paq10', true)">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Simulador - 1/2 Hora (Lunes a Sábado 1:00-4:00 PM) -->
-            <div class="service-card" data-category="simulador" style="display: none;">
-                <div class="service-header">
-                    <div class="service-title">Media Hora de Golf</div>
-                    <div class="service-subtitle">Lunes a Sábado • 1:00 PM - 4:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$180</span>
-                        <span class="price-label">30 minutos</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Acceso al simulador 3D</li>
-                        <li>30 minutos de juego</li>
-                        <li>Horario: 1:00 PM - 4:00 PM</li>
-                        <li>Ideal para práctica rápida</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu sesión</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha</label>
-                                <input type="date" class="input-field" id="date-sim-half1">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-sim-half1" min="13:00" max="16:00">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('1/2 Hora Simulador (1-4 PM)', 180, 'sim-half1')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Simulador - 1 Hora (Lunes a Sábado 1:00-4:00 PM) -->
-            <div class="service-card" data-category="simulador" style="display: none;">
-                <div class="service-header">
-                    <div class="service-badge">Recomendado</div>
-                    <div class="service-title">1 Hora de Golf</div>
-                    <div class="service-subtitle">Lunes a Sábado • 1:00 PM - 4:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$360</span>
-                        <span class="price-label">60 minutos</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Acceso completo al simulador</li>
-                        <li>60 minutos de juego</li>
-                        <li>Todos los campos disponibles</li>
-                        <li>Estadísticas detalladas</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu sesión</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha</label>
-                                <input type="date" class="input-field" id="date-sim-full1">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-sim-full1" min="13:00" max="16:00">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('1 Hora Simulador (1-4 PM)', 360, 'sim-full1')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Simulador - 1/2 Hora (Lunes a Jueves 4:00-11:00 PM) -->
-            <div class="service-card" data-category="simulador" style="display: none;">
-                <div class="service-header">
-                    <div class="service-title">Media Hora de Golf</div>
-                    <div class="service-subtitle">Lunes a Jueves • 4:00 PM - 11:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$270</span>
-                        <span class="price-label">30 minutos</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Acceso al simulador 3D</li>
-                        <li>30 minutos de juego</li>
-                        <li>Horario nocturno disponible</li>
-                        <li>Ambiente relajado</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu sesión</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha (L-J)</label>
-                                <input type="date" class="input-field" id="date-sim-half2">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-sim-half2" min="16:00" max="23:00">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('1/2 Hora Simulador (4-11 PM L-J)', 270, 'sim-half2')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Simulador - 1 Hora (Lunes a Jueves 4:00-11:00 PM) -->
-            <div class="service-card" data-category="simulador" style="display: none;">
-                <div class="service-header">
-                    <div class="service-badge">Popular</div>
-                    <div class="service-title">1 Hora de Golf</div>
-                    <div class="service-subtitle">Lunes a Jueves • 4:00 PM - 11:00 PM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$540</span>
-                        <span class="price-label">60 minutos</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Simulador completo</li>
-                        <li>Todos los campos mundiales</li>
-                        <li>Modo competencia disponible</li>
-                        <li>Análisis de tus golpes</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu sesión</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha (L-J)</label>
-                                <input type="date" class="input-field" id="date-sim-full2">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-sim-full2" min="16:00" max="23:00">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('1 Hora Simulador (4-11 PM L-J)', 540, 'sim-full2')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Simulador - 1/2 Hora (Viernes y Sábado 4:00 PM-12:00 AM) -->
-            <div class="service-card" data-category="simulador" style="display: none;">
-                <div class="service-header">
-                    <div class="service-badge">Fin de Semana</div>
-                    <div class="service-title">Media Hora de Golf</div>
-                    <div class="service-subtitle">Viernes y Sábado • 4:00 PM - 12:00 AM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$270</span>
-                        <span class="price-label">30 minutos</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Sesión de fin de semana</li>
-                        <li>Ambiente festivo</li>
-                        <li>Ideal para grupos</li>
-                        <li>Hasta medianoche</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu sesión</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha (V-S)</label>
-                                <input type="date" class="input-field" id="date-sim-half3">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-sim-half3" min="16:00" max="23:59">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('1/2 Hora Simulador (4 PM-12 AM V-S)', 270, 'sim-half3')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
-
-            <!-- Simulador - 1 Hora (Viernes y Sábado 4:00 PM-12:00 AM) -->
-            <div class="service-card" data-category="simulador" style="display: none;">
-                <div class="service-header">
-                    <div class="service-badge">Fin de Semana</div>
-                    <div class="service-title">1 Hora de Golf</div>
-                    <div class="service-subtitle">Viernes y Sábado • 4:00 PM - 12:00 AM</div>
-                </div>
-                <div class="service-body">
-                    <div class="service-price">
-                        <span class="price-amount">$540</span>
-                        <span class="price-label">60 minutos</span>
-                    </div>
-                    <ul class="service-features">
-                        <li>Mejor horario del fin de semana</li>
-                        <li>Experiencia premium</li>
-                        <li>Competencia con amigos</li>
-                        <li>Todos los campos disponibles</li>
-                    </ul>
-                    <div class="reservation-section">
-                        <div class="reservation-title">📅 Reserva tu sesión</div>
-                        <div class="input-group">
-                            <div class="input-wrapper">
-                                <label class="input-label">Fecha (V-S)</label>
-                                <input type="date" class="input-field" id="date-sim-full3">
-                            </div>
-                            <div class="input-wrapper">
-                                <label class="input-label">Hora</label>
-                                <input type="time" class="input-field" id="time-sim-full3" min="16:00" max="23:59">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCart('1 Hora Simulador (4 PM-12 AM V-S)', 540, 'sim-full3')">
-                        🛒 Agregar al Carrito
-                    </button>
-                </div>
-            </div>
+    <!-- ========================================== -->
+    <!-- ACADEMIA - PAQUETE 10 CLASES -->
+    <!-- ========================================== -->
+    <div class="service-card" data-category="academia" data-service-id="3">
+        <div class="service-header">
+            <div class="service-badge">Mejor Oferta</div>
+            <div class="service-title">Paquete 10 Clases</div>
+            <div class="service-subtitle">Lunes a Sábado • 7:00 AM - 11:00 PM</div>
         </div>
+        <div class="service-body">
+            <div class="service-price">
+                <span class="price-amount">$6,250</span>
+                <span class="price-label">paquete completo</span>
+            </div>
+            <ul class="service-features">
+                <li>10 clases individuales</li>
+                <li>$625 por clase (ahorro de $175)</li>
+                <li>Certificado de participación</li>
+                <li>Análisis de video incluido</li>
+            </ul>
+            
+            <div class="reservation-section">
+                <div class="reservation-title">📅 Primera clase</div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <label class="input-label">Fecha</label>
+                        <input type="date" class="input-field reservation-date" id="date-academia-3" required>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label class="input-label">Hora</label>
+                        <select class="input-field reservation-time" id="time-academia-3" required disabled>
+                            <option value="">Selecciona fecha primero</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="add-to-cart-btn" onclick="realizarReserva(this, 'Paquete 10 Clases', 6250)">
+                ✅ Reservar Paquete
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SIMULADOR - TARJETA ÚNICA CON SELECTOR -->
+    <!-- ========================================== -->
+    <div class="service-card" data-category="simulador" data-service-id="simulador">
+        <div class="service-header">
+            <div class="service-badge">Flexible</div>
+            <div class="service-title">Renta de Simulador</div>
+            <div class="service-subtitle">Elige tu horario y duración</div>
+        </div>
+        <div class="service-body">
+            <div class="service-price">
+                <span class="price-amount" id="price-simulador">$200 - $600</span>
+                <span class="price-label">según horario</span>
+            </div>
+            <ul class="service-features">
+                <li>Acceso completo al simulador 3D</li>
+                <li>Más de 100 campos disponibles</li>
+                <li>Estadísticas en tiempo real</li>
+                <li>Precio varía según día y hora</li>
+            </ul>
+            
+            <div class="reservation-section">
+                <div class="reservation-title">📅 Reserva tu sesión</div>
+                <div class="input-group">
+                    <!-- FECHA -->
+                    <div class="input-wrapper">
+                        <label class="input-label">Fecha</label>
+                        <input 
+                            type="date" 
+                            class="input-field reservation-date" 
+                            id="date-simulador"
+                            required
+                        >
+                    </div>
+                    
+                    <!-- DURACIÓN -->
+                    <div class="input-wrapper">
+                        <label class="input-label">Duración</label>
+                        <select 
+                            class="input-field" 
+                            id="duration-simulador"
+                            required
+                        >
+                            <option value="">Selecciona</option>
+                            <option value="30">30 minutos</option>
+                            <option value="60">1 hora</option>
+                        </select>
+                    </div>
+                    
+                    <!-- HORA -->
+                    <div class="input-wrapper full-width">
+                        <label class="input-label">Horario disponible</label>
+                        <select 
+                            class="input-field reservation-time" 
+                            id="time-simulador"
+                            required 
+                            disabled
+                        >
+                            <option value="">Primero selecciona fecha y duración</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+<button class="add-to-cart-btn" onclick="realizarReserva(this, 'Renta de Simulador', 0)">
+    ✅ Reservar Ahora
+</button>
+
+        </div>
+    </div>
+
+</div>
+<!-- FIN DE SERVICES GRID -->
 
         <!-- Video Showcase Section -->
         <div class="video-showcase">
@@ -1944,399 +519,13 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
         <span class="notification-icon">✅</span>
         <span class="notification-text" id="notificationText"></span>
     </div>
-
+<!-- ⚠️ PRIMERO: Cargar librería de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="categorias.js" ></script>
     <!-- Supabase Integration -->
     <script src="supabase-integration.js"></script>
 
-    <script>
-        // Cart state
-        let cart = [];
-        let quantities = {};
 
-        // Initialize quantities
-        const serviceIds = ['clase-ind', 'paq5', 'paq10', 'sim-half1', 'sim-full1', 'sim-half2', 'sim-full2', 'sim-half3', 'sim-full3'];
-        serviceIds.forEach(id => quantities[id] = 1);
-
-        // Mapeo de nombres de servicios a IDs en la base de datos
-        const serviceNameToId = {
-            'Clase Individual': 1,
-            'Paquete 5 Clases': 2,
-            'Paquete 10 Clases': 3,
-            '1/2 Hora Simulador (1-4 PM)': 4,
-            '1 Hora Simulador (1-4 PM)': 5,
-            '1/2 Hora Simulador (4-11 PM L-J)': 6,
-            '1 Hora Simulador (4-11 PM L-J)': 7,
-            '1/2 Hora Simulador (4 PM-12 AM V-S)': 8,
-            '1 Hora Simulador (4 PM-12 AM V-S)': 9
-        };
-        // ============================================
-// PRECIOS DINÁMICOS DESDE SUPABASE
-// ============================================
-
-// Objeto para almacenar precios actuales desde BD
-let currentPrices = {};
-
-// Cargar precios desde Supabase al iniciar
-async function loadPrices() {
-    try {
-        console.log('🔄 Cargando precios desde Supabase...');
-        
-        const { data, error } = await supabase
-            .from('services')
-            .select('id, name, price')
-            .eq('active', true);
-
-        if (error) {
-            console.error('❌ Error al cargar precios:', error);
-            return;
-        }
-
-        // Guardar precios en objeto
-        data.forEach(service => {
-            currentPrices[service.id] = parseFloat(service.price);
-        });
-
-        console.log('✅ Precios cargados desde BD:', currentPrices);
-
-        // Actualizar precios en el HTML
-        updatePricesInHTML();
-    } catch (error) {
-        console.error('❌ Error:', error);
-    }
-}
-
-// Actualizar los precios mostrados en el HTML
-function updatePricesInHTML() {
-    console.log('🔄 Actualizando precios en el HTML...');
-    
-    // Clase Individual (ID: 1)
-    if (currentPrices[1]) {
-        const cards = document.querySelectorAll('.service-card[data-category="academia"]');
-        if (cards[0]) {
-            const priceElement = cards[0].querySelector('.price-amount');
-            if (priceElement) {
-                priceElement.textContent = `$${Math.round(currentPrices[1]).toLocaleString('es-MX')}`;
-            }
-        }
-    }
-
-    // Paquete 5 Clases (ID: 2)
-    if (currentPrices[2]) {
-        const cards = document.querySelectorAll('.service-card[data-category="academia"]');
-        if (cards[1]) {
-            const priceElement = cards[1].querySelector('.price-amount');
-            if (priceElement) {
-                priceElement.textContent = `$${Math.round(currentPrices[2]).toLocaleString('es-MX')}`;
-            }
-        }
-    }
-
-    // Paquete 10 Clases (ID: 3)
-    if (currentPrices[3]) {
-        const cards = document.querySelectorAll('.service-card[data-category="academia"]');
-        if (cards[2]) {
-            const priceElement = cards[2].querySelector('.price-amount');
-            if (priceElement) {
-                priceElement.textContent = `$${Math.round(currentPrices[3]).toLocaleString('es-MX')}`;
-            }
-        }
-    }
-
-    // Simuladores (IDs 4-9)
-    const simulatorCards = document.querySelectorAll('.service-card[data-category="simulador"]');
-    for (let i = 4; i <= 9; i++) {
-        if (currentPrices[i] && simulatorCards[i - 4]) {
-            const priceElement = simulatorCards[i - 4].querySelector('.price-amount');
-            if (priceElement) {
-                priceElement.textContent = `$${Math.round(currentPrices[i]).toLocaleString('es-MX')}`;
-            }
-        }
-    }
-
-    console.log('✅ Todos los precios actualizados en el HTML');
-}
-
-        // Set minimum date to today
-        document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(input => {
-                input.min = today;
-            });
-
-            // Set default time to 9:00 AM
-            document.querySelectorAll('input[type="time"]').forEach(input => {
-                input.value = '09:00';
-            });
-       // Cargar precios dinámicamente desde BD
-loadPrices(); });
-
-        // Category switching
-        function switchCategory(category) {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            document.querySelectorAll('.service-card').forEach(card => {
-                if (card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // Update quantity
-        function updateQty(id, change) {
-            quantities[id] = Math.max(1, quantities[id] + change);
-            document.getElementById(`qty-${id}`).textContent = quantities[id];
-        }
-
-        // Add to cart
-function addToCart(name, defaultPrice, id, isPackage = false) {
-    // Usar precio desde BD si está disponible
-    const serviceId = serviceNameToId[name];
-    const price = currentPrices[serviceId] || defaultPrice;
-            
-            if (!dateInput.value || !timeInput.value) {
-                showNotification('⚠️ Por favor selecciona fecha y hora', 'warning');
-                return;
-            }
-
-            const quantity = isPackage ? 1 : quantities[id];
-            const item = {
-                id: Date.now(),
-                name,
-                price,
-                quantity,
-                date: dateInput.value,
-                time: timeInput.value,
-                total: price * quantity
-            };
-
-            cart.push(item);
-            updateCartDisplay();
-            showNotification('✅ Agregado al carrito exitosamente');
-            
-            // Reset quantity if not a package
-            if (!isPackage) {
-                quantities[id] = 1;
-                document.getElementById(`qty-${id}`).textContent = 1;
-            }
-        }
-
-        // Update cart display
-        function updateCartDisplay() {
-            const cartItems = document.getElementById('cartItems');
-            const cartBadge = document.getElementById('cartBadge');
-            const cartTotal = document.getElementById('cartTotal');
-            const cartFooter = document.getElementById('cartFooter');
-
-            if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <div class="cart-empty">
-                        <div class="cart-empty-icon">🛒</div>
-                        <p>Tu carrito está vacío</p>
-                    </div>
-                `;
-                cartFooter.style.display = 'none';
-                cartBadge.textContent = '0';
-                return;
-            }
-
-            let html = '';
-            let total = 0;
-
-            cart.forEach(item => {
-                html += `
-                    <div class="cart-item">
-                        <div class="cart-item-header">
-                            <span class="cart-item-title">${item.name}</span>
-                            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">×</button>
-                        </div>
-                        <div class="cart-item-details">
-                            📅 ${formatDate(item.date)} • 🕐 ${item.time}
-                            ${item.quantity > 1 ? `<br>Cantidad: ${item.quantity}` : ''}
-                        </div>
-                        <div class="cart-item-price">$${item.total.toLocaleString('es-MX')}</div>
-                    </div>
-                `;
-                total += item.total;
-            });
-
-            cartItems.innerHTML = html;
-            cartTotal.textContent = `$${total.toLocaleString('es-MX')}`;
-            cartBadge.textContent = cart.length;
-            cartFooter.style.display = 'block';
-        }
-
-        // Remove from cart
-        function removeFromCart(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartDisplay();
-            showNotification('🗑️ Artículo eliminado del carrito');
-        }
-
-        // Toggle cart
-        function toggleCart() {
-            const cartSidebar = document.getElementById('cartSidebar');
-            const overlay = document.getElementById('overlay');
-            cartSidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        // Process payment - VERSIÓN CON SUPABASE
-        async function processPayment(method) {
-            if (cart.length === 0) {
-                showNotification('⚠️ Tu carrito está vacío', 'warning');
-                return;
-            }
-
-            // Capturar datos del cliente
-            const customerName = prompt('Ingresa tu nombre completo:');
-            if (!customerName) return;
-            
-            const customerEmail = prompt('Ingresa tu email:');
-            if (!customerEmail) return;
-            
-            const customerPhone = prompt('Ingresa tu teléfono (10 dígitos):');
-            if (!customerPhone) return;
-
-            // Mostrar mensaje de procesamiento
-            showNotification('⏳ Procesando reservas...', 'info');
-
-            // Guardar cada reserva en Supabase
-            const reservationPromises = cart.map(async (item) => {
-                const serviceId = serviceNameToId[item.name];
-                
-                if (!serviceId) {
-                    console.error('Servicio no encontrado:', item.name);
-                    return { success: false, error: 'Servicio no encontrado' };
-                }
-
-                const reservationData = {
-                    serviceId: serviceId,
-                    date: item.date,
-                    time: item.time,
-                    quantity: item.quantity,
-                    customerName: customerName,
-                    customerEmail: customerEmail,
-                    customerPhone: customerPhone,
-                    unitPrice: item.price,
-                    totalAmount: item.total,
-                    paymentMethod: method,
-                    notes: ''
-                };
-
-                // Llamar a la función de Supabase
-                return await createReservation(reservationData);
-            });
-
-            try {
-                // Esperar a que todas las reservas se creen
-                const results = await Promise.all(reservationPromises);
-                
-                // Verificar si todas fueron exitosas
-                const allSuccess = results.every(r => r && r.success);
-
-                if (allSuccess) {
-                    // Generate WhatsApp message
-                    let message = '🏌️ *Nueva Reserva - Playtomix Golf*\n\n';
-                    let total = 0;
-
-                    cart.forEach((item, index) => {
-                        message += `${index + 1}. *${item.name}*\n`;
-                        message += `   📅 ${formatDate(item.date)} - 🕐 ${item.time}\n`;
-                        if (item.quantity > 1) {
-                            message += `   Cantidad: ${item.quantity}\n`;
-                        }
-                        message += `   💰 $${item.total.toLocaleString('es-MX')}\n\n`;
-                        total += item.total;
-                    });
-
-                    message += `*Total: $${total.toLocaleString('es-MX')}*\n\n`;
-                    message += `*Cliente:* ${customerName}\n`;
-                    message += `📧 ${customerEmail}\n`;
-                    message += `📱 ${customerPhone}\n\n`;
-                    
-                    if (method === 'online') {
-                        message += '💳 *Método de pago:* En línea\n';
-                        message += 'Por favor envíame los detalles para completar el pago.';
-                    } else {
-                        message += '🏪 *Método de pago:* En establecimiento\n';
-                        message += '⚠️ Recuerda llegar 5 minutos antes de tu horario.';
-                    }
-
-                    // Open WhatsApp
-                    const phone = '523322396825';
-                    const encodedMessage = encodeURIComponent(message);
-                    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
-
-                    // Show success and clear cart
-                    setTimeout(() => {
-                        showSuccessModal();
-                        cart = [];
-                        updateCartDisplay();
-                        toggleCart();
-                    }, 1000);
-                } else {
-                    const errors = results.filter(r => !r.success).map(r => r.error);
-                    console.error('Errores al crear reservas:', errors);
-                    showNotification('⚠️ Error al procesar algunas reservas. Por favor contacta al establecimiento.', 'warning');
-                }
-            } catch (error) {
-                console.error('Error al procesar pago:', error);
-                showNotification('❌ Error al procesar las reservas. Intenta nuevamente.', 'error');
-            }
-        }
-
-        // Show success modal
-        function showSuccessModal() {
-            const modal = document.getElementById('successModal');
-            const overlay = document.getElementById('overlay');
-            modal.classList.add('active');
-            overlay.classList.add('active');
-        }
-
-        // Close success modal
-        function closeSuccessModal() {
-            const modal = document.getElementById('successModal');
-            const overlay = document.getElementById('overlay');
-            modal.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-
-        // Show notification
-        function showNotification(text, type = 'success') {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            const notificationIcon = notification.querySelector('.notification-icon');
-            
-            notificationText.textContent = text;
-            
-            if (type === 'success') {
-                notificationIcon.textContent = '✅';
-            } else if (type === 'warning') {
-                notificationIcon.textContent = '⚠️';
-            } else if (type === 'error') {
-                notificationIcon.textContent = '❌';
-            } else if (type === 'info') {
-                notificationIcon.textContent = '⏳';
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Format date
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString + 'T00:00:00').toLocaleDateString('es-MX', options);
-        }
-    </script>
 <!-- IMPORTAR WIDGET DE WHATSAPP -->
     <div id="whatsapp-widget-container"></div>
     

@@ -318,7 +318,7 @@
 <body>
     <header class="header">
         <div class="logo">
-            ⛳ Playtomix Admin
+            Hoyo en Uno Admin
         </div>
         <div class="user-info">
             <div class="user-badge">
@@ -662,49 +662,216 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             renderReservations(filtered);
         }
 
-        async function confirmReservation(id) {
-            if (!confirm('¿Confirmar esta reserva?')) return;
+       async function confirmReservation(id) {
+    if (!confirm('¿Confirmar esta reserva?')) return;
 
-            try {
-                const { error } = await supabase
-                    .from('reservations')
-                    .update({ 
-                        status: 'confirmed',
-                        confirmed_at: new Date().toISOString()
-                    })
-                    .eq('id', id);
+    try {
+        // 1. Obtener datos de la reserva ANTES de confirmarla
+        const { data: reservation, error: fetchError } = await supabase
+            .from('reservations')
+            .select('*, services(*)')
+            .eq('id', id)
+            .single();
 
-                if (error) throw error;
+        if (fetchError) throw fetchError;
 
-                alert('✅ Reserva confirmada');
-                loadDashboard();
-            } catch (error) {
-                alert('❌ Error: ' + error.message);
-            }
+        // 2. Confirmar la reserva en la BD
+        const { error: updateError } = await supabase
+            .from('reservations')
+            .update({ 
+                status: 'confirmed',
+                confirmed_at: new Date().toISOString()
+            })
+            .eq('id', id);
+
+        if (updateError) throw updateError;
+
+        // 3. Preparar mensaje para el cliente
+        const clientMessage = `
+✅ *RESERVA CONFIRMADA - HOYO EN UNO*
+
+━━━━━━━━━━━━━━━━━━━━
+Hola *${reservation.customer_name}*!
+
+Tu reserva ha sido *CONFIRMADA* ✅
+
+━━━━━━━━━━━━━━━━━━━━
+📋 *DETALLES*
+━━━━━━━━━━━━━━━━━━━━
+
+🏌️ Servicio: ${reservation.services?.name || 'Servicio'}
+📅 Fecha: ${formatDate(reservation.reservation_date)}
+🕐 Hora: ${reservation.reservation_time}
+💰 Total: $${parseFloat(reservation.total_amount).toLocaleString('es-MX')}
+🔖 ID: #${reservation.id}
+
+━━━━━━━━━━━━━━━━━━━━
+📍 *UBICACIÓN*
+━━━━━━━━━━━━━━━━━━━━
+
+Hoyo en Uno - Golfin Academy Bar
+[Agregar dirección aquí]
+
+━━━━━━━━━━━━━━━━━━━━
+⚠️ *IMPORTANTE*
+━━━━━━━━━━━━━━━━━━━━
+
+• Llega 10 minutos antes
+• Trae ropa cómoda
+• No olvides tu confirmación
+
+━━━━━━━━━━━━━━━━━━━━
+¡Te esperamos! 🏌️⛳
+
+Si tienes alguna pregunta, responde este mensaje.
+        `.trim();
+
+        // 4. Crear URL de WhatsApp para el cliente
+        const whatsappUrl = `https://wa.me/${reservation.customer_phone.replace(/\D/g, '')}?text=${encodeURIComponent(clientMessage)}`;
+
+        // 5. Preguntar si quiere enviar notificación
+        const sendNotification = confirm(
+            '✅ Reserva confirmada en la base de datos.\n\n' +
+            '¿Quieres enviar notificación por WhatsApp al cliente?\n\n' +
+            `Cliente: ${reservation.customer_name}\n` +
+            `Teléfono: ${reservation.customer_phone}`
+        );
+
+        if (sendNotification) {
+            // Abrir WhatsApp
+            window.open(whatsappUrl, '_blank');
+            alert('📱 WhatsApp abierto. Envía el mensaje de confirmación al cliente.');
+        } else {
+            alert('✅ Reserva confirmada (sin notificación)');
         }
 
-        async function cancelReservation(id) {
-            const reason = prompt('Motivo de cancelación (opcional):');
-            if (reason === null) return;
+        // 6. Recargar datos
+        loadDashboard();
 
-            try {
-                const { error } = await supabase
-                    .from('reservations')
-                    .update({ 
-                        status: 'cancelled',
-                        cancelled_at: new Date().toISOString(),
-                        admin_notes: reason
-                    })
-                    .eq('id', id);
+    } catch (error) {
+        console.error('❌ Error:', error);
+        alert('❌ Error al confirmar: ' + error.message);
+    }
+}
 
-                if (error) throw error;
+// ============================================
+// CANCELAR RESERVA CON NOTIFICACIÓN
+// ============================================
 
-                alert('✅ Reserva cancelada');
-                loadDashboard();
-            } catch (error) {
-                alert('❌ Error: ' + error.message);
-            }
+async function cancelReservation(id) {
+    const reason = prompt('Motivo de cancelación (opcional):');
+    if (reason === null) return;
+
+    try {
+        // 1. Obtener datos de la reserva ANTES de cancelarla
+        const { data: reservation, error: fetchError } = await supabase
+            .from('reservations')
+            .select('*, services(*)')
+            .eq('id', id)
+            .single();
+
+        if (fetchError) throw fetchError;
+
+        // 2. Cancelar la reserva en la BD
+        const { error: updateError } = await supabase
+            .from('reservations')
+            .update({ 
+                status: 'cancelled',
+                cancelled_at: new Date().toISOString(),
+                admin_notes: reason || 'Cancelado por el administrador'
+            })
+            .eq('id', id);
+
+        if (updateError) throw updateError;
+
+        // 3. Preparar mensaje para el cliente
+        const cancelMessage = `
+❌ *RESERVA CANCELADA - HOYO EN UNO*
+
+━━━━━━━━━━━━━━━━━━━━
+Hola *${reservation.customer_name}*,
+
+Lamentamos informarte que tu reserva ha sido *CANCELADA*.
+
+━━━━━━━━━━━━━━━━━━━━
+📋 *DETALLES*
+━━━━━━━━━━━━━━━━━━━━
+
+🏌️ Servicio: ${reservation.services?.name || 'Servicio'}
+📅 Fecha: ${formatDate(reservation.reservation_date)}
+🕐 Hora: ${reservation.reservation_time}
+🔖 ID: #${reservation.id}
+
+${reason ? `\n📝 *Motivo:* ${reason}\n` : ''}
+━━━━━━━━━━━━━━━━━━━━
+Si deseas hacer una nueva reserva o tienes alguna pregunta, por favor contáctanos.
+
+¡Gracias por tu comprensión! 🙏
+        `.trim();
+
+        // 4. Crear URL de WhatsApp para el cliente
+        const whatsappUrl = `https://wa.me/${reservation.customer_phone.replace(/\D/g, '')}?text=${encodeURIComponent(cancelMessage)}`;
+
+        // 5. Preguntar si quiere enviar notificación
+        const sendNotification = confirm(
+            '✅ Reserva cancelada en la base de datos.\n\n' +
+            '¿Quieres enviar notificación por WhatsApp al cliente?\n\n' +
+            `Cliente: ${reservation.customer_name}\n` +
+            `Teléfono: ${reservation.customer_phone}`
+        );
+
+        if (sendNotification) {
+            // Abrir WhatsApp
+            window.open(whatsappUrl, '_blank');
+            alert('📱 WhatsApp abierto. Envía el mensaje de cancelación al cliente.');
+        } else {
+            alert('✅ Reserva cancelada (sin notificación)');
         }
+
+        // 6. Recargar datos
+        loadDashboard();
+
+    } catch (error) {
+        console.error('❌ Error:', error);
+        alert('❌ Error al cancelar: ' + error.message);
+    }
+}
+
+// ============================================
+// FUNCIÓN AUXILIAR PARA FORMATEAR FECHA
+// (si no existe ya)
+// ============================================
+
+function formatDate(dateString) {
+    const options = { 
+        weekday: 'long',
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    return new Date(dateString + 'T00:00:00')
+        .toLocaleDateString('es-MX', options);
+}
+
+console.log('✅ Sistema de notificaciones de admin cargado');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         async function logout() {
             if (!confirm('¿Cerrar sesión?')) return;
