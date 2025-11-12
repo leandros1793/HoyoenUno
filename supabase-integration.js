@@ -14,7 +14,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Constantes
-const ADMIN_WHATSAPP = '543512295662'; // Número de WhatsApp del administrador
+const BUSINESS_WHATSAPP = '523312229568'; // Tu número de WhatsApp del negocio
+const ADMIN_WHATSAPP = '543512295662';    // Tu número de admin
+
+console.log('✅ Configuración de WhatsApp cargada');
 let cart = []; // Array para almacenar items del carrito
 
 console.log('✅ Supabase client inicializado');
@@ -1422,7 +1425,7 @@ ${i + 1}. ${r.serviceName}
 Por favor confirma mis reservas. ¡Gracias!
     `.trim();
     
-    const clientWhatsAppUrl = `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(clientMessage)}`;
+    const clientWhatsAppUrl = `https://wa.me/523312229568?text=${encodeURIComponent(clientMessage)}`;
     
     const modalHTML = `
         <div class="modal-overlay success-modal" id="successModal">
