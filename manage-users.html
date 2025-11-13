@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gestión de Usuarios - Playtomix Admin</title>
     <style>
         * {
@@ -26,8 +26,10 @@
             font-family: 'Inter', -apple-system, sans-serif;
             background: var(--light);
             color: var(--dark);
+            overflow-x: hidden;
         }
 
+        /* HEADER */
         .header {
             background: var(--white);
             padding: 1rem 2rem;
@@ -35,6 +37,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
@@ -48,6 +53,7 @@
             gap: 1rem;
         }
 
+        /* BOTONES */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -55,11 +61,16 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 0.95rem;
         }
 
         .btn-primary {
             background: var(--primary);
             color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #0f3a1f;
         }
 
         .btn-secondary {
@@ -68,9 +79,18 @@
             border: 2px solid var(--primary);
         }
 
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
         .btn-success {
             background: var(--success);
             color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #059669;
         }
 
         .btn-danger {
@@ -78,17 +98,23 @@
             color: var(--white);
         }
 
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
         .btn-sm {
             padding: 0.5rem 1rem;
             font-size: 0.9rem;
         }
 
+        /* CONTAINER */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
 
+        /* SECTION */
         .section {
             background: var(--white);
             padding: 2rem;
@@ -102,6 +128,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .section-title {
@@ -110,9 +138,18 @@
             color: var(--primary);
         }
 
+        /* TABLA - DESKTOP */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
         .table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 900px;
         }
 
         .table th {
@@ -131,11 +168,13 @@
             background: #f9fafb;
         }
 
+        /* BADGES */
         .role-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
+            display: inline-block;
         }
 
         .role-superadmin {
@@ -153,6 +192,7 @@
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
+            display: inline-block;
         }
 
         .status-active {
@@ -165,6 +205,7 @@
             color: #991b1b;
         }
 
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -176,6 +217,7 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal.active {
@@ -187,7 +229,7 @@
             padding: 2rem;
             border-radius: 12px;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -213,6 +255,7 @@
             color: #6b7280;
         }
 
+        /* FORM */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -244,6 +287,7 @@
             margin-top: 2rem;
         }
 
+        /* ALERTS */
         .alert {
             padding: 1rem;
             border-radius: 8px;
@@ -262,6 +306,13 @@
             border-left: 4px solid var(--danger);
         }
 
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid var(--warning);
+        }
+
+        /* EMPTY STATE */
         .empty-state {
             text-align: center;
             padding: 3rem;
@@ -271,6 +322,7 @@
         .action-btns {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .loading {
@@ -278,13 +330,202 @@
             padding: 2rem;
             color: #6b7280;
         }
+
+        /* ============================================ */
+        /* CARDS PARA MÓVIL */
+        /* ============================================ */
+
+        .users-cards {
+            display: none;
+        }
+
+        .user-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .user-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .user-id {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-card-body {
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .user-info-icon {
+            font-size: 1.1rem;
+            width: 24px;
+            flex-shrink: 0;
+        }
+
+        .user-info strong {
+            color: var(--dark);
+            margin-right: 0.25rem;
+        }
+
+        .user-card-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 2px solid #e5e7eb;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .user-card-footer .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE - MÓVIL */
+        /* ============================================ */
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.875rem 1rem;
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 0.75rem;
+            }
+
+            .btn {
+                font-size: 0.85rem;
+                padding: 0.65rem 1rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 1.25rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+                text-align: center;
+            }
+
+            .section-header .btn {
+                width: 100%;
+            }
+
+            .alert-warning {
+                font-size: 0.9rem;
+                padding: 0.875rem;
+            }
+
+            /* OCULTAR TABLA, MOSTRAR CARDS */
+            .table-wrapper {
+                display: none !important;
+            }
+
+            .users-cards {
+                display: block !important;
+            }
+
+            /* Modal responsive */
+            .modal-content {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+
+            .modal-title {
+                font-size: 1.25rem;
+            }
+
+            .form-input,
+            .form-select {
+                font-size: 16px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .user-card {
+                padding: 0.875rem;
+            }
+
+            .modal-content {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Fix para iOS */
+        input,
+        select {
+            font-size: 16px !important;
+            -webkit-appearance: none;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">👥 Gestión de Usuarios</div>
         <div class="header-actions">
-            <button class="btn btn-secondary" onclick="goBack()">← Volver al Dashboard</button>
+            <button class="btn btn-secondary" onclick="goBack()">← Volver</button>
         </div>
     </header>
 
@@ -302,7 +543,13 @@
 
             <div id="alertContainer"></div>
 
+            <!-- Tabla (Desktop) -->
             <div id="usersTable">
+                <div class="loading">Cargando usuarios...</div>
+            </div>
+
+            <!-- Cards (Móvil) -->
+            <div id="usersCards" class="users-cards">
                 <div class="loading">Cargando usuarios...</div>
             </div>
         </div>
@@ -374,7 +621,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
             currentUser = JSON.parse(adminUserData);
 
-            // Verificar permiso
             if (!currentUser.permissions?.users?.view) {
                 showAlert('No tienes permiso para acceder a esta página', 'error');
                 setTimeout(() => {
@@ -401,30 +647,39 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         }
 
         function renderUsers(users) {
-            const container = document.getElementById('usersTable');
+            const tableContainer = document.getElementById('usersTable');
+            const cardsContainer = document.getElementById('usersCards');
 
             if (!users || users.length === 0) {
-                container.innerHTML = '<div class="empty-state">No hay usuarios registrados</div>';
+                const emptyHTML = '<div class="empty-state">No hay usuarios registrados</div>';
+                tableContainer.innerHTML = emptyHTML;
+                cardsContainer.innerHTML = emptyHTML;
                 return;
             }
 
+            renderTable(users, tableContainer);
+            renderCards(users, cardsContainer);
+        }
+
+        function renderTable(users, container) {
             const canEdit = currentUser.permissions?.users?.edit || false;
             const canDelete = currentUser.permissions?.users?.delete || false;
 
             let html = `
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Último acceso</th>
-                            ${(canEdit || canDelete) ? '<th>Acciones</th>' : ''}
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Último acceso</th>
+                                ${(canEdit || canDelete) ? '<th>Acciones</th>' : ''}
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
 
             users.forEach(user => {
@@ -460,8 +715,84 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
                 `;
             });
 
-            html += `</tbody></table>`;
+            html += `</tbody></table></div>`;
             container.innerHTML = html;
+        }
+
+        function renderCards(users, container) {
+            const canEdit = currentUser.permissions?.users?.edit || false;
+            const canDelete = currentUser.permissions?.users?.delete || false;
+
+            let html = '';
+
+            users.forEach(user => {
+                const roleClass = user.role_name === 'superadmin' ? 'role-superadmin' : 'role-admin';
+                const statusClass = user.is_active ? 'status-active' : 'status-inactive';
+                const lastLogin = user.last_login ? new Date(user.last_login).toLocaleString('es-MX', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : 'Nunca';
+
+                html += `
+                    <div class="user-card">
+                        <div class="user-card-header">
+                            <span class="user-id">#${user.id}</span>
+                            <span class="status-badge ${statusClass}">${user.is_active ? 'Activo' : 'Inactivo'}</span>
+                        </div>
+                        
+                        <div class="user-card-body">
+                            <div class="user-info">
+                                <span class="user-info-icon">👤</span>
+                                <span><strong>Nombre:</strong> ${user.full_name}</span>
+                            </div>
+                            
+                            <div class="user-info">
+                                <span class="user-info-icon">📧</span>
+                                <span><strong>Email:</strong> ${user.email}</span>
+                            </div>
+                            
+                            <div class="user-info">
+                                <span class="user-info-icon">🎯</span>
+                                <span>
+                                    <strong>Rol:</strong> 
+                                    <span class="role-badge ${roleClass}">${user.role_display_name}</span>
+                                </span>
+                            </div>
+                            
+                            <div class="user-info">
+                                <span class="user-info-icon">🕐</span>
+                                <span><strong>Último acceso:</strong> ${lastLogin}</span>
+                            </div>
+                        </div>
+
+                        ${(canEdit || canDelete) ? `
+                        <div class="user-card-footer">
+                            ${canEdit ? `
+                                <button class="btn btn-primary btn-sm" onclick="openEditModal(${user.id})">
+                                    ✏️ Editar
+                                </button>
+                            ` : ''}
+                            ${canDelete && user.id !== currentUser.id ? `
+                                ${user.is_active ? `
+                                    <button class="btn btn-danger btn-sm" onclick="deactivateUser(${user.id})">
+                                        🚫 Desactivar
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-success btn-sm" onclick="activateUser(${user.id})">
+                                        ✅ Activar
+                                    </button>
+                                `}
+                            ` : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html || '<div class="empty-state">No hay usuarios registrados</div>';
         }
 
         function openCreateModal() {
@@ -519,7 +850,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
             try {
                 if (editingUserId) {
-                    // Editar usuario existente
                     const { error } = await supabase
                         .from('admin_users')
                         .update({
@@ -533,8 +863,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
                     showAlert('✅ Usuario actualizado correctamente', 'success');
                 } else {
-                    // Crear nuevo usuario usando signUp
-                    // Nota: El usuario recibirá un email de confirmación
                     const { data: authData, error: authError } = await supabase.auth.signUp({
                         email: email,
                         password: password,
@@ -551,7 +879,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
                         throw new Error('No se pudo crear el usuario en Authentication');
                     }
 
-                    // Luego crear en admin_users
                     const { error: dbError } = await supabase
                         .from('admin_users')
                         .insert([{
@@ -620,6 +947,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         function showAlert(message, type) {
             const container = document.getElementById('alertContainer');
             container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
             setTimeout(() => {
                 container.innerHTML = '';
             }, 5000);

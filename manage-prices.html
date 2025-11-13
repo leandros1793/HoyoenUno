@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Edición de Precios - Playtomix Admin</title>
     <style>
         * {
@@ -26,8 +26,10 @@
             font-family: 'Inter', -apple-system, sans-serif;
             background: var(--light);
             color: var(--dark);
+            overflow-x: hidden;
         }
 
+        /* HEADER */
         .header {
             background: var(--white);
             padding: 1rem 2rem;
@@ -35,6 +37,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
@@ -43,6 +48,7 @@
             color: var(--primary);
         }
 
+        /* BOTONES */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -50,12 +56,18 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 0.95rem;
         }
 
         .btn-secondary {
             background: var(--white);
             color: var(--primary);
             border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
         }
 
         .btn-primary {
@@ -68,17 +80,23 @@
             color: var(--white);
         }
 
+        .btn-success:hover {
+            background: #059669;
+        }
+
         .btn-sm {
             padding: 0.5rem 1rem;
             font-size: 0.9rem;
         }
 
+        /* CONTAINER */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
 
+        /* SECTION */
         .section {
             background: var(--white);
             padding: 2rem;
@@ -100,11 +118,13 @@
             color: var(--primary);
         }
 
+        /* CATEGORY TABS */
         .category-tabs {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
             border-bottom: 2px solid #e5e7eb;
+            flex-wrap: wrap;
         }
 
         .tab {
@@ -123,6 +143,11 @@
             border-bottom-color: var(--primary);
         }
 
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        /* SERVICES GRID - DESKTOP */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -188,6 +213,7 @@
             display: flex;
             gap: 0.5rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .price-input {
@@ -211,6 +237,8 @@
             margin-top: 1rem;
             padding-top: 1rem;
             border-top: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .service-duration {
@@ -218,6 +246,7 @@
             color: #6b7280;
         }
 
+        /* ALERTS */
         .alert {
             padding: 1rem;
             border-radius: 8px;
@@ -242,6 +271,7 @@
             border-left: 4px solid var(--warning);
         }
 
+        /* WARNING BOX */
         .warning-box {
             background: #fef3c7;
             border: 2px solid #f59e0b;
@@ -259,12 +289,14 @@
             gap: 0.5rem;
         }
 
+        /* LOADING */
         .loading {
             text-align: center;
             padding: 2rem;
             color: #6b7280;
         }
 
+        /* HISTORY SECTION */
         .history-section {
             margin-top: 2rem;
             padding-top: 2rem;
@@ -278,12 +310,180 @@
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
+
+        /* ============================================ */
+        /* RESPONSIVE - MÓVIL */
+        /* ============================================ */
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.875rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .btn-secondary {
+                font-size: 0.85rem;
+                padding: 0.65rem 1rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 1.25rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .warning-box {
+                padding: 1rem;
+            }
+
+            .warning-title {
+                font-size: 0.95rem;
+            }
+
+            .warning-box p {
+                font-size: 0.9rem;
+            }
+
+            /* Tabs en columna */
+            .category-tabs {
+                flex-direction: column;
+                gap: 0;
+                border-bottom: none;
+            }
+
+            .tab {
+                padding: 0.875rem 1rem;
+                border-bottom: 2px solid #e5e7eb;
+                border-left: 3px solid transparent;
+                text-align: left;
+            }
+
+            .tab.active {
+                border-bottom: 2px solid #e5e7eb;
+                border-left-color: var(--primary);
+                background: #f0fdf4;
+            }
+
+            /* Grid en columna */
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .service-card {
+                padding: 1.25rem;
+            }
+
+            .service-name {
+                font-size: 1rem;
+            }
+
+            .service-description {
+                font-size: 0.85rem;
+            }
+
+            .current-price {
+                font-size: 1.75rem;
+            }
+
+            .price-input-group {
+                width: 100%;
+            }
+
+            .price-input {
+                flex: 1;
+                min-width: 120px;
+                font-size: 1rem;
+                padding: 0.65rem;
+            }
+
+            .btn-sm {
+                flex: 1;
+                min-width: 100px;
+            }
+
+            .service-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .history-item {
+                font-size: 0.85rem;
+                padding: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .btn-secondary {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.875rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .warning-box {
+                padding: 0.875rem;
+            }
+
+            .service-card {
+                padding: 1rem;
+            }
+
+            .current-price {
+                font-size: 1.5rem;
+            }
+
+            .price-input {
+                font-size: 0.95rem;
+            }
+
+            .btn-sm {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.875rem;
+            }
+        }
+
+        /* Fix para iOS */
+        input {
+            font-size: 16px !important;
+            -webkit-appearance: none;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">💰 Edición de Precios</div>
-        <button class="btn btn-secondary" onclick="goBack()">← Volver al Dashboard</button>
+        <button class="btn btn-secondary" onclick="goBack()">← Volver</button>
     </header>
 
     <div class="container">
@@ -342,7 +542,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
             currentUser = JSON.parse(adminUserData);
 
-            // Verificar permiso
             if (!currentUser.permissions?.prices?.edit) {
                 showAlert('No tienes permiso para acceder a esta página', 'error');
                 setTimeout(() => {
@@ -355,7 +554,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             try {
                 console.log('📥 Cargando servicios desde BD...');
                 
-                // Agregar timestamp para evitar caché
                 const { data, error } = await supabase
                     .from('services')
                     .select('*, service_categories(*)')
@@ -366,11 +564,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
                 if (error) throw error;
 
                 console.log('✅ Servicios cargados:', data.length);
-                console.log('Primer servicio:', data[0]);
 
                 allServices = data;
                 
-                // Renderizar según categoría actual
                 let filtered = allServices;
                 if (currentCategory !== 'all') {
                     filtered = allServices.filter(s => s.category_id === currentCategory);
@@ -386,11 +582,9 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         function filterCategory(category) {
             currentCategory = category;
 
-            // Actualizar tabs
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Filtrar servicios
             let filtered = allServices;
             if (category !== 'all') {
                 filtered = allServices.filter(s => s.category_id === category);
@@ -458,19 +652,15 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
         async function updatePrice(serviceId, serviceName) {
             console.log('🔧 Intentando actualizar precio...');
-            console.log('Service ID:', serviceId);
-            console.log('Service Name:', serviceName);
 
             const newPriceInput = document.getElementById(`price-${serviceId}`);
             
             if (!newPriceInput) {
-                console.error('❌ No se encontró el input de precio');
                 showAlert('❌ Error: No se encontró el campo de precio', 'error');
                 return;
             }
 
             const newPrice = parseFloat(newPriceInput.value);
-            console.log('Nuevo precio ingresado:', newPrice);
 
             if (!newPrice || newPrice <= 0 || isNaN(newPrice)) {
                 showAlert('❌ Precio inválido. Debe ser un número mayor a 0.', 'error');
@@ -480,13 +670,11 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             const service = allServices.find(s => s.id === serviceId);
             
             if (!service) {
-                console.error('❌ Servicio no encontrado en allServices');
                 showAlert('❌ Error: Servicio no encontrado', 'error');
                 return;
             }
 
             const oldPrice = parseFloat(service.price);
-            console.log('Precio anterior:', oldPrice);
 
             if (newPrice === oldPrice) {
                 showAlert('⚠️ El precio es el mismo que el actual', 'warning');
@@ -495,41 +683,23 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
             const confirmed = confirm(`¿Cambiar precio de "${serviceName}"?\n\nPrecio actual: $${oldPrice.toLocaleString('es-MX')}\nNuevo precio: $${newPrice.toLocaleString('es-MX')}`);
             
-            if (!confirmed) {
-                console.log('❌ Usuario canceló la operación');
-                return;
-            }
-
-            console.log('✅ Usuario confirmó, procediendo a actualizar...');
+            if (!confirmed) return;
 
             try {
-                // Intentar actualizar en Supabase
-                console.log('📡 Enviando actualización a Supabase...');
-                
                 const { data, error } = await supabase
                     .from('services')
                     .update({ price: newPrice })
                     .eq('id', serviceId)
                     .select();
 
-                console.log('Respuesta de Supabase:', { data, error });
+                if (error) throw error;
 
-                if (error) {
-                    console.error('❌ Error de Supabase:', error);
-                    throw error;
-                }
-
-                console.log('✅ Precio actualizado en BD');
-
-                // Actualizar el objeto local inmediatamente y marcar como actualizado
                 const serviceIndex = allServices.findIndex(s => s.id === serviceId);
                 if (serviceIndex !== -1) {
                     allServices[serviceIndex].price = newPrice;
                     allServices[serviceIndex].just_updated = true;
                 }
 
-                // Registrar en el log
-                console.log('📝 Registrando en el log...');
                 const { error: logError } = await supabase
                     .from('admin_activity_log')
                     .insert([{
@@ -545,32 +715,23 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
                         }
                     }]);
 
-                if (logError) {
-                    console.warn('⚠️ Error al registrar en log (no crítico):', logError);
-                }
-
                 showAlert(`✅ Precio actualizado: "${serviceName}" ahora cuesta $${newPrice.toLocaleString('es-MX')}`, 'success');
                 
-                console.log('🔄 Recargando servicios...');
-                
-                // Recargar inmediatamente para reflejar cambios
                 await loadServices();
                 await loadPriceHistory();
                 
-                // Quitar la clase 'updated' después de la animación
                 setTimeout(() => {
                     const card = document.getElementById(`service-card-${serviceId}`);
                     if (card) {
                         card.classList.remove('updated');
                     }
-                    // Limpiar flag
                     if (serviceIndex !== -1) {
                         allServices[serviceIndex].just_updated = false;
                     }
                 }, 1500);
 
             } catch (error) {
-                console.error('❌ Error completo:', error);
+                console.error('❌ Error:', error);
                 showAlert('❌ Error al actualizar precio: ' + error.message, 'error');
             }
         }
@@ -623,6 +784,10 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         function showAlert(message, type) {
             const container = document.getElementById('alertContainer');
             container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            
+            // Auto scroll al alert
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
             setTimeout(() => {
                 container.innerHTML = '';
             }, 5000);

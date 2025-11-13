@@ -6,6 +6,7 @@
     <title>Hoyo en Uno - Golfin-Academy-Bar</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @media (max-width: 768px) {
             .container > div:first-child {
@@ -36,19 +37,21 @@
         </div>
 
         <!-- Menú central -->
-        <div class="navbar-menu" id="navbarMenu">
-            <a href="#precios">Precios</a>
-            <a href="#about">Nosotros</a>
-            <a href="#ubicacion">Ubicación</a>
-            <a href="#contacto">Contacto</a>
-        </div>
+<div class="navbar-menu" id="navbarMenu">
+    <a href="#inicio" onclick="scrollToSection(event, 'inicio')">Inicio</a>
+    <a href="#servicios" onclick="scrollToSection(event, 'servicios')">Servicios</a>
+    <a href="#simulador" onclick="scrollToSection(event, 'simulador')">Simulador</a>
+    <a href="#contacto" onclick="scrollToSection(event, 'contacto')">Contacto</a>
+</div>
 
-        <!-- Botón del carrito derecho -->
-        <button class="navbar-cart-btn" onclick="toggleCart()">
-            <span class="navbar-cart-icon">🛒</span>
-            <span>Carrito</span>
-            <span class="navbar-cart-badge" id="cartBadge">0</span>
-        </button>
+<!-- Botón del carrito con Font Awesome -->
+<button class="navbar-cart-btn" onclick="toggleCart()">
+    <span class="navbar-cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+    </span>
+    <span>Carrito</span>
+    <span class="navbar-cart-badge" id="cartBadge">0</span>
+</button>
 
         <!-- Toggle para móvil -->
         <button class="navbar-toggle" id="navbarToggle" onclick="toggleNavbarMenu()">
@@ -97,8 +100,9 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
 });
 </script>
 
+
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero" id="inicio">
     <video autoplay muted loop playsinline class="hero-video">
         <source src="assets/hoyoenuno4.mp4" type="video/mp4">
     </video>
@@ -118,7 +122,7 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
 </section>
 
 <!-- Main Container -->
-<div class="container">
+<div class="container" id="servicios">
     <!-- Warning Alert con estilos inline -->
     <div style="
         background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
@@ -360,7 +364,544 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
 
     </div>
     <!-- FIN DE SERVICES GRID -->
+<!-- ============================================ -->
+<!-- SECCIÓN DE CAMPOS DE GOLF DISPONIBLES -->
+<!-- Insertar DESPUÉS del Hero y ANTES del container -->
+<!-- ============================================ -->
 
+<section class="golf-courses-section" id="simulador">
+    <div class="courses-container">
+        <div class="courses-header">
+            <h2 class="courses-title">🌍 Campos de Golf Virtuales</h2>
+            <p class="courses-subtitle">
+                Juega en más de 30 campos icónicos de todo el mundo con tecnología de simulación 3D
+            </p>
+        </div>
+        
+        <!-- Campos Destacados -->
+        <div class="courses-featured">
+            <div class="featured-course">
+                <div class="course-badge">⭐ Icónico</div>
+                <div class="course-flag">🇺🇸</div>
+                <h3>Pebble Beach Golf Links</h3>
+                <p>California, USA</p>
+            </div>
+            <div class="featured-course">
+                <div class="course-badge">⭐ Destacado</div>
+                <div class="course-flag">🇪🇸</div>
+                <h3>Real Club Valderrama</h3>
+                <p>Sotogrande, España</p>
+            </div>
+            <div class="featured-course">
+                <div class="course-badge">⭐ Premium</div>
+                <div class="course-flag">🇺🇸</div>
+                <h3>Muirfield Village</h3>
+                <p>Ohio, USA</p>
+            </div>
+        </div>
+        
+        <!-- Botón Ver Todos -->
+        <div class="courses-toggle">
+            <button class="btn-see-all" onclick="toggleAllCourses()">
+                <span id="toggleText">Ver todos los campos disponibles</span>
+                <span id="toggleIcon">▼</span>
+            </button>
+        </div>
+        
+        <!-- Lista Completa de Campos (Oculta inicialmente) -->
+        <div class="courses-grid" id="coursesGrid">
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">SentryWorld Golf Course</span>
+                <span class="course-tag new">NUEVO</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Penn State Blue Course</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Pebble Beach Golf Links</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Abu Dhabi Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Akron Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Ballyowen Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Big Sur Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Celtic Manor Resort - Twenty Ten</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Coeur d'Alene Resort</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Cog Hill - Dubsdread</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Congressional Country Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Conway Farms Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Detroit Country Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Crooked Cove Executive</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Doral Blue Monster</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Emirates Golf Club - Majlis</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Essex Golf & Country Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">French Lick - Pete Dye Course</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Glen Abbey</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Hidden Shoals</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Interlachen Country Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Kingsbarns Golf Links</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Majestic Meadows Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Marco Simone Golf & Country Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Midland Putting Course</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Muirfield Village Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Pelican Hill Golf Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Pitch N Putt</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Prairie Dunes</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Real Club Valderrama</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Scioto Reserve Country Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Snake Pit</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Pete Dye River Course</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">The Quarry at Giants Ridge</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Tuxedo Club</span>
+            </div>
+            <div class="course-item">
+                <span class="course-icon">⛳</span>
+                <span class="course-name">Westchester Country Club</span>
+            </div>
+        </div>
+        
+        <!-- Stats de campos -->
+        <div class="courses-stats">
+            <div class="stat-item">
+                <span class="stat-number">30+</span>
+                <span class="stat-label">Campos Disponibles</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Países</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Realismo 3D</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ESTILOS CSS -->
+<!-- Agregar al final de styles.css -->
+<!-- ============================================ -->
+
+<style>
+/* ============================================ */
+/* SECCIÓN DE CAMPOS DE GOLF */
+/* ============================================ */
+
+.golf-courses-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+    padding: 4rem 2rem;
+    margin: 2rem 0;
+}
+
+.courses-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.courses-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.courses-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.courses-subtitle {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Campos Destacados */
+.courses-featured {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.featured-course {
+    background: linear-gradient(135deg, #1a472a 0%, #2d6e3e 100%);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.featured-course::before {
+    content: '⛳';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 8rem;
+    opacity: 0.1;
+}
+
+.featured-course:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+
+.course-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--dark);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.course-flag {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2rem;
+}
+
+.featured-course h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.featured-course p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Botón Ver Todos */
+.courses-toggle {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.btn-see-all {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+}
+
+.btn-see-all:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 71, 42, 0.4);
+}
+
+#toggleIcon {
+    transition: transform 0.3s ease;
+}
+
+#toggleIcon.rotated {
+    transform: rotate(180deg);
+}
+
+/* Grid de Campos */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.courses-grid.active {
+    max-height: 2000px;
+    opacity: 1;
+    margin-bottom: 2rem;
+}
+
+.course-item {
+    background: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.course-item:hover {
+    border-color: var(--secondary);
+    background: #f0fdf4;
+    transform: translateX(8px);
+}
+
+.course-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.course-name {
+    flex: 1;
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 0.95rem;
+}
+
+.course-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.course-tag.new {
+    background: var(--warning);
+    color: var(--white);
+}
+
+/* Stats de Campos */
+.courses-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 2px solid #e5e7eb;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--gray);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    .golf-courses-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .courses-title {
+        font-size: 2rem;
+    }
+
+    .courses-subtitle {
+        font-size: 1rem;
+    }
+
+    .courses-featured {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .featured-course {
+        padding: 1.5rem;
+    }
+
+    .btn-see-all {
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .courses-stats {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .golf-courses-section {
+        padding: 2rem 1rem;
+    }
+
+    .courses-title {
+        font-size: 1.75rem;
+    }
+
+    .featured-course h3 {
+        font-size: 1.25rem;
+    }
+
+    .course-item {
+        padding: 0.875rem 1.25rem;
+    }
+
+    .course-name {
+        font-size: 0.85rem;
+    }
+}
+</style>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- Agregar al final del HTML, antes de </body> -->
+<!-- ============================================ -->
+
+<script>
+function toggleAllCourses() {
+    const grid = document.getElementById('coursesGrid');
+    const icon = document.getElementById('toggleIcon');
+    const text = document.getElementById('toggleText');
+    
+    grid.classList.toggle('active');
+    icon.classList.toggle('rotated');
+    
+    if (grid.classList.contains('active')) {
+        text.textContent = 'Ocultar lista de campos';
+        
+        // Scroll suave hacia la lista
+        setTimeout(() => {
+            grid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    } else {
+        text.textContent = 'Ver todos los campos disponibles';
+    }
+}
+
+console.log('✅ Sección de campos de golf cargada');
+</script>
     <!-- Video Showcase Section -->
     <div class="video-showcase">
         <h2 class="video-showcase-title">🏆 ¡Hoyo en Uno!</h2>
@@ -431,22 +972,65 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
         </div>
     </div>
 
-    <!-- Contact Section -->
-    <div class="contact-section">
-        <h3 class="contact-title">📞 Contacto</h3>
-        <p style="color: var(--gray); margin-bottom: 1rem;">
-            ¿Tienes dudas? Contáctanos por WhatsApp
-        </p>
-        <div class="contact-info">
-            <div class="contact-item">
-                📱 <strong>WhatsApp:</strong> 33 223 968 25
-            </div>
-            <div class="contact-item">
-                🕐 <strong>Horario:</strong> Lunes a Sábado, 7:00 AM - 11:00 PM
-            </div>
+<!-- Contact Section -->
+<div class="contact-section" id="contacto">
+    <h3 class="contact-title">
+        <i class="fas fa-phone-alt"></i> Contacto
+    </h3>
+    <p style="color: var(--gray); margin-bottom: 1rem;">
+        ¿Tienes dudas? Contáctanos por WhatsApp
+    </p>
+    <div class="contact-info">
+        <div class="contact-item">
+            <i class="fab fa-whatsapp"></i>
+            <strong>WhatsApp:</strong> 33 223 968 25
+        </div>
+        <div class="contact-item">
+            <i class="far fa-clock"></i>
+            <strong>Horario:</strong> Lunes a Sábado, 7:00 AM - 11:00 PM
         </div>
     </div>
 </div>
+    <!-- Footer verde oscuro -->
+<footer class="footer-minimal">
+    <div class="footer-minimal-container">
+        <div class="footer-branding">
+            <div class="footer-logo">
+                <span class="footer-logo-icon">⛳</span>
+                <span class="footer-logo-text">Hoyo en Uno</span>
+            </div>
+            <p class="footer-tagline">
+                "Donde cada swing cuenta"
+            </p>
+        </div>
+        
+        <div class="footer-schedule">
+            <span>🕐</span>
+            <span>Lun - Sáb: 7:00 AM - 11:00 PM</span>
+        </div>
+
+<div class="footer-social">
+    <a href="https://facebook.com/hoyoenuno" target="_blank" class="social-link facebook" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://instagram.com/hoyoenuno" target="_blank" class="social-link instagram" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://wa.me/5233223968325" target="_blank" class="social-link whatsapp" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+        <p class="footer-copyright">
+            © 2025 <strong>Hoyo en Uno</strong>. Todos los derechos reservados.
+        </p>
+    </div>
+</footer>
+    
+</div>
+
+
+
 
 <!-- Cart Sidebar -->
 <div class="cart-sidebar" id="cartSidebar">
@@ -485,6 +1069,7 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
     <span class="notification-text" id="notificationText"></span>
 </div>
 
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="categorias.js"></script>
@@ -509,6 +1094,86 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
         })
         .catch(error => console.error('Error cargando widget:', error));
 </script>
+<script>
+// ============================================
+// FUNCIÓN DE SCROLL SUAVE
+// ============================================
 
+function scrollToSection(event, sectionId) {
+    event.preventDefault();
+    
+    const section = document.getElementById(sectionId);
+    if (!section) {
+        console.error('Sección no encontrada:', sectionId);
+        return;
+    }
+    
+    // Calcular offset del navbar
+    const navbar = document.querySelector('.navbar-elegant');
+    const navbarHeight = navbar ? navbar.offsetHeight : 85;
+    const offset = 20; // Espacio extra
+    
+    const sectionPosition = section.offsetTop - navbarHeight - offset;
+    
+    // Scroll suave
+    window.scrollTo({
+        top: sectionPosition,
+        behavior: 'smooth'
+    });
+    
+    // Cerrar menú móvil si está abierto
+    if (window.innerWidth <= 968) {
+        const menu = document.getElementById('navbarMenu');
+        const toggle = document.getElementById('navbarToggle');
+        if (menu && toggle) {
+            menu.classList.remove('active');
+            toggle.classList.remove('active');
+        }
+    }
+}
+
+// ============================================
+// HIGHLIGHT DEL LINK ACTIVO AL HACER SCROLL
+// ============================================
+
+function updateActiveLink() {
+    const sections = ['inicio', 'servicios', 'simulador', 'contacto'];
+    const navbar = document.querySelector('.navbar-elegant');
+    const navbarHeight = navbar ? navbar.offsetHeight : 85;
+    const scrollPosition = window.scrollY + navbarHeight + 100;
+    
+    let currentSection = 'inicio'; // Default
+    
+    sections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                currentSection = sectionId;
+            }
+        }
+    });
+    
+    // Actualizar clase active en los links
+    document.querySelectorAll('.navbar-menu a').forEach(link => {
+        link.classList.remove('active-link');
+        
+        const href = link.getAttribute('href');
+        if (href === `#${currentSection}`) {
+            link.classList.add('active-link');
+        }
+    });
+}
+
+// Ejecutar al hacer scroll
+window.addEventListener('scroll', updateActiveLink);
+
+// Ejecutar al cargar la página
+document.addEventListener('DOMContentLoaded', updateActiveLink);
+
+console.log('✅ Navegación optimizada cargada');
+</script>
 </body>
 </html>
