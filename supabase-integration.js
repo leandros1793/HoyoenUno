@@ -21,7 +21,7 @@ const ADMIN_WHATSAPP = '523322396825';
 // MERCADO PAGO - CONFIGURACIÓN
 // ============================================
 
-const API_URL = 'https://andreas-volume-hudson-isbn.trycloudflare.com'; // Forzar localhost por ahora // ⚠️ Cambiar cuando tengas dominio
+const API_URL = 'https://hoyo-en-uno-backend.onrender.com'; // Forzar localhost por ahora // ⚠️ Cambiar cuando tengas dominio
 
 console.log('✅ API URL configurada:', API_URL);
 console.log('✅ Configuración de WhatsApp cargada');
