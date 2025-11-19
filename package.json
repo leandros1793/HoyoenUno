@@ -1,8 +1,8 @@
 {
   "name": "hoyoenuno",
   "version": "1.0.0",
-  "description": "",
-  "main": "supabase-integration.js",
+  "description": "Sistema de pagos para Hoyo en Uno",
+  "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
@@ -11,17 +11,18 @@
     "type": "git",
     "url": "git+https://github.com/leandros1793/HoyoenUno.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["mercadopago", "golf", "payments"],
+  "author": "Hoyo en Uno",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/leandros1793/HoyoenUno/issues"
   },
   "homepage": "https://github.com/leandros1793/HoyoenUno#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "mercadopago": "^2.10.0",
     "morgan": "^1.10.1"
   },
   "devDependencies": {

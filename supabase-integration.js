@@ -1,6 +1,6 @@
 // ============================================
 // SUPABASE INTEGRATION FOR HOYO EN UNO
-// Versión Consolidada y Optimizada
+// Versión con Mercado Pago integrado
 // ============================================
 
 // ============================================
@@ -14,13 +14,22 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Constantes
-const BUSINESS_WHATSAPP = '523312229568'; // Tu número de WhatsApp del negocio
-const ADMIN_WHATSAPP = '543512295662';    // Tu número de admin
+const BUSINESS_WHATSAPP = '523322396825';
+const ADMIN_WHATSAPP = '523322396825';
 
+// ============================================
+// MERCADO PAGO - CONFIGURACIÓN
+// ============================================
+
+const API_URL = 'https://andreas-volume-hudson-isbn.trycloudflare.com'; // Forzar localhost por ahora // ⚠️ Cambiar cuando tengas dominio
+
+console.log('✅ API URL configurada:', API_URL);
 console.log('✅ Configuración de WhatsApp cargada');
+
 let cart = []; // Array para almacenar items del carrito
 
 console.log('✅ Supabase client inicializado');
+console.log('✅ Sistema de pagos Mercado Pago integrado');
 
 // ============================================
 // 2. SERVICIOS Y CATEGORÍAS
@@ -292,7 +301,6 @@ async function loadDynamicTimeSlots(selectId, categoryId, date, duration) {
 // ============================================
 
 async function createReservation(reservationData) {
-    // Validar método de pago
     const validMethods = ['efectivo', 'tarjeta', 'transferencia'];
     if (!validMethods.includes(reservationData.paymentMethod)) {
         console.warn(`⚠️ Método de pago inválido: ${reservationData.paymentMethod}, se usará 'efectivo'`);
@@ -474,12 +482,10 @@ function initAllReservationForms() {
     
     const today = new Date().toISOString().split('T')[0];
     
-    // Academia
     initAcademiaForm('academia-1', 1, today);
     initAcademiaForm('academia-2', 2, today);
     initAcademiaForm('academia-3', 3, today);
     
-    // Simulador
     initSimuladorForm('simulador', 2, today);
     
     console.log('✅ Formularios inicializados correctamente');
@@ -519,7 +525,6 @@ function initAcademiaForm(formId, serviceId, minDate) {
         timeSelect.disabled = true;
         
         try {
-            // ✅ CARGAR HORARIOS SOLO PARA ESTE SERVICE_ID ESPECÍFICO
             await loadTimeSlotsForSpecificService(`time-${formId}`, serviceId, selectedDate);
         } catch (error) {
             console.error('Error al cargar horarios:', error);
@@ -530,13 +535,6 @@ function initAcademiaForm(formId, serviceId, minDate) {
     
     console.log(`✅ Academia ${formId} inicializada con serviceId: ${serviceId}`);
 }
-
-// Nueva función para cargar horarios de un servicio específico
-// ============================================
-// VERSIÓN ULTRA OPTIMIZADA
-// Trae TODAS las reservas del día en UNA SOLA consulta
-// REEMPLAZAR loadTimeSlotsForSpecificService en supabase-integration.js
-// ============================================
 
 async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
     const selectElement = document.getElementById(selectId);
@@ -556,16 +554,13 @@ async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
     selectElement.disabled = true;
     
     try {
-        // ✅ 1. OBTENER SERVICIO Y RESERVAS EN PARALELO
         const [serviceResult, reservationsResult] = await Promise.all([
-            // Consulta 1: Obtener el servicio
             supabase
                 .from('services')
                 .select('*')
                 .eq('id', serviceId)
                 .eq('active', true),
             
-            // Consulta 2: Obtener TODAS las reservas del día para este servicio
             supabase
                 .from('reservations')
                 .select('reservation_time')
@@ -587,7 +582,6 @@ async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
         
         console.log('✅ Servicio encontrado:', service.name);
         
-        // ✅ 2. VERIFICAR DÍA VÁLIDO
         const selectedDate = new Date(date + 'T00:00:00');
         const dayOfWeek = selectedDate.getDay();
         
@@ -603,7 +597,6 @@ async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
             return;
         }
         
-        // ✅ 3. GENERAR SLOTS
         const slots = generateTimeSlots(service, date);
         
         if (slots.length === 0) {
@@ -613,14 +606,12 @@ async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
         
         console.log(`📊 Generados ${slots.length} slots`);
         
-        // ✅ 4. CREAR SET DE HORARIOS OCUPADOS (búsqueda O(1))
         const occupiedTimes = new Set(
             reservationsResult.data.map(r => r.reservation_time)
         );
         
         console.log(`🚫 ${occupiedTimes.size} horarios ocupados`);
         
-        // ✅ 5. FILTRAR SLOTS DISPONIBLES (sin hacer consultas adicionales)
         const availableSlots = slots.filter(slot => {
             return !occupiedTimes.has(slot.time);
         }).map(slot => ({
@@ -629,7 +620,6 @@ async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
             price: service.price
         }));
         
-        // ✅ 6. RENDERIZAR
         selectElement.innerHTML = '<option value="">Selecciona un horario</option>';
         
         if (availableSlots.length === 0) {
@@ -660,32 +650,6 @@ async function loadTimeSlotsForSpecificService(selectId, serviceId, date) {
     }
 }
 
-// ============================================
-// EXPLICACIÓN DE LA OPTIMIZACIÓN:
-// ============================================
-
-/*
-ANTES (LENTO):
-- Generaba 16 slots
-- Por cada slot: 1 consulta a Supabase
-- Total: 16 consultas = LENTO 🐌
-
-AHORA (RÁPIDO):
-- 1 consulta para obtener el servicio
-- 1 consulta para obtener TODAS las reservas del día
-- Filtra en memoria usando Set (O(1))
-- Total: 2 consultas = RÁPIDO ⚡
-
-MEJORA: ~8x más rápido
-
-VENTAJAS ADICIONALES:
-✅ Menos carga en Supabase
-✅ Menos consumo de cuota de API
-✅ Experiencia de usuario instantánea
-✅ Escalable (funciona igual con 10 o 100 slots)
-*/
-
-console.log('✅ Versión optimizada de loadTimeSlotsForSpecificService cargada');
 function initSimuladorForm(formId, categoryId, minDate) {
     const dateInput = document.getElementById(`date-${formId}`);
     const durationSelect = document.getElementById(`duration-${formId}`);
@@ -800,7 +764,6 @@ async function realizarReserva(button, serviceName, basePrice = null) {
             toggleCart();
             showNotification('✅ Agregado al carrito exitosamente', 'success');
             
-            // Limpiar formulario
             dateInput.value = '';
             durationSelect.value = '';
             timeSelect.innerHTML = '<option value="">Primero selecciona fecha y duración</option>';
@@ -854,7 +817,6 @@ async function realizarReserva(button, serviceName, basePrice = null) {
             toggleCart();
             showNotification('✅ Agregado al carrito exitosamente', 'success');
             
-            // Limpiar formulario
             dateInput.value = '';
             timeSelect.innerHTML = '<option value="">Selecciona fecha primero</option>';
             timeSelect.disabled = true;
@@ -964,17 +926,187 @@ function updateQty(button, delta) {
 }
 
 // ============================================
-// 7. PROCESAR PAGO Y CONFIRMACIÓN
+// OBTENER CARRITO - FUNCIÓN HELPER
+// ============================================
+
+function getCart() {
+    return cart;
+}
+
+// ============================================
+// 7. MERCADO PAGO - PROCESAR PAGO ONLINE
+// ============================================
+
+function mostrarLoading(show) {
+    let loader = document.getElementById('payment-loader');
+    
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'payment-loader';
+        loader.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 99999;
+            ">
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 16px;
+                    text-align: center;
+                ">
+                    <div style="
+                        width: 50px;
+                        height: 50px;
+                        border: 4px solid #e0e0e0;
+                        border-top-color: #25d366;
+                        border-radius: 50%;
+                        animation: spin 1s linear infinite;
+                        margin: 0 auto 1rem;
+                    "></div>
+                    <p style="margin: 0; color: #333; font-weight: 600;">
+                        Procesando pago...
+                    </p>
+                </div>
+            </div>
+            <style>
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            </style>
+        `;
+        document.body.appendChild(loader);
+    }
+    
+    loader.style.display = show ? 'flex' : 'none';
+}
+
+async function procesarPagoMercadoPago() {
+    try {
+        console.log('💳 Iniciando pago con Mercado Pago...');
+        
+        // Obtener carrito
+        const carritoActual = getCart();
+        
+        console.log('📦 Carrito obtenido:', carritoActual);
+        console.log('📊 Items en carrito:', carritoActual.length);
+        
+        // Validar carrito
+        if (!carritoActual || carritoActual.length === 0) {
+            alert('El carrito está vacío. Agrega servicios antes de continuar.');
+            return;
+        }
+        
+        // Calcular total
+        const total = carritoActual.reduce((sum, item) => sum + item.totalPrice, 0);
+        
+        // Crear título descriptivo
+        let titulo = '';
+        if (carritoActual.length === 1) {
+            titulo = carritoActual[0].serviceName;
+        } else {
+            titulo = `Paquete Hoyo en Uno (${carritoActual.length} servicios)`;
+        }
+        
+        // Preparar datos para el pago
+        const paymentData = {
+            title: titulo,
+            quantity: 1,
+            price: total,
+            description: carritoActual.map(item => 
+                `${item.serviceName} x${item.quantity || 1}`
+            ).join(', ')
+        };
+        
+        console.log('📤 Datos del pago:', paymentData);
+        
+        // Mostrar loading
+        mostrarLoading(true);
+        
+// Llamar a la API
+console.log('🔍 Enviando petición a:', `${API_URL}/payment/create_preference`);
+
+try {
+    const response = await fetch(`${API_URL}/payment/create_preference`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(paymentData)
+    });
+
+    // Verificar si la respuesta es JSON
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+        const textResponse = await response.text();
+        console.error('❌ La respuesta no es JSON:', textResponse.substring(0, 500));
+        throw new Error('La respuesta del servidor no es un JSON válido');
+    }
+
+    const data = await response.json();
+    mostrarLoading(false);
+    
+    if (!response.ok) {
+        console.error('❌ Error en la respuesta:', data);
+        throw new Error(data.message || 'Error al crear el pago');
+    }
+    
+    console.log('✅ Preferencia creada:', data);
+    
+    // Redirigir a Mercado Pago
+    if (data.checkout_url) {
+        console.log('🚀 Redirigiendo a Mercado Pago...');
+        window.location.href = data.checkout_url;
+    } else {
+        throw new Error('No se recibió la URL de pago');
+    }
+} catch (error) {
+    console.error('❌ Error en la petición:', error);
+    mostrarLoading(false);
+    // Aquí podrías mostrar un mensaje de error al usuario
+    alert('Error al procesar el pago: ' + error.message);
+    throw error; // Opcional: re-lanzar el error si necesitas manejarlo en otro lugar
+}
+        
+    } catch (error) {
+        console.error('❌ Error:', error);
+        mostrarLoading(false);
+        alert('Error al procesar el pago: ' + error.message);
+    }
+}
+
+// ============================================
+// 8. PROCESAR PAGO - SELECTOR DE MÉTODO
 // ============================================
 
 function processPayment(paymentMethod) {
-    if (cart.length === 0) {
+    const carritoActual = getCart();
+    
+    if (!carritoActual || carritoActual.length === 0) {
         alert('El carrito está vacío');
         return;
     }
     
-    mostrarModalDatosCliente(paymentMethod);
+    if (paymentMethod === 'online') {
+        // ✅ PAGO CON MERCADO PAGO
+        procesarPagoMercadoPago();
+    } else {
+        // Pago en establecimiento (flujo original)
+        mostrarModalDatosCliente(paymentMethod);
+    }
 }
+
+// ============================================
+// 9. FLUJO ORIGINAL - PAGO EN ESTABLECIMIENTO
+// ============================================
 
 function mostrarModalDatosCliente(paymentMethod) {
     const total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
@@ -1099,13 +1231,22 @@ async function confirmarReservas(paymentMethod) {
         
         console.log('✅ Todas las reservas guardadas:', reservations);
         
+        const adminWhatsAppUrl = await notificarAdminNuevaReserva(reservations);
+        
+        if (adminWhatsAppUrl) {
+            setTimeout(() => {
+                window.open(adminWhatsAppUrl, '_blank');
+                console.log('📱 WhatsApp del admin abierto automáticamente');
+            }, 1000);
+        }
+        
         cerrarModal();
         toggleCart();
         
         cart = [];
         updateCartUI();
         
-        mostrarModalExito(reservations, paymentMethod);
+        mostrarModalExito(reservations, paymentMethod, adminWhatsAppUrl);
         
     } catch (error) {
         console.error('Error:', error);
@@ -1115,141 +1256,11 @@ async function confirmarReservas(paymentMethod) {
     }
 }
 
-function mostrarModalExito(reservations, paymentMethod) {
-    const total = reservations.reduce((sum, r) => sum + r.total_amount, 0);
-    
-    const whatsappMessage = `
-Hola, acabo de hacer ${reservations.length} reserva(s):
-
-${reservations.map((r, i) => `
-${i + 1}. ${r.serviceName}
-   📅 ${formatDate(r.reservation_date)}
-   🕐 ${formatTime(r.reservation_time)}
-   💰 $${r.total_amount.toLocaleString('es-MX')}
-   ID: #${r.id}
-`).join('\n')}
-
-💵 Total: $${total.toLocaleString('es-MX')}
-👤 ${reservations[0].customer_name}
-
-Por favor confirma mis reservas. Gracias!
-    `.trim();
-    
-    const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(whatsappMessage)}`;
-    
-    const modalHTML = `
-        <div class="modal-overlay success-modal" id="successModal">
-            <div class="modal-content">
-                <div class="success-icon">✅</div>
-                <h2>¡Reservas Creadas!</h2>
-                
-                <div class="success-details">
-                    <p><strong>${reservations.length} reserva(s) confirmada(s)</strong></p>
-                    ${reservations.map(r => `
-                        <div class="reservation-item">
-                            <p><strong>${r.serviceName}</strong></p>
-                            <p>📅 ${formatDate(r.reservation_date)} | 🕐 ${formatTime(r.reservation_time)}</p>
-                            <p>ID: #${r.id}</p>
-                        </div>
-                    `).join('')}
-                    <p class="total-amount"><strong>Total: $${total.toLocaleString('es-MX')}</strong></p>
-                </div>
-                
-                <div class="next-steps">
-                    <h3>📱 Próximo Paso:</h3>
-                    <p>Contacta al administrador por WhatsApp para confirmar tus reservas y coordinar el pago.</p>
-                </div>
-                
-                <div class="button-group">
-                    <a href="${whatsappUrl}" target="_blank" class="whatsapp-btn-large">
-                        💬 Confirmar por WhatsApp
-                    </a>
-                    <button onclick="cerrarModalExito()" class="btn-secondary">
-                        Cerrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-}
-
-function cerrarModal() {
-    document.getElementById('customerModal')?.remove();
-}
-
-function cerrarModalExito() {
-    document.getElementById('successModal')?.remove();
-    location.reload();
-}
-
-// ============================================
-// 8. UTILIDADES Y HELPERS
-// ============================================
-
-function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString + 'T00:00:00').toLocaleDateString('es-MX', options);
-}
-
-function formatTime(timeString) {
-    return timeString.substring(0, 5);
-}
-
-function formatPrice(amount) {
-    return `$${parseFloat(amount).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function isValidPhone(phone) {
-    const phoneRegex = /^\d{10}$/;
-    return phoneRegex.test(phone.replace(/\D/g, ''));
-}
-
-function showNotification(message, type = 'success') {
-    let notification = document.querySelector('.notification');
-    
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.className = 'notification';
-        document.body.appendChild(notification);
-    }
-    
-    const icon = type === 'success' ? '✅' : '❌';
-    notification.innerHTML = `
-        <span class="notification-icon">${icon}</span>
-        <span class="notification-text">${message}</span>
-    `;
-    
-    notification.classList.add('show');
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
-}
-
-// ============================================
-// 9. INICIALIZACIÓN AUTO
-// ============================================
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAllReservationForms);
-} else {
-    initAllReservationForms();
-}
-
-console.log('✅ Supabase Integration completo cargado');
 async function notificarAdminNuevaReserva(reservations) {
     try {
         const total = reservations.reduce((sum, r) => sum + parseFloat(r.total_amount), 0);
         const cliente = reservations[0];
         
-        // Mensaje para el ADMIN con toda la información
         const adminMessage = `
 🔔 *NUEVA RESERVA - HOYO EN UNO*
 
@@ -1287,11 +1298,9 @@ ${window.location.origin}/admin-login.html
 Para aprobar esta reserva, ingresa al panel de administración.
         `.trim();
         
-        // URL de WhatsApp para el ADMIN
         const adminWhatsAppUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(adminMessage)}`;
         
         console.log('📨 Notificación preparada para admin:', ADMIN_WHATSAPP);
-        console.log('📱 URL de WhatsApp:', adminWhatsAppUrl);
         
         return adminWhatsAppUrl;
         
@@ -1301,112 +1310,9 @@ Para aprobar esta reserva, ingresa al panel de administración.
     }
 }
 
-// ============================================
-// 3. MODIFICAR confirmarReservas
-// Busca esta función y REEMPLÁZALA COMPLETA
-// ============================================
-
-async function confirmarReservas(paymentMethod) {
-    console.log('💾 Guardando reservas...');
-    
-    const customerName = document.getElementById('customerName')?.value.trim();
-    const customerEmail = document.getElementById('customerEmail')?.value.trim();
-    const customerPhone = document.getElementById('customerPhone')?.value.trim();
-    const customerNotes = document.getElementById('customerNotes')?.value.trim();
-    
-    if (!customerName || !customerEmail || !customerPhone) {
-        alert('❌ Por favor completa todos los campos obligatorios');
-        return;
-    }
-    
-    if (!isValidEmail(customerEmail)) {
-        alert('❌ Email inválido');
-        return;
-    }
-    
-    if (!isValidPhone(customerPhone)) {
-        alert('❌ Teléfono debe tener 10 dígitos');
-        return;
-    }
-    
-    const btn = event.target;
-    const originalText = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = '⏳ Guardando...';
-    
-    try {
-        const reservations = [];
-        
-        for (const item of cart) {
-            const reservationData = {
-                serviceId: parseInt(item.serviceId),
-                date: item.date,
-                time: item.time,
-                quantity: item.quantity,
-                customerName: customerName,
-                customerEmail: customerEmail,
-                customerPhone: customerPhone,
-                unitPrice: item.unitPrice,
-                totalAmount: item.totalPrice,
-                paymentMethod: paymentMethod === 'online' ? 'tarjeta' : 'efectivo',
-                notes: customerNotes || null
-            };
-            
-            const result = await createReservationWithCheck(reservationData);
-            
-            if (!result.success) {
-                alert(`❌ Error en: ${item.serviceName}\n${result.error}`);
-                btn.disabled = false;
-                btn.textContent = originalText;
-                return;
-            }
-            
-            reservations.push({
-                ...result.data,
-                serviceName: item.serviceName
-            });
-        }
-        
-        console.log('✅ Todas las reservas guardadas:', reservations);
-        
-        // ✅ NOTIFICAR AL ADMIN AUTOMÁTICAMENTE
-        const adminWhatsAppUrl = await notificarAdminNuevaReserva(reservations);
-        
-        // ✅ ABRIR WHATSAPP DEL ADMIN AUTOMÁTICAMENTE (OPCIONAL)
-        if (adminWhatsAppUrl) {
-            // Esperar 1 segundo y abrir WhatsApp del admin
-            setTimeout(() => {
-                window.open(adminWhatsAppUrl, '_blank');
-                console.log('📱 WhatsApp del admin abierto automáticamente');
-            }, 1000);
-        }
-        
-        cerrarModal();
-        toggleCart();
-        
-        cart = [];
-        updateCartUI();
-        
-        // Mostrar modal de éxito CON link al admin
-        mostrarModalExito(reservations, paymentMethod, adminWhatsAppUrl);
-        
-    } catch (error) {
-        console.error('Error:', error);
-        alert('❌ Error al guardar las reservas. Intenta de nuevo.');
-        btn.disabled = false;
-        btn.textContent = originalText;
-    }
-}
-
-// ============================================
-// 4. ACTUALIZAR mostrarModalExito
-// Busca esta función y REEMPLÁZALA COMPLETA
-// ============================================
-
 function mostrarModalExito(reservations, paymentMethod, adminWhatsAppUrl) {
     const total = reservations.reduce((sum, r) => sum + parseFloat(r.total_amount), 0);
     
-    // Mensaje para el CLIENTE
     const clientMessage = `
 Hola, acabo de hacer ${reservations.length} reserva(s) en Hoyo en Uno:
 
@@ -1425,7 +1331,7 @@ ${i + 1}. ${r.serviceName}
 Por favor confirma mis reservas. ¡Gracias!
     `.trim();
     
-    const clientWhatsAppUrl = `https://wa.me/523312229568?text=${encodeURIComponent(clientMessage)}`;
+    const clientWhatsAppUrl = `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(clientMessage)}`;
     
     const modalHTML = `
         <div class="modal-overlay success-modal" id="successModal">
@@ -1479,9 +1385,9 @@ Por favor confirma mis reservas. ¡Gracias!
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 
-// ============================================
-// 5. FUNCIÓN AUXILIAR PARA CERRAR MODAL
-// ============================================
+function cerrarModal() {
+    document.getElementById('customerModal')?.remove();
+}
 
 function cerrarModalExito() {
     const modal = document.getElementById('successModal');
@@ -1491,27 +1397,65 @@ function cerrarModalExito() {
 }
 
 // ============================================
-// CONFIRMACIÓN DE CARGA
+// 10. UTILIDADES Y HELPERS
 // ============================================
 
-console.log('✅ Sistema de notificaciones al admin configurado');
-console.log('📱 Admin WhatsApp:', ADMIN_WHATSAPP);
-console.log('🏢 Business WhatsApp:', BUSINESS_WHATSAPP);
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString + 'T00:00:00').toLocaleDateString('es-MX', options);
+}
 
+function formatTime(timeString) {
+    return timeString.substring(0, 5);
+}
 
+function formatPrice(amount) {
+    return `$${parseFloat(amount).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
 
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
 
+function isValidPhone(phone) {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone.replace(/\D/g, ''));
+}
 
+function showNotification(message, type = 'success') {
+    let notification = document.querySelector('.notification');
+    
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.className = 'notification';
+        document.body.appendChild(notification);
+    }
+    
+    const icon = type === 'success' ? '✅' : '❌';
+    notification.innerHTML = `
+        <span class="notification-icon">${icon}</span>
+        <span class="notification-text">${message}</span>
+    `;
+    
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
 
+// ============================================
+// 11. INICIALIZACIÓN AUTO
+// ============================================
 
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAllReservationForms);
+} else {
+    initAllReservationForms();
+}
 
-
-
-
-
-
-
-
-
-
-
+console.log('✅ Supabase Integration completo cargado');
+console.log('💳 Mercado Pago integrado - API URL:', API_URL);
+console.log('📱 WhatsApp Business:', BUSINESS_WHATSAPP);
+console.log('🔧 WhatsApp Admin:', ADMIN_WHATSAPP);s

@@ -1049,14 +1049,25 @@ console.log('✅ Sección de campos de golf cargada');
             <span class="cart-total-label">Total:</span>
             <span class="cart-total-amount" id="cartTotal">$0</span>
         </div>
-        <div class="payment-options">
-            <button class="payment-btn primary" onclick="processPayment('online')">
-                💳 Pagar en Línea
-            </button>
-            <button class="payment-btn secondary" onclick="processPayment('instore')">
-                🏪 Pagar en Establecimiento
-            </button>
-        </div>
+<div class="payment-options">
+    <!-- Botón Mercado Pago -->
+    <button class="payment-btn primary" onclick="processPayment('online')">
+        <i class="fab fa-cc-mastercard"></i>
+        <span>Pagar con Mercado Pago</span>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+    </button>
+    
+    <!-- Botón Pago en Tienda -->
+    <button class="payment-btn secondary" onclick="processPayment('instore')">
+        <i class="fas fa-store"></i>
+        <span>Pagar en Establecimiento</span>
+    </button>
+</div>
+        <!-- Agregar justo antes del cierre del cart-footer -->
+<div class="payment-loading" id="paymentLoading" style="display: none; text-align: center; margin-top: 15px; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.03);">
+    <div class="spinner" style="width: 24px; height: 24px; border: 3px solid rgba(0,0,0,0.1); border-left-color: #2ecc71; border-radius: 50%; margin: 0 auto 8px; animation: spin 1s linear infinite;"></div>
+    <p style="margin: 0; color: #4b5563; font-size: 0.9rem;">Procesando pago...</p>
+</div>
     </div>
 </div>
 
@@ -1075,7 +1086,7 @@ console.log('✅ Sección de campos de golf cargada');
 <script src="categorias.js"></script>
 <script src="supabase-integration.js"></script>
 
-<!-- IMPORTAR WIDGET DE WHATSAPP -->
+<!-- IMPORTAR WIDGET DE WHATSAPP -->    
 <div id="whatsapp-widget-container"></div>
 
 <script>
@@ -1094,6 +1105,8 @@ console.log('✅ Sección de campos de golf cargada');
         })
         .catch(error => console.error('Error cargando widget:', error));
 </script>
+<!-- SDK de Mercado Pago -->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
 <script>
 // ============================================
 // FUNCIÓN DE SCROLL SUAVE
@@ -1175,5 +1188,6 @@ document.addEventListener('DOMContentLoaded', updateActiveLink);
 
 console.log('✅ Navegación optimizada cargada');
 </script>
+<!-- ============================================ -->
 </body>
 </html>

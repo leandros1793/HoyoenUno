@@ -2153,7 +2153,13 @@ select.input-field {
     }
 }
 
-
+.checkout-btn {
+    background: #009ee3; /* Azul Mercado Pago */
+    /* o */
+    background: #25d366; /* Verde WhatsApp style */
+    /* o */
+    background: var(--primary); /* Tu color principal */
+}
 
 .social-link {
     width: 40px;
