@@ -33,7 +33,7 @@ const MP_PUBLIC_KEY = ENVIRONMENT === 'production'
 // URL BASE (Cambiar según ambiente)
 // ============================================
 
-const BASE_URL_DEV = 'https://andreas-volume-hudson-isbn.trycloudflare.com';
+const BASE_URL_DEV = 'https://arbor-conclude-richardson-adware.trycloudflare.com';
 const BASE_URL_PROD = 'https://hoyoenuno.golf';
 
 const BASE_URL = ENVIRONMENT === 'production' ? BASE_URL_PROD : BASE_URL_DEV;

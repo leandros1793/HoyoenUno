@@ -937,6 +937,11 @@ function getCart() {
 // 7. MERCADO PAGO - PROCESAR PAGO ONLINE
 // ============================================
 
+// ============================================
+// MERCADO PAGO - PROCESAR PAGO ONLINE (ACTUALIZADO)
+// Incluye modal para pedir datos del cliente
+// ============================================
+
 function mostrarLoading(show) {
     let loader = document.getElementById('payment-loader');
     
@@ -988,11 +993,235 @@ function mostrarLoading(show) {
     loader.style.display = show ? 'flex' : 'none';
 }
 
+// ===== NUEVA FUNCIÓN: Pedir datos del cliente antes de pagar =====
+function pedirDatosCliente() {
+    return new Promise((resolve) => {
+        const modalHTML = `
+            <div class="modal-overlay" id="customerModalMP" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: 1rem;
+            ">
+                <div class="modal-content" style="
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    max-width: 500px;
+                    width: 100%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                ">
+                    <div class="modal-header" style="
+                        margin-bottom: 1.5rem;
+                        padding-bottom: 1rem;
+                        border-bottom: 2px solid #e0e0e0;
+                        text-align: center;
+                    ">
+                        <h2 style="margin: 0; color: #1a472a; font-size: 1.5rem;">
+                            📝 Completa tus datos
+                        </h2>
+                        <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem;">
+                            Para procesar tu pago con Mercado Pago
+                        </p>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <form id="customerFormMP">
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Nombre completo *</label>
+                                <input 
+                                    type="text" 
+                                    id="mpCustomerName" 
+                                    required 
+                                    placeholder="Juan Pérez"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.75rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 8px;
+                                        font-size: 1rem;
+                                    ">
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Email *</label>
+                                <input 
+                                    type="email" 
+                                    id="mpCustomerEmail" 
+                                    required
+                                    placeholder="juan@email.com"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.75rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 8px;
+                                        font-size: 1rem;
+                                    ">
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Teléfono (WhatsApp) *</label>
+                                <input 
+                                    type="tel" 
+                                    id="mpCustomerPhone" 
+                                    required 
+                                    pattern="[0-9]{10}"
+                                    placeholder="3312345678"
+                                    maxlength="10"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.75rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 8px;
+                                        font-size: 1rem;
+                                    ">
+                                <small style="color: #666; font-size: 0.85rem;">10 dígitos sin espacios</small>
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Notas adicionales (opcional)</label>
+                                <textarea 
+                                    id="mpCustomerNotes" 
+                                    rows="3"
+                                    placeholder="Comentarios o peticiones especiales"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.75rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 8px;
+                                        font-size: 1rem;
+                                        resize: vertical;
+                                    "></textarea>
+                            </div>
+                            
+                            <div style="display: flex; gap: 1rem;">
+                                <button 
+                                    type="button" 
+                                    onclick="cerrarModalMP()"
+                                    style="
+                                        flex: 1;
+                                        padding: 1rem;
+                                        background: #e0e0e0;
+                                        color: #333;
+                                        border: none;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                    ">
+                                    Cancelar
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    style="
+                                        flex: 2;
+                                        padding: 1rem;
+                                        background: #25d366;
+                                        color: white;
+                                        border: none;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        transition: background 0.3s;
+                                    ">
+                                    💳 Continuar al pago
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        // Auto-focus en el primer campo
+        setTimeout(() => {
+            document.getElementById('mpCustomerName')?.focus();
+        }, 100);
+        
+        // Handler del formulario
+        const form = document.getElementById('customerFormMP');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('mpCustomerName').value.trim();
+            const email = document.getElementById('mpCustomerEmail').value.trim();
+            const phone = document.getElementById('mpCustomerPhone').value.trim();
+            const notes = document.getElementById('mpCustomerNotes').value.trim();
+            
+            // Validaciones
+            if (!name || name.length < 3) {
+                alert('❌ Por favor ingresa tu nombre completo');
+                return;
+            }
+            
+            if (!email || !isValidEmail(email)) {
+                alert('❌ Por favor ingresa un email válido');
+                return;
+            }
+            
+            if (!phone || !isValidPhone(phone)) {
+                alert('❌ El teléfono debe tener 10 dígitos');
+                return;
+            }
+            
+            // Cerrar modal y devolver datos
+            document.getElementById('customerModalMP').remove();
+            resolve({ name, email, phone, notes });
+        });
+        
+        // Función global para cerrar el modal
+        window.cerrarModalMP = () => {
+            document.getElementById('customerModalMP')?.remove();
+            resolve(null); // Retornar null si cancela
+        };
+    });
+}
+
+// ===== FUNCIÓN PRINCIPAL ACTUALIZADA =====
 async function procesarPagoMercadoPago() {
     try {
         console.log('💳 Iniciando pago con Mercado Pago...');
         
-        // Obtener carrito
+        // ===== PASO 1: Pedir datos del cliente =====
+        const customerData = await pedirDatosCliente();
+        
+        if (!customerData) {
+            console.log('❌ Usuario canceló el proceso de pago');
+            return;
+        }
+
+        console.log('✅ Datos del cliente recibidos:', customerData.name);
+
+        // ===== PASO 2: Obtener carrito =====
         const carritoActual = getCart();
         
         console.log('📦 Carrito obtenido:', carritoActual);
@@ -1004,7 +1233,7 @@ async function procesarPagoMercadoPago() {
             return;
         }
         
-        // Calcular total
+        // ===== PASO 3: Calcular total y preparar datos =====
         const total = carritoActual.reduce((sum, item) => sum + item.totalPrice, 0);
         
         // Crear título descriptivo
@@ -1015,74 +1244,102 @@ async function procesarPagoMercadoPago() {
             titulo = `Paquete Hoyo en Uno (${carritoActual.length} servicios)`;
         }
         
-        // Preparar datos para el pago
+        // Preparar datos para el pago (AHORA CON DATOS COMPLETOS)
         const paymentData = {
             title: titulo,
             quantity: 1,
             price: total,
             description: carritoActual.map(item => 
                 `${item.serviceName} x${item.quantity || 1}`
-            ).join(', ')
+            ).join(', '),
+            // ⬇️ NUEVOS CAMPOS
+            cart: carritoActual, // ⬅️ Todo el carrito con reservas
+            customerName: customerData.name,
+            customerEmail: customerData.email,
+            customerPhone: customerData.phone,
+            customerNotes: customerData.notes || null
         };
         
-        console.log('📤 Datos del pago:', paymentData);
+        console.log('📤 Datos del pago completos:', {
+            ...paymentData,
+            cart: `${paymentData.cart.length} items`
+        });
         
-        // Mostrar loading
+        // ===== PASO 4: Mostrar loading =====
         mostrarLoading(true);
         
-// Llamar a la API
-console.log('🔍 Enviando petición a:', `${API_URL}/payment/create_preference`);
+        // ===== PASO 5: Llamar a la API =====
+        console.log('🔍 Enviando petición a:', `${API_URL}/payment/create_preference`);
 
-try {
-    const response = await fetch(`${API_URL}/payment/create_preference`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(paymentData)
-    });
+        try {
+            const response = await fetch(`${API_URL}/payment/create_preference`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(paymentData)
+            });
 
-    // Verificar si la respuesta es JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-        const textResponse = await response.text();
-        console.error('❌ La respuesta no es JSON:', textResponse.substring(0, 500));
-        throw new Error('La respuesta del servidor no es un JSON válido');
-    }
+            // Verificar si la respuesta es JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await response.text();
+                console.error('❌ La respuesta no es JSON:', textResponse.substring(0, 500));
+                throw new Error('La respuesta del servidor no es un JSON válido');
+            }
 
-    const data = await response.json();
-    mostrarLoading(false);
-    
-    if (!response.ok) {
-        console.error('❌ Error en la respuesta:', data);
-        throw new Error(data.message || 'Error al crear el pago');
-    }
-    
-    console.log('✅ Preferencia creada:', data);
-    
-    // Redirigir a Mercado Pago
-    if (data.checkout_url) {
-        console.log('🚀 Redirigiendo a Mercado Pago...');
-        window.location.href = data.checkout_url;
-    } else {
-        throw new Error('No se recibió la URL de pago');
-    }
-} catch (error) {
-    console.error('❌ Error en la petición:', error);
-    mostrarLoading(false);
-    // Aquí podrías mostrar un mensaje de error al usuario
-    alert('Error al procesar el pago: ' + error.message);
-    throw error; // Opcional: re-lanzar el error si necesitas manejarlo en otro lugar
-}
+            const data = await response.json();
+            mostrarLoading(false);
+            
+            if (!response.ok) {
+                console.error('❌ Error en la respuesta:', data);
+                throw new Error(data.message || data.error || 'Error al crear el pago');
+            }
+            
+            console.log('✅ Preferencia creada:', data);
+            console.log(`✅ ${data.reservations_created} reserva(s) guardada(s) en Supabase`);
+            
+            // ===== PASO 6: Redirigir a Mercado Pago =====
+            if (data.checkout_url) {
+                console.log('🚀 Redirigiendo a Mercado Pago...');
+                
+                // Limpiar carrito antes de redirigir
+                // (opcional, puedes dejarlo para que el usuario vea qué compró)
+                // cart = [];
+                // updateCartUI();
+                
+                window.location.href = data.checkout_url;
+            } else {
+                throw new Error('No se recibió la URL de pago');
+            }
+        } catch (fetchError) {
+            console.error('❌ Error en la petición:', fetchError);
+            mostrarLoading(false);
+            alert('Error al procesar el pago: ' + fetchError.message);
+            throw fetchError;
+        }
         
     } catch (error) {
-        console.error('❌ Error:', error);
+        console.error('❌ Error general:', error);
         mostrarLoading(false);
         alert('Error al procesar el pago: ' + error.message);
     }
 }
 
+// ============================================
+// HELPER FUNCTIONS (ya las tenés, pero por si acaso)
+// ============================================
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function isValidPhone(phone) {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone.replace(/\D/g, ''));
+}
 // ============================================
 // 8. PROCESAR PAGO - SELECTOR DE MÉTODO
 // ============================================
