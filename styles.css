@@ -2287,4 +2287,703 @@ select.input-field {
         font-size: 0.8rem;
     }
 }
+.golf-courses-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+    padding: 4rem 2rem;
+    margin: 2rem 0;
+}
 
+.courses-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.courses-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.courses-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.courses-subtitle {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Campos Destacados */
+.courses-featured {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.featured-course {
+    background: linear-gradient(135deg, #1a472a 0%, #2d6e3e 100%);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.featured-course::before {
+    content: '⛳';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 8rem;
+    opacity: 0.1;
+}
+
+.featured-course:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+
+.course-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--dark);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.course-flag {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2rem;
+}
+
+.featured-course h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.featured-course p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Botón Ver Todos */
+.courses-toggle {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.btn-see-all {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+}
+
+.btn-see-all:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 71, 42, 0.4);
+}
+
+#toggleIcon {
+    transition: transform 0.3s ease;
+}
+
+#toggleIcon.rotated {
+    transform: rotate(180deg);
+}
+
+/* Grid de Campos */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.courses-grid.active {
+    max-height: 2000px;
+    opacity: 1;
+    margin-bottom: 2rem;
+}
+
+.course-item {
+    background: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.course-item:hover {
+    border-color: var(--secondary);
+    background: #f0fdf4;
+    transform: translateX(8px);
+}
+
+.course-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.course-name {
+    flex: 1;
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 0.95rem;
+}
+
+.course-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.course-tag.new {
+    background: var(--warning);
+    color: var(--white);
+}
+
+/* Stats de Campos */
+.courses-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 2px solid #e5e7eb;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--gray);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* RESPONSIVE */
+/* ============================================ */
+
+@media (max-width: 768px) {
+    .golf-courses-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .courses-title {
+        font-size: 2rem;
+    }
+
+    .courses-subtitle {
+        font-size: 1rem;
+    }
+
+    .courses-featured {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .featured-course {
+        padding: 1.5rem;
+    }
+
+    .btn-see-all {
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .courses-stats {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .golf-courses-section {
+        padding: 2rem 1rem;
+    }
+
+    .courses-title {
+        font-size: 1.75rem;
+    }
+
+    .featured-course h3 {
+        font-size: 1.25rem;
+    }
+
+    .course-item {
+        padding: 0.875rem 1.25rem;
+    }
+
+    .course-name {
+        font-size: 0.85rem;
+    }
+}
+
+
+/* ============================================ */
+/* MEMBRESÍAS - DISEÑO MODERNO Y ELEGANTE */
+/* ============================================ */
+
+.membresias-modern {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, #f8faf9 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Patrón de fondo sutil */
+.membresias-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(26, 71, 42, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(45, 122, 71, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.membresias-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========== HEADER ========== */
+
+.membresias-intro {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.intro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #1a472a, #2d7a47);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+.intro-badge i {
+    font-size: 0.85rem;
+}
+
+.intro-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1a472a;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.intro-description {
+    font-size: 1.15rem;
+    color: #6b7280;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* ========== PLANS CONTAINER ========== */
+
+.plans-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* ========== PLAN CARD ========== */
+
+.plan-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 2px solid #f3f4f6;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.plan-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: #e5e7eb;
+}
+
+/* Featured card */
+.plan-card.featured {
+    border: 2px solid #d4af37;
+    background: linear-gradient(180deg, #fffbf0 0%, #ffffff 100%);
+    transform: scale(1.03);
+}
+
+.plan-card.featured:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 50px rgba(212, 175, 55, 0.25);
+}
+
+/* Featured tag */
+.featured-tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.featured-tag i {
+    font-size: 0.75rem;
+}
+
+/* ========== PLAN TOP ========== */
+
+.plan-top {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.plan-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.plan-icon.green {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.plan-icon.gold {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+}
+
+.plan-icon.blue {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+.plan-name {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+.plan-type {
+    font-size: 0.9rem;
+    color: #9ca3af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+/* ========== PRICING ========== */
+
+.plan-pricing {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.price-symbol {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.price-value {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #1a472a;
+    line-height: 1;
+}
+
+.price-term {
+    font-size: 1.1rem;
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+.plan-tagline {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ========== FEATURES ========== */
+
+.plan-features {
+    flex: 1;
+    margin-bottom: 2rem;
+}
+
+.feature-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.feature-row:last-child {
+    border-bottom: none;
+}
+
+.feature-row i {
+    color: #10b981;
+    font-size: 1.1rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.feature-row span {
+    color: #374151;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.feature-row strong {
+    color: #1a472a;
+    font-weight: 700;
+}
+
+/* ========== CTA BUTTON ========== */
+
+.plan-cta {
+    width: 100%;
+    padding: 1.1rem 2rem;
+    background: linear-gradient(135deg, #1a472a, #2d7a47);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+}
+
+.plan-cta:hover {
+    background: linear-gradient(135deg, #0f2d1a, #1a472a);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 71, 42, 0.4);
+}
+
+.plan-cta i {
+    transition: transform 0.3s ease;
+}
+
+.plan-cta:hover i {
+    transform: translateX(4px);
+}
+
+.plan-cta.featured-cta {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+.plan-cta.featured-cta:hover {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.5);
+}
+
+/* ========== TRUST SECTION ========== */
+
+.trust-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.trust-item i {
+    color: #10b981;
+    font-size: 1.25rem;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 1024px) {
+    .plans-container {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .plan-card.featured {
+        transform: scale(1);
+    }
+
+    .plan-card.featured:hover {
+        transform: translateY(-8px) scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .membresias-modern {
+        padding: 4rem 1.5rem;
+    }
+
+    .intro-title {
+        font-size: 2.25rem;
+    }
+
+    .intro-description {
+        font-size: 1rem;
+    }
+
+    .plan-card {
+        padding: 2rem;
+    }
+
+    .price-value {
+        font-size: 3rem;
+    }
+
+    .trust-section {
+        gap: 1.5rem;
+        padding: 2rem 1rem;
+    }
+
+    .trust-item {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .membresias-modern {
+        padding: 3rem 1rem;
+    }
+
+    .intro-title {
+        font-size: 1.875rem;
+    }
+
+    .plan-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+
+    .plan-name {
+        font-size: 1.5rem;
+    }
+
+    .price-value {
+        font-size: 2.5rem;
+    }
+
+    .trust-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+}

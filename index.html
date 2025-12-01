@@ -580,299 +580,7 @@ document.querySelectorAll('.navbar-menu a').forEach(link => {
 <!-- Agregar al final de styles.css -->
 <!-- ============================================ -->
 
-<style>
-/* ============================================ */
-/* SECCIÓN DE CAMPOS DE GOLF */
-/* ============================================ */
 
-.golf-courses-section {
-    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-    padding: 4rem 2rem;
-    margin: 2rem 0;
-}
-
-.courses-container {
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.courses-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.courses-title {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--primary);
-    margin-bottom: 1rem;
-}
-
-.courses-subtitle {
-    font-size: 1.1rem;
-    color: var(--gray);
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-/* Campos Destacados */
-.courses-featured {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.featured-course {
-    background: linear-gradient(135deg, #1a472a 0%, #2d6e3e 100%);
-    color: var(--white);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    position: relative;
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-.featured-course::before {
-    content: '⛳';
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    font-size: 8rem;
-    opacity: 0.1;
-}
-
-.featured-course:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
-}
-
-.course-badge {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--dark);
-    padding: 0.4rem 1rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.course-flag {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    font-size: 2rem;
-}
-
-.featured-course h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    position: relative;
-    z-index: 1;
-}
-
-.featured-course p {
-    opacity: 0.9;
-    font-size: 0.95rem;
-    position: relative;
-    z-index: 1;
-}
-
-/* Botón Ver Todos */
-.courses-toggle {
-    text-align: center;
-    margin: 2rem 0;
-}
-
-.btn-see-all {
-    background: var(--primary);
-    color: var(--white);
-    border: none;
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
-}
-
-.btn-see-all:hover {
-    background: var(--primary-light);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(26, 71, 42, 0.4);
-}
-
-#toggleIcon {
-    transition: transform 0.3s ease;
-}
-
-#toggleIcon.rotated {
-    transform: rotate(180deg);
-}
-
-/* Grid de Campos */
-.courses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.5s ease;
-}
-
-.courses-grid.active {
-    max-height: 2000px;
-    opacity: 1;
-    margin-bottom: 2rem;
-}
-
-.course-item {
-    background: var(--white);
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    border: 2px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.course-item:hover {
-    border-color: var(--secondary);
-    background: #f0fdf4;
-    transform: translateX(8px);
-}
-
-.course-icon {
-    font-size: 1.5rem;
-    flex-shrink: 0;
-}
-
-.course-name {
-    flex: 1;
-    font-weight: 600;
-    color: var(--dark);
-    font-size: 0.95rem;
-}
-
-.course-tag {
-    padding: 0.25rem 0.75rem;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.course-tag.new {
-    background: var(--warning);
-    color: var(--white);
-}
-
-/* Stats de Campos */
-.courses-stats {
-    display: flex;
-    justify-content: center;
-    gap: 4rem;
-    margin-top: 3rem;
-    padding-top: 3rem;
-    border-top: 2px solid #e5e7eb;
-}
-
-.stat-item {
-    text-align: center;
-}
-
-.stat-number {
-    display: block;
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--primary);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    color: var(--gray);
-    font-size: 0.95rem;
-    font-weight: 600;
-}
-
-/* ============================================ */
-/* RESPONSIVE */
-/* ============================================ */
-
-@media (max-width: 768px) {
-    .golf-courses-section {
-        padding: 3rem 1.5rem;
-    }
-
-    .courses-title {
-        font-size: 2rem;
-    }
-
-    .courses-subtitle {
-        font-size: 1rem;
-    }
-
-    .courses-featured {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .featured-course {
-        padding: 1.5rem;
-    }
-
-    .btn-see-all {
-        padding: 0.875rem 2rem;
-        font-size: 1rem;
-    }
-
-    .courses-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .courses-stats {
-        flex-direction: column;
-        gap: 2rem;
-    }
-
-    .stat-number {
-        font-size: 2.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .golf-courses-section {
-        padding: 2rem 1rem;
-    }
-
-    .courses-title {
-        font-size: 1.75rem;
-    }
-
-    .featured-course h3 {
-        font-size: 1.25rem;
-    }
-
-    .course-item {
-        padding: 0.875rem 1.25rem;
-    }
-
-    .course-name {
-        font-size: 0.85rem;
-    }
-}
-</style>
 
 <!-- ============================================ -->
 <!-- JAVASCRIPT -->
@@ -902,6 +610,212 @@ function toggleAllCourses() {
 
 console.log('✅ Sección de campos de golf cargada');
 </script>
+
+<!-- ============================================ -->
+<!-- SECCIÓN DE MEMBRESÍAS - DISEÑO TOTALMENTE NUEVO -->
+<!-- ============================================ -->
+<section id="membresias" class="membresias-modern">
+    <div class="membresias-wrapper">
+        
+        <!-- Header elegante -->
+        <div class="membresias-intro">
+            <span class="intro-badge">
+                <i class="fas fa-gem"></i>
+                MEMBRESÍAS EXCLUSIVAS
+            </span>
+            <h2 class="intro-title">Elige tu Plan Ideal</h2>
+            <p class="intro-description">
+                Accede a beneficios únicos, descuentos especiales y la mejor experiencia de golf indoor en México
+            </p>
+        </div>
+
+        <!-- Cards con diseño minimalista y elegante -->
+        <div class="plans-container">
+            
+            <!-- PLAN 1: BOGEY PASS -->
+            <div class="plan-card">
+                <div class="plan-top">
+                    <div class="plan-icon green">
+                        <i class="fas fa-golf-ball-tee"></i>
+                    </div>
+                    <h3 class="plan-name">Bogey Pass</h3>
+                    <p class="plan-type">Para Empezar</p>
+                    
+                    <div class="plan-pricing">
+                        <span class="price-symbol">$</span>
+                        <span class="price-value">600</span>
+                        <span class="price-term">/mes</span>
+                    </div>
+                    
+                    <p class="plan-tagline">Perfecto para jugadores ocasionales</p>
+                </div>
+
+                <div class="plan-features">
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>1 hora de simulador mensual</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>5% de descuento en Pro Shop</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Bebida de bienvenida gratis</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Reservas con 24h de anticipación</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Acceso a torneos mensuales</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Estacionamiento sin costo</span>
+                    </div>
+                </div>
+
+                <button class="plan-cta" onclick="comprarMembresia('BOGEY_PASS', 'Bogey Pass - Membresía Básica', 600)">
+                    <span>Seleccionar Plan</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- PLAN 2: BIRDIE PLUS (DESTACADO) -->
+            <div class="plan-card featured">
+                <div class="featured-tag">
+                    <i class="fas fa-star"></i>
+                    <span>RECOMENDADO</span>
+                </div>
+
+                <div class="plan-top">
+                    <div class="plan-icon gold">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3 class="plan-name">Birdie Plus</h3>
+                    <p class="plan-type">Más Popular</p>
+                    
+                    <div class="plan-pricing">
+                        <span class="price-symbol">$</span>
+                        <span class="price-value">1,000</span>
+                        <span class="price-term">/mes</span>
+                    </div>
+                    
+                    <p class="plan-tagline">Máximo valor para jugadores regulares</p>
+                </div>
+
+                <div class="plan-features">
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span><strong>2 horas acumulables</strong> de simulador</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span><strong>10% descuento</strong> en todo el lugar</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Prioridad en fines de semana</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Acceso VIP a torneos y ligas</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Promociones semanales exclusivas</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Estacionamiento preferencial</span>
+                    </div>
+                </div>
+
+                <button class="plan-cta featured-cta" onclick="comprarMembresia('BIRDIE_PLUS', 'Birdie Plus - Membresía Premium', 1000)">
+                    <span>Seleccionar Plan</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- PLAN 3: HOLE IN ONE -->
+            <div class="plan-card">
+                <div class="plan-top">
+                    <div class="plan-icon blue">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="plan-name">Hole in One</h3>
+                    <p class="plan-type">Entrenamiento Pro</p>
+                    
+                    <div class="plan-pricing">
+                        <span class="price-symbol">$</span>
+                        <span class="price-value">1,200</span>
+                        <span class="price-term">/mes</span>
+                    </div>
+                    
+                    <p class="plan-tagline">Mejora tu juego con clases personalizadas</p>
+                </div>
+
+                <div class="plan-features">
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span><strong>1 clase privada</strong> con instructor</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>1 hora de simulador incluida</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>5% descuento en Pro Shop</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Reservas prioritarias</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Análisis de swing personalizado</span>
+                    </div>
+                    <div class="feature-row">
+                        <i class="fas fa-circle-check"></i>
+                        <span>Estacionamiento garantizado</span>
+                    </div>
+                </div>
+
+                <button class="plan-cta" onclick="comprarMembresia('HOLE_IN_ONE', 'Hole in One - Clase + Simulador', 1200)">
+                    <span>Seleccionar Plan</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Garantías y features -->
+        <div class="trust-section">
+            <div class="trust-item">
+                <i class="fas fa-lock"></i>
+                <span>Pago 100% Seguro</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-sync-alt"></i>
+                <span>Cancela Cuando Quieras</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-clock"></i>
+                <span>Activación Inmediata</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-headphones"></i>
+                <span>Soporte 24/7</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
     <!-- Video Showcase Section -->
     <div class="video-showcase">
         <h2 class="video-showcase-title">🏆 ¡Hoyo en Uno!</h2>

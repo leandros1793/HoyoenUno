@@ -1716,3 +1716,323 @@ console.log('✅ Supabase Integration completo cargado');
 console.log('💳 Mercado Pago integrado - API URL:', API_URL);
 console.log('📱 WhatsApp Business:', BUSINESS_WHATSAPP);
 console.log('🔧 WhatsApp Admin:', ADMIN_WHATSAPP);s
+
+
+
+async function comprarMembresia(membershipType, membershipName, price) {
+    try {
+        console.log('🎫 Iniciando compra de membresía...');
+        console.log('Tipo:', membershipType);
+        console.log('Precio:', price);
+        
+        // ===== PASO 1: Pedir datos del cliente =====
+        const customerData = await pedirDatosClienteMembresia();
+        
+        if (!customerData) {
+            console.log('❌ Usuario canceló');
+            return;
+        }
+
+        console.log('✅ Datos del cliente recibidos:', customerData.name);
+
+        // ===== PASO 2: Preparar datos de la membresía =====
+        const membershipData = {
+            membershipType: membershipType,
+            customerName: customerData.name,
+            customerEmail: customerData.email,
+            customerPhone: customerData.phone,
+            customerNotes: customerData.notes || null
+        };
+        
+        console.log('📤 Datos de la membresía:', membershipData);
+        
+        // ===== PASO 3: Mostrar loading =====
+        mostrarLoading(true);
+        
+        // ===== PASO 4: Llamar a la API =====
+        console.log('🔍 Enviando petición a:', `${API_URL}/payment/create_membership`);
+
+        try {
+            const response = await fetch(`${API_URL}/payment/create_membership`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(membershipData)
+            });
+
+            // Verificar si la respuesta es JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await response.text();
+                console.error('❌ La respuesta no es JSON:', textResponse.substring(0, 500));
+                throw new Error('La respuesta del servidor no es un JSON válido');
+            }
+
+            const data = await response.json();
+            mostrarLoading(false);
+            
+            if (!response.ok) {
+                console.error('❌ Error en la respuesta:', data);
+                throw new Error(data.message || data.error || 'Error al procesar la membresía');
+            }
+            
+            console.log('✅ Membresía guardada:', data);
+            console.log('📋 Referencia:', data.reference);
+            
+            // ===== PASO 5: Redirigir a Mercado Pago =====
+            if (data.checkout_url) {
+                console.log('🚀 Redirigiendo a Mercado Pago...');
+                window.location.href = data.checkout_url;
+            } else {
+                throw new Error('No se recibió la URL de pago');
+            }
+        } catch (fetchError) {
+            console.error('❌ Error en la petición:', fetchError);
+            mostrarLoading(false);
+            alert('Error al procesar la membresía: ' + fetchError.message);
+            throw fetchError;
+        }
+        
+    } catch (error) {
+        console.error('❌ Error general:', error);
+        mostrarLoading(false);
+        alert('Error al procesar la membresía: ' + error.message);
+    }
+}
+
+// ============================================
+// MODAL PARA DATOS DEL CLIENTE (MEMBRESÍA)
+// ============================================
+
+function pedirDatosClienteMembresia() {
+    return new Promise((resolve) => {
+        const modalHTML = `
+            <div class="modal-overlay" id="membershipModalMP" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: 1rem;
+            ">
+                <div class="modal-content" style="
+                    background: white;
+                    border-radius: 20px;
+                    padding: 2.5rem;
+                    max-width: 500px;
+                    width: 100%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                ">
+                    <div class="modal-header" style="
+                        margin-bottom: 2rem;
+                        text-align: center;
+                    ">
+                        <div style="
+                            font-size: 3rem;
+                            margin-bottom: 1rem;
+                        ">🎫</div>
+                        <h2 style="
+                            margin: 0;
+                            color: #1a472a;
+                            font-size: 1.8rem;
+                            margin-bottom: 0.5rem;
+                        ">Completá tus datos</h2>
+                        <p style="
+                            margin: 0;
+                            color: #666;
+                            font-size: 1rem;
+                        ">Para activar tu membresía</p>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <form id="membershipFormMP">
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Nombre completo *</label>
+                                <input 
+                                    type="text" 
+                                    id="mpMembershipName" 
+                                    required 
+                                    placeholder="Juan Pérez"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.875rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 10px;
+                                        font-size: 1rem;
+                                        transition: border-color 0.3s;
+                                    ">
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Email *</label>
+                                <input 
+                                    type="email" 
+                                    id="mpMembershipEmail" 
+                                    required
+                                    placeholder="juan@email.com"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.875rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 10px;
+                                        font-size: 1rem;
+                                        transition: border-color 0.3s;
+                                    ">
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Teléfono (WhatsApp) *</label>
+                                <input 
+                                    type="tel" 
+                                    id="mpMembershipPhone" 
+                                    required 
+                                    pattern="[0-9]{10}"
+                                    placeholder="3312345678"
+                                    maxlength="10"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.875rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 10px;
+                                        font-size: 1rem;
+                                        transition: border-color 0.3s;
+                                    ">
+                                <small style="color: #666; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
+                                    10 dígitos sin espacios
+                                </small>
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 2rem;">
+                                <label style="
+                                    display: block;
+                                    margin-bottom: 0.5rem;
+                                    color: #333;
+                                    font-weight: 600;
+                                ">Notas adicionales (opcional)</label>
+                                <textarea 
+                                    id="mpMembershipNotes" 
+                                    rows="3"
+                                    placeholder="¿Alguna pregunta o comentario?"
+                                    style="
+                                        width: 100%;
+                                        padding: 0.875rem;
+                                        border: 2px solid #e0e0e0;
+                                        border-radius: 10px;
+                                        font-size: 1rem;
+                                        resize: vertical;
+                                        font-family: inherit;
+                                    "></textarea>
+                            </div>
+                            
+                            <div style="display: flex; gap: 1rem;">
+                                <button 
+                                    type="button" 
+                                    onclick="cerrarModalMembresia()"
+                                    style="
+                                        flex: 1;
+                                        padding: 1rem;
+                                        background: #e0e0e0;
+                                        color: #333;
+                                        border: none;
+                                        border-radius: 10px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        font-size: 1rem;
+                                        transition: background 0.3s;
+                                    ">
+                                    Cancelar
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    style="
+                                        flex: 2;
+                                        padding: 1rem;
+                                        background: linear-gradient(135deg, #1a472a, #2d7a47);
+                                        color: white;
+                                        border: none;
+                                        border-radius: 10px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        font-size: 1rem;
+                                        transition: all 0.3s;
+                                    ">
+                                    💳 Continuar al pago
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        // Auto-focus en el primer campo
+        setTimeout(() => {
+            document.getElementById('mpMembershipName')?.focus();
+        }, 100);
+        
+        // Handler del formulario
+        const form = document.getElementById('membershipFormMP');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('mpMembershipName').value.trim();
+            const email = document.getElementById('mpMembershipEmail').value.trim();
+            const phone = document.getElementById('mpMembershipPhone').value.trim();
+            const notes = document.getElementById('mpMembershipNotes').value.trim();
+            
+            // Validaciones
+            if (!name || name.length < 3) {
+                alert('❌ Por favor ingresá tu nombre completo');
+                return;
+            }
+            
+            if (!email || !isValidEmail(email)) {
+                alert('❌ Por favor ingresá un email válido');
+                return;
+            }
+            
+            if (!phone || !isValidPhone(phone)) {
+                alert('❌ El teléfono debe tener 10 dígitos');
+                return;
+            }
+            
+            // Cerrar modal y devolver datos
+            document.getElementById('membershipModalMP').remove();
+            resolve({ name, email, phone, notes });
+        });
+        
+        // Función global para cerrar el modal
+        window.cerrarModalMembresia = () => {
+            document.getElementById('membershipModalMP')?.remove();
+            resolve(null);
+        };
+    });
+}
+
+console.log('✅ Funciones de membresías cargadas');
