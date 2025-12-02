@@ -41,6 +41,7 @@
     <a href="#inicio" onclick="scrollToSection(event, 'inicio')">Inicio</a>
     <a href="#servicios" onclick="scrollToSection(event, 'servicios')">Servicios</a>
     <a href="#simulador" onclick="scrollToSection(event, 'simulador')">Simulador</a>
+    <a href="#membresias" onclick="scrollToSection(event, 'membresias')">Membresías</a>
     <a href="#contacto" onclick="scrollToSection(event, 'contacto')">Contacto</a>
 </div>
 
@@ -1064,7 +1065,7 @@ function scrollToSection(event, sectionId) {
 // ============================================
 
 function updateActiveLink() {
-    const sections = ['inicio', 'servicios', 'simulador', 'contacto'];
+    const sections = ['inicio', 'servicios', 'simulador','membresias', 'contacto'];
     const navbar = document.querySelector('.navbar-elegant');
     const navbarHeight = navbar ? navbar.offsetHeight : 85;
     const scrollPosition = window.scrollY + navbarHeight + 100;
