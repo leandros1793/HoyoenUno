@@ -14,8 +14,8 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Constantes
-const BUSINESS_WHATSAPP = '523322396825';
-const ADMIN_WHATSAPP = '523322396825';
+const BUSINESS_WHATSAPP = '523319766024';
+const ADMIN_WHATSAPP = '523319766024';
 
 // ============================================
 // MERCADO PAGO - CONFIGURACIÓN
